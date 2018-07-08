@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlevoDogAngular", "SlevoDogAngular\SlevoDogAngular.csproj", "{D7DC1458-FC84-412E-A6F3-4658A2C4D0EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog", "Catalog\Catalog.csproj", "{C9747EAF-9CC1-41A4-B866-356B8B27A9C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D7DC1458-FC84-412E-A6F3-4658A2C4D0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7DC1458-FC84-412E-A6F3-4658A2C4D0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7DC1458-FC84-412E-A6F3-4658A2C4D0EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9747EAF-9CC1-41A4-B866-356B8B27A9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9747EAF-9CC1-41A4-B866-356B8B27A9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9747EAF-9CC1-41A4-B866-356B8B27A9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9747EAF-9CC1-41A4-B866-356B8B27A9C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,114 @@
+.containerItem {
+  border: 1px solid #abb0ba4d;
+  background-color: white;
+  border-radius: 25px;
+  min-height: 400px;
+  /*min-width: 400px;*/
+  margin-bottom: 3.66%;
+  float: left;
+  box-shadow: 0px 0px 20px -2px rgba(145,148,179,1);
+}
+
+.priceSale {
+  font-size: 2.25rem;
+  font-weight: 900;
+}
+
+.priceSaleItem {
+  font-size: 4rem;
+  font-weight: 900;
+}
+
+.paddingBuyButtonCatalog {
+  margin-top: 1%;
+}
+
+.imageCatalog {
+  max-width: 100%;
+  height: 190px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.test-right {
+  top: 8px;
+  left: 16px;
+  position: absolute;
+  /*transform: rotate(-45deg);*/
+  transform: rotate(-20deg);
+  animation: beat 1s ease infinite alternate;
+  background: -moz-linear-gradient(-45deg, rgba(235,0,176,1) 0%, rgba(46,227,255,1) 0%, rgba(49,196,69,1) 100%);
+  font-size: 2rem;
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+  text-align: center;
+  vertical-align: middle;
+  letter-spacing: 1px;
+  height: 4.5rem;
+  width: 4.5rem;
+}
+
+.test-right:before, .test-right:after {
+  content: "";
+  position: absolute;
+  background: -moz-linear-gradient(-45deg, rgba(235,0,176,1) 0%, rgba(46,227,255,1) 0%, rgba(49,196,69,1) 100%);
+  height: inherit;
+  width: inherit;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: rotate(30deg);
+}
+
+.test-right:after {
+  transform: rotate(60deg);
+}
+
+@keyframes beat {
+  from {
+    transform: rotate(-20deg) scale(1);
+  }
+
+  to {
+    transform: rotate(-20deg) scale(1.1);
+  }
+}
+
+.test-container {
+  position: relative;
+}
+
+.corner-ribbon.top-left {
+  top: 8px;
+  left: 16px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.sticky {
+  position: fixed;
+}
+
+.corner-ribbon.shadow {
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon {
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.red {
+  background: #e43;
+}

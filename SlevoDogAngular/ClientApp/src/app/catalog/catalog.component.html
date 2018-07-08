@@ -1,0 +1,64 @@
+<p *ngIf="!browse"><em>Loading...</em></p>
+<!--fragment="price_desc-->
+<div *ngIf="browse">
+  <div>
+  <a [routerLink]="['/catalog']"
+    [queryParams]="{sort: 'cheapest'}"
+     routerLinkActive="active"
+     (click)="sortServer('cheapest')" class="btn btn-default">
+    Od nejlevnějšího
+  </a>
+  <a [routerLink]="['/catalog']"
+     [queryParams]="{sort: 'sale'}"
+     routerLinkActive="active"
+     (click)="sortServer('sale')" class="btn btn-default">
+    Od největší slevy
+  </a>
+  <a [routerLink]="['/catalog']"
+     [queryParams]="{sort: 'newest'}"
+     routerLinkActive="active"
+     (click)="sortServer('newest')" class="btn btn-default">
+    Od nejnovějšího
+  </a>
+
+  </div>
+<div class="row">
+  <div *ngFor="let test of browse.saleCollection.collections">
+
+  <div class="col-md-4 col-xs-12 col-sm-6 text-center">
+    <div class="col-md-12 col-xs-12 col-sm-12 containerItem">
+      <a routerLink="/item/{{ test.id }}"
+         routerLinkActive="active">
+      <div>
+        <h3>
+          <a routerLink="/item/{{ test.id }}"
+             routerLinkActive="active">
+          {{ test.name}}
+          </a>
+        </h3>
+      </div>
+
+      <div class="test-container">
+        <a routerLink="/item/{{ test.id }}"
+           routerLinkActive="active">
+          <img src="{{ test.image}}" alt="" class="imageCatalog">
+        </a>
+        <div class="test-right">
+          -{{ test.percentSale }}%
+        </div>
+      </div>
+      </a>
+
+      <div>
+        <s>{{ test.originPrice}}</s>
+        <div class="priceSale">
+          {{ test.priceAfterSale }}
+        </div>
+        <a href="{{ test.linkFirm }}" target="_blank" class="btn btn-success btn-lg" style="background-color: #0fcc0ae6; font-size: 2rem;">Koupit v obchodě</a>
+      </div>
+
+    </div>
+  </div>
+  </div>
+</div>
+</div>

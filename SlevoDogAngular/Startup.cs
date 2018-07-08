@@ -27,6 +27,9 @@ namespace SlevoDogAngular
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddModuleCatalog(o => o.connectionString = Configuration.GetSection("ConnectionStrings:SlevoDogAngular.Module.CatalogConnection").Value);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,36 @@
+<p *ngIf="!item"><em>Loading...</em></p>
+
+
+<div class="container" style="background-color: white; border-radius: 10px;" *ngIf="item">
+  <div class="row">
+    <div class="col-lg-6 col-md-7 col-xs-12 text-center">
+      <img src="{{ item.image }}" alt="" height="420">
+    </div>
+    <div class="col-lg-6 col-md-5 col-xs-6">
+      <div>
+        <h1>{{  item.name }}</h1>
+      </div>
+
+      <div class="text-left">
+        <p style="font-size: 1.5rem; font-weight: 300;">{{ item.description }}</p>
+      </div>
+
+      <div style="color: lightgray; font-size: 2rem;">
+        <s>{{ item.originPrice}}</s>
+      </div>
+      <div class="priceSaleItem">
+        {{ item.priceAfterSale }} <span style="font-size: 2rem; color: #abb0bfe6;">(-{{ item.percentSale }}%)</span>
+      </div>
+      <div>
+        <a href="{{ item.linkFirm }}" target="_blank" class="btn btn-success btn-lg" style="background-color: #0fcc0ae6; font-size: 2rem;">Přejít do obchodu</a>
+      </div>
+      <div>
+        Vloženo: {{ item.dateInsert | date }}
+      </div>
+
+      <div *ngFor="let comm of item.comments">
+      {{ comm.authorName }}: {{ comm.text }}
+      </div>
+    </div>
+  </div>
+</div>
