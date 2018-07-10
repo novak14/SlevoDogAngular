@@ -13,6 +13,9 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { ItemComponent } from './catalog/item/item.component';
 import {AppRoutingModule} from './app-routing.module';
 import {CatalogService} from './catalog/catalog.service';
+import { SignupComponent } from './auth/signup/signup.component';
+import { SigninComponent } from './auth/signin/signin.component';
+import {AuthService} from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,9 @@ import {CatalogService} from './catalog/catalog.service';
     CounterComponent,
     FetchDataComponent,
     CatalogComponent,
-    ItemComponent
+    ItemComponent,
+    SignupComponent,
+    SigninComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -30,7 +35,7 @@ import {CatalogService} from './catalog/catalog.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [CatalogService],
+  providers: [CatalogService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
