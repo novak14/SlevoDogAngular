@@ -10,16 +10,26 @@ export class AuthService {
   }
 
   signupUser(email: string, password: string) {
-    return this.http.post(this.baseUrl + '/api/User/Register', {
+    return this.http.post(this.baseUrl + 'api/User/Login', {
       Email: email,
       Password: password,
       ConfirmPassword: password
     })
       .subscribe(res => {
-        console.log(res);
-      },
+          console.log(res[2]);
+          console.log(res[2].value());
+        },
         err => {
-        console.log('Error: ' + err.toString());
+          console.log('Error: ' + err.toString());
         });
+  }
+
+  signinUser(email: string, password: string) {
+    return this.http.post(this.baseUrl + 'api/User/LoginTest', {
+      Email: email,
+      Password: password,
+      RememberMe: false
+    });
+
   }
 }

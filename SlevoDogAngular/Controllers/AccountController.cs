@@ -1,28 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SlevoDogAngular.Models;
 using SlevoDogAngular.Models.AccountViewModels;
 using SlevoDogAngular.Services;
+using static IdentityModel.OidcConstants;
 
 namespace SlevoDogAngular.Controllers
 {
     //[Authorize]
+    //[Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
     [Route("api/User")]
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        //private IConfigurationRoot _configurationRoot;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -37,23 +46,22 @@ namespace SlevoDogAngular.Controllers
         [TempData]
         public string ErrorMessage { get; set; }
 
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IActionResult> Login(string returnUrl = null)
-        {
-            // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        //[HttpGet]
+        //[AllowAnonymous]
+        //public async Task<IActionResult> Login(string returnUrl = null)
+        //{
+        //    // Clear the existing external cookie to ensure a clean login process
+        //    await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ViewData["ReturnUrl"] = returnUrl;
-            return View();
-        }
+        //    ViewData["ReturnUrl"] = returnUrl;
+        //    return View();
+        //}
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        [HttpPost("[action]")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
-            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -61,12 +69,7 @@ namespace SlevoDogAngular.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return RedirectToLocal(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
+                    return Ok();
                 }
                 if (result.IsLockedOut)
                 {
@@ -81,7 +84,166 @@ namespace SlevoDogAngular.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult Test()
+        {
+            return Ok();
+        }
+
+        [HttpPost("[action]")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<JsonResult> LoginTest([FromBody]LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    JwtSecurityTokenHandler testjwt = new JwtSecurityTokenHandler();
+                    SecurityTokenDescriptor d = new SecurityTokenDescriptor();
+
+                    var teste =_signInManager.ClaimsFactory;
+                    var user = await _userManager.GetUserAsync(User);
+                    var check = await _userManager.GetClaimsAsync(user);
+                    var test = from c in User.Claims select new { c.Type, c.Value };
+                    return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return new JsonResult(model);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return new JsonResult(model);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return new JsonResult(model);
+        }
+
+
+
+        //[ValidateForm]
+        //[HttpPost("CreateToken")]
+        //[Route("token")]
+        //public async Task<IActionResult> CreateToken([FromBody] LoginViewModel model)
+        //{
+        //    try
+        //    {
+        //        var user = await _userManager.FindByNameAsync(model.Email);
+        //        if (user == null)
+        //        {
+        //            return Unauthorized();
+        //        }
+        //        if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) == PasswordVerificationResult.Success)
+        //        {
+        //            var userClaims = await _userManager.GetClaimsAsync(user);
+
+        //            var claims = new[]
+        //            {
+        //                  new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+        //                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        //                  new Claim(JwtRegisteredClaimNames.Email, user.Email)
+        //                }.Union(userClaims);
+
+        //            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configurationRoot["JwtSecurityToken:Key"]));
+        //            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+        //            var jwtSecurityToken = new JwtSecurityToken(
+        //              issuer: _configurationRoot["JwtSecurityToken:Issuer"],
+        //              audience: _configurationRoot["JwtSecurityToken:Audience"],
+        //              claims: claims,
+        //              expires: DateTime.UtcNow.AddMinutes(60),
+        //              signingCredentials: signingCredentials
+        //              );
+        //            return Ok(new
+        //            {
+        //                token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
+        //                expiration = jwtSecurityToken.ValidTo
+        //            });
+        //        }
+        //        return Unauthorized();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError($"error while creating token: {ex}");
+        //        return StatusCode((int)HttpStatusCode.InternalServerError, "error while creating token");
+        //    }
+        //}
+
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Post([FromBody]LoginViewModel credentials)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    var identity = await GetClaimsIdentity(credentials.Email, credentials.Password);
+        //    if (identity == null)
+        //    {
+        //        return BadRequest(Errors.AddErrorToModelState("login_failure", "Invalid username or password.", ModelState));
+        //    }
+
+        //    var jwt = await Tokens.GenerateJwt(identity, _jwtFactory, credentials.UserName, _jwtOptions, new JsonSerializerSettings { Formatting = Formatting.Indented });
+        //    return new OkObjectResult(jwt);
+        //}
+
+        //private async Task<ClaimsIdentity> GetClaimsIdentity(string userName, string password)
+        //{
+        //    if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+        //        return await Task.FromResult<ClaimsIdentity>(null);
+
+        //    // get the user to verifty
+        //    var userToVerify = await _userManager.FindByNameAsync(userName);
+
+        //    if (userToVerify == null) return await Task.FromResult<ClaimsIdentity>(null);
+
+        //    // check the credentials
+        //    if (await _userManager.CheckPasswordAsync(userToVerify, password))
+        //    {
+        //        return await Task.FromResult(_jwtFactory.GenerateClaimsIdentity(userName, userToVerify.Id));
+        //    }
+
+        //    // Credentials are invalid, or account doesn't exist
+        //    return await Task.FromResult<ClaimsIdentity>(null);
+        //}
+
+        [HttpPost("[action]")]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public async Task<string> Register([FromBody]RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await _userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User created a new account with password.");
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _logger.LogInformation("User created a new account with password.");
+                    // return RedirectToLocal(returnUrl);
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return model.Email;
         }
 
         [HttpGet]
@@ -209,33 +371,7 @@ namespace SlevoDogAngular.Controllers
         //    return View();
         //}
 
-        [HttpPost("[action]")]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<string> Register([FromBody]RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
-                    // return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
-            }
-
-            // If we got this far, something failed, redisplay form
-            return model.Email;
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

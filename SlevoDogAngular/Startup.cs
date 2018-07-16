@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SlevoDogAngular.Data;
 using SlevoDogAngular.Models;
+using IdentityServer4.AccessTokenValidation;
+using Microsoft.Extensions.Options;
 
 namespace SlevoDogAngular
 {
@@ -32,15 +34,25 @@ namespace SlevoDogAngular
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
+            services
+                .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(authenticationOptions =>
                 {
-                // base-address of your identityserver
-                options.Authority = "https://localhost:44339";
+                    authenticationOptions.Authority = "https://localhost:44339";
+                    authenticationOptions.RequireHttpsMetadata = false;
+                    authenticationOptions.ApiName = "api1";
+                    //authenticationOptions.ApiSecret = apiSettings.Value.IdentityServerAuthenticationOptions.ApiSecret;
+                });
 
-                // name of the API resource
-                options.Audience = "api1";
-                 });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //        .AddJwtBearer(options =>
+            //    {
+            //    // base-address of your identityserver
+            //    options.Authority = "https://localhost:44339";
+
+            //    // name of the API resource
+            //    options.Audience = "api1";
+            //     });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
