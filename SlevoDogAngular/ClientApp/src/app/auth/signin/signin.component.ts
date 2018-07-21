@@ -19,7 +19,7 @@ export class SigninComponent implements OnInit {
     const password = form.value.password;
     console.log('Email: ' + email + ' Password: ' + password);
     this.authService.signinUser(email, password).subscribe(res => {
-        console.log(res[2].value);
+        console.log(res);
       },
       err => {
         console.log('Error: ' + err.toString());

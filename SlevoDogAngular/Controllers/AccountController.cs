@@ -1,25 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using IdentityServer4.AccessTokenValidation;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SlevoDogAngular.Models;
 using SlevoDogAngular.Models.AccountViewModels;
-using SlevoDogAngular.Services;
-using static IdentityModel.OidcConstants;
+using IdentityServer4.AccessTokenValidation;
+using System.Collections.Generic;
+
 
 namespace SlevoDogAngular.Controllers
 {
@@ -30,16 +23,19 @@ namespace SlevoDogAngular.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger _logger;
         //private IConfigurationRoot _configurationRoot;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
+            RoleManager<IdentityRole> roleManager,
             ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
         }
 
@@ -108,9 +104,16 @@ namespace SlevoDogAngular.Controllers
                     JwtSecurityTokenHandler testjwt = new JwtSecurityTokenHandler();
                     SecurityTokenDescriptor d = new SecurityTokenDescriptor();
 
+                    var claims = User.Claims.ToArray();
+                    foreach(var item in claims)
+                    {
+                        var issuer = item.Issuer;
+                        var neco = item.ValueType;
+                    }
+                    
                     var teste =_signInManager.ClaimsFactory;
                     var user = await _userManager.GetUserAsync(User);
-                    var check = await _userManager.GetClaimsAsync(user);
+                  //  var check = await _userManager.GetClaimsAsync(user);
                     var test = from c in User.Claims select new { c.Type, c.Value };
                     return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
                 }
@@ -128,6 +131,39 @@ namespace SlevoDogAngular.Controllers
 
             // If we got this far, something failed, redisplay form
             return new JsonResult(model);
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> RegisterTest([FromBody]RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            string role = "Basic User";
+
+            if (result.Succeeded)
+            {
+                if (await _roleManager.FindByNameAsync(role) == null)
+                {
+                    await _roleManager.CreateAsync(new IdentityRole(role));
+                }
+                await _userManager.AddToRoleAsync(user, role);
+                await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("userName", user.UserName));
+                await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
+                await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("role", role));
+
+                return Ok(new ProfileViewModel(user));
+            }
+
+            return BadRequest(result.Errors);
+
+
         }
 
 
