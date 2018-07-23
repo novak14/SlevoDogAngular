@@ -55,23 +55,23 @@ namespace SlevoDogAngular.Controllers
                     RankComment = item.Rank
                 };
                 saleItem.Comments.Add(commentsViewModel);
-
             }
 
             return saleItem;
         }
 
-        //public async Task<IActionResult> AddComments(SaleViewModel model)
-        //{
-        //    //var user = await _userManager.GetUserAsync(User);
+        [HttpPost("[action]")]
+        public JsonResult AddComments([FromBody]CommentsViewModel model)
+        {
+            //var user = await _userManager.GetUserAsync(User);
 
-        //    //if (user != null)
-        //    //{
-        //    //    model.AuthorName = user.UserName;
-        //    //    model.IdUser = user.Id;
-        //    //}
-        //    _catalogService.InsertComment(model.Id, model.AuthorName, model.Text);
-        //    return await ItemAsync(model.Id);
-        //}
+            //if (user != null)
+            //{
+            //    model.AuthorName = user.UserName;
+            //    model.IdUser = user.Id;
+            //}
+            string cookie = _catalogService.InsertComment(model.Id, model.AuthorName, model.Text);
+            return Json(cookie);
+        }
     }
 }

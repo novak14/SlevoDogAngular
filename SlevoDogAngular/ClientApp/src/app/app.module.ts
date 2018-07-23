@@ -16,6 +16,8 @@ import {CatalogService} from './catalog/catalog.service';
 import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import {AuthService} from './auth/auth.service';
+import { CommentsComponent } from './catalog/item/comments/comments.component';
+import {CookieService} from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import {AuthService} from './auth/auth.service';
     CatalogComponent,
     ItemComponent,
     SignupComponent,
-    SigninComponent
+    SigninComponent,
+    CommentsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -35,7 +38,7 @@ import {AuthService} from './auth/auth.service';
     FormsModule,
     AppRoutingModule
   ],
-  providers: [CatalogService, AuthService],
+  providers: [CatalogService, AuthService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

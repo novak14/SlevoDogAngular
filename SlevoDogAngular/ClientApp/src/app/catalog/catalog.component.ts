@@ -6,6 +6,7 @@ import {ActivatedRoute, ParamMap, Params} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Sale} from './sale.model';
 import {CatalogService} from './catalog.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-catalog',
@@ -20,7 +21,8 @@ export class CatalogComponent implements OnInit {
   sortOrder: string;
 
   constructor(private catalogService: CatalogService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private cookieService: CookieService) {
   }
 
   async sortServer(sortValue: string) {
@@ -36,5 +38,10 @@ export class CatalogComponent implements OnInit {
       );
     // this.sortServer(this.sortOrder);
     this.browse = await this.catalogService.getItems(this.sortOrder);
+  }
+
+  checkCookie() {
+    const test = this.cookieService.get('Id');
+    console.log('TestCookie: ' + test);
   }
 }

@@ -55,7 +55,7 @@ namespace Catalog.Business
             return test;
         }
 
-        public void InsertComment(int Id, string AuthorName, string Text, string IdUser = null)
+        public string InsertComment(int Id, string AuthorName, string Text, string IdUser = null)
         {
             Comments comments = new Comments
             {
@@ -68,7 +68,7 @@ namespace Catalog.Business
                 FkUser = IdUser
             };
 
-            _loadCatalog.InsertComment(comments);
+            return _loadCatalog.InsertComment(comments);
         }
     }
 }

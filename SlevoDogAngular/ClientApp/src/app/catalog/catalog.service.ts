@@ -2,14 +2,19 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {Sale} from './sale.model';
+import {CommentsModel} from './comments.model';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()
 export class CatalogService {
   baseUrl: string;
   test: Sale;
+  public comment = new CommentsModel(32, 'Maca', 'Super');
+
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private cookieService: CookieService) {
     this.baseUrl = baseUrl;
   }
 
@@ -44,6 +49,24 @@ export class CatalogService {
     //   console.log(result);
     // }, error => console.error(error));
   }
+
+  insertComment(comment: CommentsModel) {
+    console.log('Jsem v komentys ' + this.comment.authorName);
+    let cookie: string;
+    const test = this.http.post(this.baseUrl + 'api/Item/AddComments', {
+      Id: 32,
+      AuthorName: 'Maca',
+      Text: 'Super'
+    }).subscribe((res: Response) => {
+      cookie = res.toString();
+      this.cookieService.set('Id', cookie);
+
+      console.log('Text: ' + res);
+    });
+    console.log('Testes: ' + cookie);
+    return cookie;
+  }
+
 }
 
 interface Model {

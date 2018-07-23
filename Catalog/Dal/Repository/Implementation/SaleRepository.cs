@@ -72,15 +72,19 @@ namespace Catalog.Dal.Repository.Implementation
             return sale;
         }
 
-        public void InsertComment(Comments comments)
+        public string InsertComment(Comments comments)
         {
             string sql = @"INSERT INTO Comments(FkSale, DateInsert, FkUser, Name, Rank, Text, FkParrentComment, Disabled) 
-                            VALUES(@FkSale, @DateInsert, @FkUser, @Name, @Rank, @Text, @FkParrentComment, @Disabled);";
+                            VALUES(@FkSale, @DateInsert, @FkUser, @Name, @Rank, @Text, @FkParrentComment, @Disabled); 
+                            SELECT CAST(SCOPE_IDENTITY() as int);";
+
+            string key = null;
             try
             {
+                var outParam = new DynamicParameters();
                 using (var connection = new SqlConnection(_options.connectionString))
                 {
-                    var affRows = connection.Execute(sql, new
+                    var affRows = connection.Query<int>(sql, new
                     {
                         FkSale = comments.FkSale,
                         DateInsert = comments.DateInsert,
@@ -90,13 +94,16 @@ namespace Catalog.Dal.Repository.Implementation
                         Text = comments.Text,
                         FkParrentComment = comments.FkParrentComment,
                         Disabled = comments.Disabled
-                    });
+                    }).SingleOrDefault();
+
+                    key = affRows.ToString();
                 }
             }
             catch (Exception e)
             {
                 var ts = e;
             }
+            return "Comment_specific_" + key;
         }
 
         public List<Sale> LoadCheapest()
