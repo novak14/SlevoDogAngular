@@ -10,7 +10,7 @@ namespace Catalog.Dal.Repository.Abstraction
     {
         IEnumerable<Sale> LoadAll();
         Task<Sale> LoadByIdAsync(int id);
-        string InsertComment(Comments comments);
+        void InsertComment(Comments comments);
         List<Sale> LoadCheapest();
         List<Sale> LoadNewest();
         List<Sale> LoadBiggestSale();

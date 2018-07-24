@@ -27,7 +27,7 @@ namespace Catalog.Dal.Repository.Implementation
         public User GetUserByCookie(string cookie)
         {
             User user = new User();
-            string sql = @"SELECT * FROM User WHERE UniqueString = @Cookie;";
+            string sql = @"SELECT * FROM UserProfile WHERE UniqueString = @Cookie;";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
@@ -36,18 +36,18 @@ namespace Catalog.Dal.Repository.Implementation
             return user;
         }
 
-        public User InsertUser(string username, string uniqueString)
+        public string InsertUser(string username, string uniqueString)
         {
-            string sql = @"INSERT INTO User(Username, UniqueString) VALUES(@Username, @UniqueString);
+            string sql = @"INSERT INTO UserProfile(Username, UniqueString) VALUES(@Username, @UniqueString);
                             SELECT CAST(SCOPE_IDENTITY() as int);";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
                 connection.Open();
                 var idUser = connection.Query<int>(sql, new { Username = username, UniqueString = uniqueString }).SingleOrDefault();
-                var user = connection.QueryFirstOrDefault<User>("SELECT * FROM User WHERE Id = @id", new { id = idUser });
+                string userCookie = connection.QueryFirstOrDefault<string>("SELECT UniqueString FROM UserProfile WHERE Id = @id", new { id = idUser });
                 connection.Close();
-                return user;
+                return userCookie;
             }
             throw new NotImplementedException();
         }

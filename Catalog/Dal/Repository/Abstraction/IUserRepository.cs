@@ -8,6 +8,6 @@ namespace Catalog.Dal.Repository.Abstraction
     public interface IUserRepository
     {
         User GetUserByCookie(string cookie);
-        User InsertUser(string username, string uniqueString);
+        string InsertUser(string username, string uniqueString);
     }
 }

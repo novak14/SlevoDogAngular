@@ -71,8 +71,9 @@ namespace Catalog.Business
                 Rank = 0,
                 FkUser = IdUser
             };
-            InsertUserFromComments(AuthorName);
-            return _loadCatalog.InsertComment(comments);
+            _loadCatalog.InsertComment(comments);
+
+            return InsertUserFromComments(AuthorName);
         }
 
         public User CheckUserCookie(string cookie)
@@ -80,10 +81,10 @@ namespace Catalog.Business
             return _userRepository.GetUserByCookie(cookie);
         }
 
-        public void InsertUserFromComments(string username)
+        public string InsertUserFromComments(string username)
         {
             string cookie = PasswordGenerator.Generate(length: 15, allowed: Sets.Alphanumerics);
-            _userRepository.InsertUser(username, cookie);
+            return _userRepository.InsertUser(username, cookie);
         }
     }
 }
