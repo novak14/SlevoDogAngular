@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.1" />
+    <PackageReference Include="MlkPwgen" Version="0.3.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.4" />
   </ItemGroup>
 

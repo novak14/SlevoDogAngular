@@ -1,5 +1,6 @@
 ﻿using Catalog.Dal.Entities;
 using Catalog.Dal.Repository.Abstraction;
+using MlkPwgen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,13 @@ namespace Catalog.Business
     public class CatalogService
     {
         private readonly ISaleRepository _loadCatalog;
+        private readonly IUserRepository _userRepository;
 
-        public CatalogService(ISaleRepository loadCatalog)
+        public CatalogService(ISaleRepository loadCatalog,
+                              IUserRepository userRepository)
         {
             _loadCatalog = loadCatalog;
+            _userRepository = userRepository;
         }
 
         public List<Sale> LoadAll(string sortOrder)
@@ -67,8 +71,19 @@ namespace Catalog.Business
                 Rank = 0,
                 FkUser = IdUser
             };
-
+            InsertUserFromComments(AuthorName);
             return _loadCatalog.InsertComment(comments);
+        }
+
+        public User CheckUserCookie(string cookie)
+        {
+            return _userRepository.GetUserByCookie(cookie);
+        }
+
+        public void InsertUserFromComments(string username)
+        {
+            string cookie = PasswordGenerator.Generate(length: 15, allowed: Sets.Alphanumerics);
+            _userRepository.InsertUser(username, cookie);
         }
     }
 }

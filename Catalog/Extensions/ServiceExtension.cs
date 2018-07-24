@@ -36,6 +36,8 @@ namespace Microsoft.Extensions.DependencyInjection
 
             //REPOSITORY
             services.AddScoped<ISaleRepository, SaleRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICommentsRepository, CommentsRepository>();
 
 
             //SERVICES - zapouzdreni vsechn repositories pod jeden objekt

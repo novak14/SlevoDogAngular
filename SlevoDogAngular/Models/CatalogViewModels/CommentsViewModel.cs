@@ -12,5 +12,6 @@ namespace SlevoDogAngular.Models.CatalogViewModels
         public DateTime DateInsertComment { get; set; }
         public int RankComment { get; set; }
         public string Text { get; set; }
+        public string Cookie { get; set; }
     }
 }

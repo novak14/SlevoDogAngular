@@ -70,8 +70,18 @@ namespace SlevoDogAngular.Controllers
             //    model.AuthorName = user.UserName;
             //    model.IdUser = user.Id;
             //}
+
             string cookie = _catalogService.InsertComment(model.Id, model.AuthorName, model.Text);
             return Json(cookie);
         }
+
+        [HttpGet("[action]")]
+        public JsonResult GetUserNameComment(string cookie)
+        {
+            var checkUser = _catalogService.CheckUserCookie(cookie);
+            return Json(checkUser.UserName);
+        }
+
+
     }
 }
