@@ -12,7 +12,7 @@ using SlevoDogAngular.Models;
 using SlevoDogAngular.Models.AccountViewModels;
 using IdentityServer4.AccessTokenValidation;
 using System.Collections.Generic;
-
+using MlkPwgen;
 
 namespace SlevoDogAngular.Controllers
 {
@@ -56,7 +56,7 @@ namespace SlevoDogAngular.Controllers
         [HttpPost("[action]")]
         //[AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
+        public async Task<JsonResult> Login([FromBody]LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -65,22 +65,23 @@ namespace SlevoDogAngular.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    return Ok();
+                    string cookie = PasswordGenerator.Generate(length: 20, allowed: Sets.Alphanumerics);
+                    return Json(cookie);
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    return RedirectToAction(nameof(Lockout));
+                    return Json("chyba");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
+                    return Json("chyba");
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return Ok();
+            return Json("chyba");
         }
 
         [HttpPost("[action]")]

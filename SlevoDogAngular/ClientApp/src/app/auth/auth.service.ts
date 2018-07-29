@@ -3,6 +3,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { UserManager, UserManagerSettings, User } from 'oidc-client';
 import {Observable} from 'rxjs/Observable';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,8 @@ export class AuthService {
   private manager: UserManager = new UserManager(getClientSettings());
   private user: User = null;
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string,
+              private cookieService: CookieService) {
     this.baseUrl = baseUrl;
     this.manager.getUser().then(user => {
       this.user = user;
@@ -46,7 +48,7 @@ export class AuthService {
       ConfirmPassword: password
     })
       .subscribe(res => {
-        console.log('Res: ' + res.toString());
+        console.log('Readsfs: ' + res.toString());
           // console.log(res[2]);
           // console.log(res[2].value());
         },
@@ -91,7 +93,27 @@ export class AuthService {
       Password: password,
       RememberMe: false
     });
+  }
 
+  signIn(email: string, password: string) {
+    return this.http.post(this.baseUrl + 'api/User/Login', {
+      Email: email,
+      Password: password,
+      RememberMe: false
+    }).subscribe((res: Response) => {
+      const cookie = res.toString();
+      this.cookieService.set('LoginTemp', cookie);
+    });
+  }
+
+  isAuthenticated() {
+    const test = this.cookieService.get('LoginTemp');
+    const blabla = this.cookieService.get('blablabla');
+    // console.log('TestAuth: ' + test + ' Blabla: ' + blabla + ' Boolean: ' + (test));
+    if (test) {
+      return true;
+    }
+    return false;
   }
 
 }

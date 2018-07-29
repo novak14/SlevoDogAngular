@@ -71,7 +71,7 @@ namespace SlevoDogAngular.Controllers
         }
 
         [HttpPost("[action]")]
-        public string Register(string email)
+        public void Register(string email)
         {
             //if (ModelState.IsValid)
             //{
@@ -93,7 +93,7 @@ namespace SlevoDogAngular.Controllers
             //}
 
             // If we got this far, something failed, redisplay form
-            return email;
+            var test = email;
         }
     }
 }

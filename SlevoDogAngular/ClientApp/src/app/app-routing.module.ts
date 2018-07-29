@@ -7,6 +7,8 @@ import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {HomeComponent} from './home/home.component';
 import {SignupComponent} from './auth/signup/signup.component';
 import {SigninComponent} from './auth/signin/signin.component';
+import {AdminComponent} from './admin/admin.component';
+import {AuthGuard} from './auth/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -15,7 +17,8 @@ const appRoutes: Routes = [
   { path: 'catalog', component: CatalogComponent},
   { path: 'item/:id', component: ItemComponent},
   { path: 'signup', component: SignupComponent},
-  { path: 'signin', component: SigninComponent}
+  { path: 'signin', component: SigninComponent},
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

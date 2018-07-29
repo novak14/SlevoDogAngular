@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -18,6 +18,9 @@ import { SigninComponent } from './auth/signin/signin.component';
 import {AuthService} from './auth/auth.service';
 import { CommentsComponent } from './catalog/item/comments/comments.component';
 import {CookieService} from 'ngx-cookie-service';
+import { AdminComponent } from './admin/admin.component';
+import {AuthGuard} from './auth/auth-guard.service';
+import {AdminService} from './admin/admin.service';
 
 @NgModule({
   declarations: [
@@ -30,15 +33,17 @@ import {CookieService} from 'ngx-cookie-service';
     ItemComponent,
     SignupComponent,
     SigninComponent,
-    CommentsComponent
+    CommentsComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
-  providers: [CatalogService, AuthService, CookieService],
+  providers: [CatalogService, AuthService, CookieService, AdminService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

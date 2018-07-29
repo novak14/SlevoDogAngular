@@ -30,8 +30,13 @@
                   <span class='glyphicon glyphicon-th-list'></span> Catalog
                 </a>
               </li>
-              <!--<li><a routerLink="/signup">Register</a></li>-->
-              <!--<li><a routerLink="/signin">Login</a></li>-->
+              <ng-template [ngIf]="!authService.isAuthenticated()">
+                <li><a routerLink="/signup">Register</a></li>
+                <li><a routerLink="/signin">Login</a></li>
+              </ng-template>
+              <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
+
+
             </ul>
         </div>
     </div>

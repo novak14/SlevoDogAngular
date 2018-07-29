@@ -46,7 +46,7 @@ export class CatalogService {
     return await this.http.get<Model>(this.baseUrl + 'api/Item/ItemAsync', {
       params: new HttpParams().set('id', String(id))
     }).toPromise();
-    //   .subscribe(result => {
+    //   .subscribe(result => {`
     //   this.item = result;
     //   console.log(result);
     // }, error => console.error(error));
@@ -69,8 +69,7 @@ export class CatalogService {
     return this.http.get(this.baseUrl + 'api/Item/GetUserNameComment', {
       params: new HttpParams().set('cookie', cookie)
     });
-    // console.log('Userna: ' + this.username);
-    // return this.username;
+
   }
 
 }

@@ -17,6 +17,9 @@ using SlevoDogAngular.Models;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using AutoMapper;
+using SlevoDogAngular.Models.AdminViewModels;
+using Admin.Dal.Entities;
 
 namespace SlevoDogAngular
 {
@@ -62,6 +65,8 @@ namespace SlevoDogAngular
                 options.RequireHttpsMetadata = false;
             });
 
+            Mapper.Initialize(cfg => cfg.CreateMap<SaleAdminViewModel, SaleAdmin>());
+
             //services
             //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
             //    .AddIdentityServerAuthentication(authenticationOptions =>
@@ -73,14 +78,14 @@ namespace SlevoDogAngular
             //        authenticationOptions.RequireHttpsMetadata = false;
             //    });
 
-    //        services.AddAuthentication("Bearer")
-    //.AddIdentityServerAuthentication(options =>
-    //{
-    //    options.Authority = "https://localhost:44339/";
-    //    options.RequireHttpsMetadata = false;
+            //        services.AddAuthentication("Bearer")
+            //.AddIdentityServerAuthentication(options =>
+            //{
+            //    options.Authority = "https://localhost:44339/";
+            //    options.RequireHttpsMetadata = false;
 
-    //    options.ApiName = "api1";
-    //});
+            //    options.ApiName = "api1";
+            //});
 
             //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             //        .AddJwtBearer(options =>
@@ -101,6 +106,8 @@ namespace SlevoDogAngular
             });
 
             services.AddModuleCatalog(o => o.connectionString = Configuration.GetSection("ConnectionStrings:SlevoDogAngular.Module.CatalogConnection").Value);
+            services.AddModuleAdmin(o => o.connectionString = Configuration.GetSection("ConnectionStrings:SlevoDogAngular.Module.CatalogConnection").Value);
+
 
         }
 
