@@ -22,44 +22,33 @@ namespace SlevoDogAngular.Controllers
         [HttpGet("[action]")]
         public SaleViewModel Index(string sortOrder)
         {
-            //if (String.IsNullOrEmpty(sortOrder))
-            //{
-            //    ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "";
-            //    ViewData["NewSortParm"] = String.IsNullOrEmpty(sortOrder) ? "new_desc" : "";
-            //    ViewData["SaleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "sale_desc" : "";
-            //}
-            //else
-            //{
-            //    ViewData["PriceSortParm"] = "price_desc" ;
-            //    ViewData["NewSortParm"] =  "new_desc";
-            //    ViewData["SaleSortParm"] = "sale_desc";
-            //}
-
-            // var test = _catalogService.LoadSorting(sortOrder);
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            var test = _catalogService.LoadSorting(sortOrder);
-            stopwatch.Stop();
-            var dapper = stopwatch.Elapsed;
-
-
             SaleViewModel sale = new SaleViewModel();
 
-            foreach (var item in test)
+            try
             {
-                SaleViewModel saleItem = new SaleViewModel
-                {
-                    Id = item.Id,
-                    Name = item.Name,
-                    PriceAfterSale = item.PriceAfterSale.ToString("C0"),
-                    OriginPrice = item.OriginPrice.ToString("C0"),
-                    Image = item.Image,
-                    LinkFirm = item.LinkFirm,
-                    PercentSale = (int)item.PercentSale
-                };
+                var test = _catalogService.LoadSorting(sortOrder);
 
-                sale.saleCollection.collections.Add(saleItem);
+
+                foreach (var item in test)
+                {
+                    SaleViewModel saleItem = new SaleViewModel
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        PriceAfterSale = item.PriceAfterSale.ToString("C0"),
+                        OriginPrice = item.OriginPrice.ToString("C0"),
+                        Image = item.Image,
+                        LinkFirm = item.LinkFirm,
+                        PercentSale = (int)item.PercentSale
+                    };
+
+                    sale.saleCollection.collections.Add(saleItem);
+                }
+            } catch (Exception e)
+            {
+                throw new Exception(e.Message);
             }
+            
             return sale;
         }
 

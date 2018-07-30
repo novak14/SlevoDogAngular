@@ -105,8 +105,8 @@ namespace SlevoDogAngular
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddModuleCatalog(o => o.connectionString = Configuration.GetSection("ConnectionStrings:SlevoDogAngular.Module.CatalogConnection").Value);
-            services.AddModuleAdmin(o => o.connectionString = Configuration.GetSection("ConnectionStrings:SlevoDogAngular.Module.CatalogConnection").Value);
+            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
 
 
         }

@@ -16,25 +16,20 @@
                     </a>
                 </li>
                 <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/counter"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-education'></span> Counter
-                    </a>
-                </li>
-                <li [routerLinkActive]='["link-active"]'>
                     <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
                         <span class='glyphicon glyphicon-th-list'></span> Fetch data
                     </a>
                 </li>
-              <li [routerLinkActive]='["link-active"]'>
+              <ng-template [ngIf]="!authService.isAuthenticated()">
+              <li><a routerLink="/signup">Register</a></li>
+                <li><a routerLink="/signin">Login</a></li>
+              </ng-template>
+              <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
+              <li *ngIf="authService.isAuthenticated()" [routerLinkActive]='["link-active"]'>
                 <a [routerLink]='["/catalog"]' (click)='collapse()'>
                   <span class='glyphicon glyphicon-th-list'></span> Catalog
                 </a>
               </li>
-              <ng-template [ngIf]="!authService.isAuthenticated()">
-                <li><a routerLink="/signup">Register</a></li>
-                <li><a routerLink="/signin">Login</a></li>
-              </ng-template>
-              <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
 
 
             </ul>
