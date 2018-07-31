@@ -3,8 +3,7 @@ export class CommentsModel {
   public authorName: string;
   public text: string;
 
-  constructor(id: number, authorName: string, text: string) {
-    this.id = id;
+  constructor(authorName: string, text: string) {
     this.authorName = authorName;
     this.text = text;
   }

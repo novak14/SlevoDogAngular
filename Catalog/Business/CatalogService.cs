@@ -59,13 +59,13 @@ namespace Catalog.Business
             return test;
         }
 
-        public string InsertComment(int Id, string AuthorName, string Text, string IdUser = null)
+        public string InsertComment(string AuthorName, string Text, int? Id, string IdUser = null)
         {
             Comments comments = new Comments
             {
                 DateInsert = DateTime.Now,
                 Disabled = false,
-                FkSale = Id,
+                FkSale = Id.Value,
                 Name = AuthorName,
                 Text = Text,
                 Rank = 0,

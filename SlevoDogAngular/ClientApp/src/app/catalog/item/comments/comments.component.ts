@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {CommentsModel} from '../../comments.model';
 import {CatalogService} from '../../catalog.service';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-comments',
@@ -10,7 +11,9 @@ import {CatalogService} from '../../catalog.service';
 })
 export class CommentsComponent implements OnInit {
   cookieValue = 'UNKNOWN';
-  public comment = new CommentsModel(32, 'Maca', 'Super');
+  @ViewChild('f') comment: NgForm;
+  commentModel: CommentsModel;
+  // public comment = new CommentsModel(32, 'Maca', 'Super');
   username: string;
 
   constructor( private cookieService: CookieService,
@@ -32,10 +35,17 @@ export class CommentsComponent implements OnInit {
     console.log('Test: ' + test);
   }
 
-  sendToServer() {
-    console.log('In Comment: ' + this.username);
-    this.catalogService.insertComment(this.comment);
-    const IsCookieExist = this.cookieService.get('UserComment');
+  // sendToServer() {
+  //   console.log('In Comment: ' + this.username);
+  //   this.catalogService.insertComment(this.comment);
+  //   const IsCookieExist = this.cookieService.get('UserComment');
+  // }
+
+  onSubmit() {
+    this.commentModel = new CommentsModel(this.comment.value.username, this.comment.value.commentText);
+    console.log('CommentMOdel: ' + this.commentModel.text);
+    this.catalogService.insertComment(this.commentModel);
+    this.comment.reset();
 
   }
 

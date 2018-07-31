@@ -11,8 +11,8 @@ export class CatalogService {
   baseUrl: string;
   test: Sale;
   username: string;
-  public comment = new CommentsModel(32, 'Maca', 'Super');
-
+  // public comment = new CommentsModel(32, 'Maca', 'Super');
+  //
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string,
               private route: ActivatedRoute,
@@ -53,7 +53,7 @@ export class CatalogService {
   }
 
   insertComment(comment: CommentsModel) {
-    console.log('Jsem v komentys ' + this.comment.authorName);
+    console.log('Jsem v komentys ' + comment.authorName);
     let cookie: string;
     const test = this.http.post(this.baseUrl + 'api/Item/AddComments', comment).subscribe((res: Response) => {
       cookie = res.toString();

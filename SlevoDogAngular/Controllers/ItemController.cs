@@ -71,7 +71,7 @@ namespace SlevoDogAngular.Controllers
             //    model.IdUser = user.Id;
             //}
 
-            string cookie = _catalogService.InsertComment(model.Id, model.AuthorName, model.Text);
+            string cookie = _catalogService.InsertComment(model.AuthorName, model.Text, null);
             return Json(cookie);
         }
 
