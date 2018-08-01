@@ -1,7 +1,19 @@
-  <div class="row" *ngFor="let comm of comments">
-    <div class="col-xs-12">
-      {{ comm.name }}: {{ comm.text }}
+<div class="row" *ngFor="let comm of comments">
+  <div class="col-xs-12">
+
+    <div>
+      <img src="../../../../assets/images/dog(1).svg" alt="user profile" style="height: 50px;" />
+      </div>
+    <h4>{{ comm.name }}</h4>
+      <div>
+        <p>{{ comm.text }}</p>
+      </div>
+      <div>
+        {{ comm.dateInsert }}
+      </div>
+      <a>Odpovědět</a>
     </div>
+    <hr>
   </div>
 <div class="container">
   <div class="row">
@@ -26,7 +38,6 @@
     </div>
   </div>
 </div>
-  <i src="../../../../../images/baseline-comment-24px.svg" alt="" height="auto" width="100%">
     <i class="material-icons">
       comment
     </i>

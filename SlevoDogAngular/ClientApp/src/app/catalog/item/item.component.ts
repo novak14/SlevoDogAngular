@@ -27,6 +27,5 @@ export class ItemComponent implements OnInit {
         }
       );
     this.item = await this.catalogService.getSale(this.id);
-    console.log('Comm: ' + JSON.stringify(this.item.comments[0].text));
   }
 }
