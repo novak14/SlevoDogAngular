@@ -12,12 +12,15 @@ namespace Catalog.Business
     {
         private readonly ISaleRepository _loadCatalog;
         private readonly IUserRepository _userRepository;
+        private readonly ICommentsRepository _commentRepository;
 
         public CatalogService(ISaleRepository loadCatalog,
-                              IUserRepository userRepository)
+                              IUserRepository userRepository,
+                              ICommentsRepository commentRepository)
         {
             _loadCatalog = loadCatalog;
             _userRepository = userRepository;
+            _commentRepository = commentRepository;
         }
 
         public List<Sale> LoadAll(string sortOrder)
@@ -59,13 +62,13 @@ namespace Catalog.Business
             return test;
         }
 
-        public string InsertComment(string AuthorName, string Text, int? Id, string IdUser = null)
+        public string InsertComment(string AuthorName, string Text, int Id, string IdUser = null)
         {
             Comments comments = new Comments
             {
                 DateInsert = DateTime.Now,
                 Disabled = false,
-                FkSale = Id.Value,
+                FkSale = Id,
                 Name = AuthorName,
                 Text = Text,
                 Rank = 0,
@@ -85,6 +88,11 @@ namespace Catalog.Business
         {
             string cookie = PasswordGenerator.Generate(length: 15, allowed: Sets.Alphanumerics);
             return _userRepository.InsertUser(username, cookie);
+        }
+
+        public List<Comments> GetComments(int saleId)
+        {
+            return _commentRepository.GetComments(saleId);
         }
     }
 }

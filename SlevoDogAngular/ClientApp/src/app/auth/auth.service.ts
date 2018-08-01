@@ -108,8 +108,6 @@ export class AuthService {
 
   isAuthenticated() {
     const test = this.cookieService.get('LoginTemp');
-    const blabla = this.cookieService.get('blablabla');
-    // console.log('TestAuth: ' + test + ' Blabla: ' + blabla + ' Boolean: ' + (test));
     if (test) {
       return true;
     }

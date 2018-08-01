@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Catalog.Dal.Entities;
 
 namespace SlevoDogAngular.Controllers
 {
@@ -49,10 +51,10 @@ namespace SlevoDogAngular.Controllers
             {
                 CommentsViewModel commentsViewModel = new CommentsViewModel
                 {
-                    AuthorName = item.Name,
+                    Name = item.Name,
                     Text = item.Text,
-                    DateInsertComment = item.DateInsert,
-                    RankComment = item.Rank
+                    DateInsert = item.DateInsert,
+                    Rank = item.Rank
                 };
                 saleItem.Comments.Add(commentsViewModel);
             }
@@ -63,15 +65,7 @@ namespace SlevoDogAngular.Controllers
         [HttpPost("[action]")]
         public JsonResult AddComments([FromBody]CommentsViewModel model)
         {
-            //var user = await _userManager.GetUserAsync(User);
-
-            //if (user != null)
-            //{
-            //    model.AuthorName = user.UserName;
-            //    model.IdUser = user.Id;
-            //}
-
-            string cookie = _catalogService.InsertComment(model.AuthorName, model.Text, null);
+            string cookie = _catalogService.InsertComment(model.Name, model.Text, model.Id);
             return Json(cookie);
         }
 
@@ -82,6 +76,13 @@ namespace SlevoDogAngular.Controllers
             return Json(checkUser.UserName);
         }
 
+        [HttpGet("[action]")]
+        public List<CommentsViewModel> GetComments(int saleId)
+        {
+            var comments = _catalogService.GetComments(saleId);
+            List<CommentsViewModel> commentsMap = Mapper.Map<List<Comments>, List<CommentsViewModel>>(comments);
 
+            return commentsMap;
+        }
     }
 }

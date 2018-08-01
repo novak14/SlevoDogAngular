@@ -1,3 +1,5 @@
+import {CommentsModel} from './comments.model';
+
 export class Sale {
   public id: number;
   public name: string;
@@ -12,6 +14,7 @@ export class Sale {
   public description: string;
   public percentSale: number;
   public saleCollection: SaleCollection;
+  public comments: CommentsModel[];
 
   constructor(id: number, name: string) {
     this.id = id;

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {CommentsModel} from '../../comments.model';
 import {CatalogService} from '../../catalog.service';
@@ -11,9 +11,11 @@ import {NgForm} from '@angular/forms';
 })
 export class CommentsComponent implements OnInit {
   cookieValue = 'UNKNOWN';
-  @ViewChild('f') comment: NgForm;
+  @ViewChild('f') commentForm: NgForm;
   commentModel: CommentsModel;
-  // public comment = new CommentsModel(32, 'Maca', 'Super');
+  @Input() saleId: number;
+  @Input() comments: CommentsModel[];
+  gest: CommentsModel[];
   username: string;
 
   constructor( private cookieService: CookieService,
@@ -21,8 +23,12 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit(): void {
     const IsCookieExist = this.cookieService.get('UserComment');
-    console.log('Usernames: ' + this.username);
     if (IsCookieExist) {
+      this.commentForm.form.patchValue({
+        userData: {
+          username: IsCookieExist
+        }
+      });
       console.log('Exist: ' + IsCookieExist);
       this.catalogService.getUserForComment(IsCookieExist).subscribe((res) => {
         this.cookieValue = res.toString();
@@ -30,23 +36,18 @@ export class CommentsComponent implements OnInit {
     }
   }
 
-  testCookie() {
-    const test = this.cookieService.get('Test');
-    console.log('Test: ' + test);
+  async onSubmit() {
+    this.commentModel = new CommentsModel(this.saleId, this.commentForm.value.username, this.commentForm.value.commentText);
+    await this.catalogService.insertComment(this.commentModel).then(res => {
+      this.cookieService.set('UserComment', res.toString());
+    });
+    this.commentForm.reset();
+    await this.refreshComments();
   }
 
-  // sendToServer() {
-  //   console.log('In Comment: ' + this.username);
-  //   this.catalogService.insertComment(this.comment);
-  //   const IsCookieExist = this.cookieService.get('UserComment');
-  // }
-
-  onSubmit() {
-    this.commentModel = new CommentsModel(this.comment.value.username, this.comment.value.commentText);
-    console.log('CommentMOdel: ' + this.commentModel.text);
-    this.catalogService.insertComment(this.commentModel);
-    this.comment.reset();
-
+  async refreshComments() {
+    await this.catalogService.getComments(this.saleId).then(res => {
+      this.comments = res;
+    });
   }
-
 }

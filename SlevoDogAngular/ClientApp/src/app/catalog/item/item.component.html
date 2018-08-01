@@ -27,12 +27,11 @@
       <div>
         Vloženo: {{ item.dateInsert | date }}
       </div>
-
-      <div *ngFor="let comm of item.comments">
-      {{ comm.authorName }}: {{ comm.text }}
-      </div>
     </div>
   </div>
+  <app-comments
+    [comments]="item.comments"
+    [saleId]="item.id"></app-comments>
 </div>
 
-<app-comments></app-comments>
+

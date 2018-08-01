@@ -20,6 +20,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using AutoMapper;
 using SlevoDogAngular.Models.AdminViewModels;
 using Admin.Dal.Entities;
+using SlevoDogAngular.Models.CatalogViewModels;
+using Catalog.Dal.Entities;
 
 namespace SlevoDogAngular
 {
@@ -65,7 +67,11 @@ namespace SlevoDogAngular
                 options.RequireHttpsMetadata = false;
             });
 
-            Mapper.Initialize(cfg => cfg.CreateMap<SaleAdminViewModel, SaleAdmin>());
+            Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<SaleAdminViewModel, SaleAdmin>();
+                cfg.CreateMap<Comments, CommentsViewModel>();
+            });
 
             //services
             //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
