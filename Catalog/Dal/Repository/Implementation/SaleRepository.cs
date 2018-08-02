@@ -27,16 +27,16 @@ namespace Catalog.Dal.Repository.Implementation
             _context = context;
         }
 
-        public IEnumerable<Sale> LoadAll()
+        public async Task<List<Sale>> LoadAllAsync()
         {
             IEnumerable<Sale> sale = new List<Sale>();
             string sql = @"Select * from Sale WHERE bDisabled = 0";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                sale = connection.Query<Sale>(sql);
+                sale = await connection.QueryAsync<Sale>(sql);
             }
-            return sale;
+            return sale.ToList();
         }
 
         public async Task<Sale> LoadByIdAsync(int id)
@@ -72,67 +72,38 @@ namespace Catalog.Dal.Repository.Implementation
             return sale;
         }
 
-        public void InsertComment(Comments comments)
-        {
-            string sql = @"INSERT INTO Comments(FkSale, DateInsert, FkUser, Name, Rank, Text, FkParrentComment, Disabled) 
-                            VALUES(@FkSale, @DateInsert, @FkUser, @Name, @Rank, @Text, @FkParrentComment, @Disabled);";
-
-            try
-            {
-                var outParam = new DynamicParameters();
-                using (var connection = new SqlConnection(_options.connectionString))
-                {
-                    var affRows = connection.Query<int>(sql, new
-                    {
-                        FkSale = comments.FkSale,
-                        DateInsert = comments.DateInsert,
-                        FkUser = comments.FkUser,
-                        Name = comments.Name,
-                        Rank = comments.Rank,
-                        Text = comments.Text,
-                        FkParrentComment = comments.FkParrentComment,
-                        Disabled = comments.Disabled
-                    }).SingleOrDefault();
-                }
-            }
-            catch (Exception e)
-            {
-                var ts = e;
-            }
-        }
-
-        public List<Sale> LoadCheapest()
+        public async Task<List<Sale>> LoadCheapestAsync()
         {
             IEnumerable<Sale> sale = new List<Sale>();
             string sql = @"Select * from Sale WHERE bDisabled = 0 ORDER BY PriceAfterSale ASC";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                sale = connection.Query<Sale>(sql);
+                sale = await connection.QueryAsync<Sale>(sql);
             }
             return sale.ToList();
         }
 
-        public List<Sale> LoadNewest()
+        public async Task<List<Sale>> LoadNewestAsync()
         {
             IEnumerable<Sale> sale = new List<Sale>();
             string sql = @"Select * from Sale WHERE bDisabled = 0 ORDER BY DateInsert DESC";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                sale = connection.Query<Sale>(sql);
+                sale = await connection.QueryAsync<Sale>(sql);
             }
             return sale.ToList();
         }
 
-        public List<Sale> LoadBiggestSale()
+        public async Task<List<Sale>> LoadBiggestSaleAsync()
         {
             IEnumerable<Sale> sale = new List<Sale>();
             string sql = @"Select * from Sale WHERE bDisabled = 0 ORDER BY PercentSale DESC";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                sale = connection.Query<Sale>(sql);
+                sale = await connection.QueryAsync<Sale>(sql);
             }
             return sale.ToList();
         }

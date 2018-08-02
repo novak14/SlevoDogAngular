@@ -14,7 +14,6 @@ export class AdminService {
   }
 
   sendAdminForm(adminFormModel: AdminModel) {
-    console.log('Admiadfsan: ' + adminFormModel.Disabled);
-    return this.http.post(this.baseUrl + 'api/Admin/InsertItem', adminFormModel).toPromise();
+    return this.http.post(this.baseUrl + 'api/Admin/InsertItemAsync', adminFormModel).toPromise();
   }
 }

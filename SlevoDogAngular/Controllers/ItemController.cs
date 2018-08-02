@@ -17,15 +17,20 @@ namespace SlevoDogAngular.Controllers
     public class ItemController : Controller
     {
         private readonly CatalogService _catalogService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ItemController(CatalogService catalogService)
+        public ItemController(CatalogService catalogService,
+            UserManager<ApplicationUser> userManager)
         {
             _catalogService = catalogService;
+            _userManager = userManager;
         }
 
         [HttpGet("[action]")]
         public async Task<SaleViewModel> ItemAsync(int? id)
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var check = User.Identity.IsAuthenticated;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             var test1 = id != null ? await _catalogService.LoadByIdAsync(id.Value) : throw new Exception(nameof(id));
@@ -63,23 +68,23 @@ namespace SlevoDogAngular.Controllers
         }
 
         [HttpPost("[action]")]
-        public JsonResult AddComments([FromBody]CommentsViewModel model)
+        public async Task<JsonResult> AddCommentsAsync([FromBody]CommentsViewModel model)
         {
-            string cookie = _catalogService.InsertComment(model.Name, model.Text, model.Id);
+            string cookie = await _catalogService.InsertCommentAsync(model.Name, model.Text, model.Id);
             return Json(cookie);
         }
 
         [HttpGet("[action]")]
-        public JsonResult GetUserNameComment(string cookie)
+        public async Task<JsonResult> GetUserNameCommentAsync(string cookie)
         {
-            var checkUser = _catalogService.CheckUserCookie(cookie);
+            var checkUser = await _catalogService.CheckUserCookieAsync(cookie);
             return Json(checkUser.UserName);
         }
 
         [HttpGet("[action]")]
-        public List<CommentsViewModel> GetComments(int saleId)
+        public async Task<List<CommentsViewModel>> GetCommentsAsync(int saleId)
         {
-            var comments = _catalogService.GetComments(saleId);
+            var comments = await _catalogService.GetCommentsAsync(saleId);
             List<CommentsViewModel> commentsMap = Mapper.Map<List<Comments>, List<CommentsViewModel>>(comments);
 
             return commentsMap;

@@ -10,7 +10,7 @@ namespace Catalog.Business
 {
     public class CatalogService
     {
-        private readonly ISaleRepository _loadCatalog;
+        private readonly ISaleRepository _saleRepository;
         private readonly IUserRepository _userRepository;
         private readonly ICommentsRepository _commentRepository;
 
@@ -18,51 +18,33 @@ namespace Catalog.Business
                               IUserRepository userRepository,
                               ICommentsRepository commentRepository)
         {
-            _loadCatalog = loadCatalog;
+            _saleRepository = loadCatalog;
             _userRepository = userRepository;
             _commentRepository = commentRepository;
         }
 
-        public List<Sale> LoadAll(string sortOrder)
-        {
-            var fullCatalog = _loadCatalog.LoadAll();
-            switch (sortOrder)
-            {
-                case "cheapest":
-                    fullCatalog = fullCatalog.OrderBy(s => s.PriceAfterSale).ToList();
-                    break;
-                case "newest":
-                    fullCatalog = fullCatalog.OrderByDescending(s => s.DateInsert).ToList();
-                    break;
-                case "sale":
-                    fullCatalog = fullCatalog.OrderByDescending(s => s.PercentSale).ToList();
-                    break;
-            }
-            return fullCatalog.ToList();
-        }
-
-        public List<Sale> LoadSorting(string sortOrder)
+        public async Task<List<Sale>> LoadSortingAsync(string sortOrder)
         {
             switch (sortOrder)
             {
                 case "cheapest":
-                    return _loadCatalog.LoadCheapest();
+                    return await _saleRepository.LoadCheapestAsync();
                 case "newest":
-                    return _loadCatalog.LoadNewest();
+                    return await _saleRepository.LoadNewestAsync();
                 case "sale":
-                    return _loadCatalog.LoadBiggestSale();
+                    return await _saleRepository.LoadBiggestSaleAsync();
                 default:
-                    return _loadCatalog.LoadAll().ToList();
+                    return await _saleRepository.LoadAllAsync();
             }
         }
 
         public async Task<Sale> LoadByIdAsync(int id)
         {
-            var test = await _loadCatalog.LoadByIdAsync(id);
+            var test = await _saleRepository.LoadByIdAsync(id);
             return test;
         }
 
-        public string InsertComment(string AuthorName, string Text, int Id, string IdUser = null)
+        public async Task<string> InsertCommentAsync(string AuthorName, string Text, int Id, string IdUser = null)
         {
             Comments comments = new Comments
             {
@@ -74,25 +56,25 @@ namespace Catalog.Business
                 Rank = 0,
                 FkUser = IdUser
             };
-            _loadCatalog.InsertComment(comments);
+            await _commentRepository.InsertCommentAsync(comments);
 
-            return InsertUserFromComments(AuthorName);
+            return await InsertUserFromCommentsAsync(AuthorName);
         }
 
-        public User CheckUserCookie(string cookie)
+        public async Task<User> CheckUserCookieAsync(string cookie)
         {
-            return _userRepository.GetUserByCookie(cookie);
+            return await _userRepository.GetUserByCookieAsync(cookie);
         }
 
-        public string InsertUserFromComments(string username)
+        public async Task<string> InsertUserFromCommentsAsync(string username)
         {
             string cookie = PasswordGenerator.Generate(length: 15, allowed: Sets.Alphanumerics);
-            return _userRepository.InsertUser(username, cookie);
+            return await _userRepository.InsertUserAsync(username, cookie);
         }
 
-        public List<Comments> GetComments(int saleId)
+        public async Task<List<Comments>> GetCommentsAsync(int saleId)
         {
-            return _commentRepository.GetComments(saleId);
+            return await _commentRepository.GetCommentsAsync(saleId);
         }
     }
 }

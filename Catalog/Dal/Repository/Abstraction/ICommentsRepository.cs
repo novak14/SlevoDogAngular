@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Catalog.Dal.Entities;
 
 namespace Catalog.Dal.Repository.Abstraction
 {
     public interface ICommentsRepository
     {
-        List<Comments> GetComments(int saleId);
+        Task<List<Comments>> GetCommentsAsync(int saleId);
+        Task InsertCommentAsync(Comments comments);
     }
 }

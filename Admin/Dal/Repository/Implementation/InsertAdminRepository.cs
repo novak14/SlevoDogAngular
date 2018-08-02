@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Admin.Dal.Repository.Implementation
 {
@@ -23,14 +24,14 @@ namespace Admin.Dal.Repository.Implementation
             _options = options.Value;
         }
 
-        public void Insert(SaleAdmin saleAdmin)
+        public async Task InsertAsync(SaleAdmin saleAdmin)
         {
             string sql = @"INSERT INTO Sale(Name, PriceAfterSale, AveragePrice, OriginPrice, Image, DateInsert, ValidFrom, ValidTo, LinkFirm, Description, bDisabled, PercentSale) 
                             VALUES(@Name, @PriceAfterSale, @AveragePrice, @OriginPrice, @Image, @DateInsert, @ValidFrom, @ValidTo, @LinkFirm, @Description, @bDisabled, @PercentSale);";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                var affRows = connection.Execute(sql, new
+                var affRows = await connection.ExecuteAsync(sql, new
                 {
                     Name = saleAdmin.Name,
                     PriceAfterSale = saleAdmin.PriceAfterSale,

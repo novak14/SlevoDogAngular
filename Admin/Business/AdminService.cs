@@ -3,6 +3,7 @@ using Admin.Dal.Repository.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Admin.Business
 {
@@ -15,10 +16,10 @@ namespace Admin.Business
             _insertAdminRepository = insertAdminRepository;
         }
 
-        public void InsertSale(SaleAdmin saleAdmin)
+        public async Task InsertSaleAsync(SaleAdmin saleAdmin)
         {
             saleAdmin.DateInsert = DateTime.Now;
-            _insertAdminRepository.Insert(saleAdmin);
+            await _insertAdminRepository.InsertAsync(saleAdmin);
         }
     }
 }

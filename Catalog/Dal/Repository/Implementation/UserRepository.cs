@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Catalog.Dal.Repository.Implementation
 {
@@ -24,29 +25,27 @@ namespace Catalog.Dal.Repository.Implementation
             _options = options.Value;
         }
 
-        public User GetUserByCookie(string cookie)
+        public async Task<User> GetUserByCookieAsync(string cookie)
         {
             User user = new User();
             string sql = @"SELECT * FROM UserProfile WHERE UniqueString = @Cookie;";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                user = connection.QueryFirstOrDefault<User>(sql, new { Cookie = cookie });
+                user = await connection.QueryFirstOrDefaultAsync<User>(sql, new { Cookie = cookie });
             }
             return user;
         }
 
-        public string InsertUser(string username, string uniqueString)
+        public async Task<string> InsertUserAsync(string username, string uniqueString)
         {
             string sql = @"INSERT INTO UserProfile(Username, UniqueString) VALUES(@Username, @UniqueString);
                             SELECT CAST(SCOPE_IDENTITY() as int);";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                connection.Open();
-                var idUser = connection.Query<int>(sql, new { Username = username, UniqueString = uniqueString }).SingleOrDefault();
-                string userCookie = connection.QueryFirstOrDefault<string>("SELECT UniqueString FROM UserProfile WHERE Id = @id", new { id = idUser });
-                connection.Close();
+                var idUser = await connection.QuerySingleOrDefaultAsync<int>(sql, new { Username = username, UniqueString = uniqueString });
+                string userCookie = await connection.QueryFirstOrDefaultAsync<string>("SELECT UniqueString FROM UserProfile WHERE Id = @id", new { id = idUser });
                 return userCookie;
             }
             throw new NotImplementedException();

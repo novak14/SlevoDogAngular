@@ -8,11 +8,10 @@ namespace Catalog.Dal.Repository.Abstraction
 {
     public interface ISaleRepository
     {
-        IEnumerable<Sale> LoadAll();
+        Task<List<Sale>> LoadAllAsync();
         Task<Sale> LoadByIdAsync(int id);
-        void InsertComment(Comments comments);
-        List<Sale> LoadCheapest();
-        List<Sale> LoadNewest();
-        List<Sale> LoadBiggestSale();
+        Task<List<Sale>> LoadCheapestAsync();
+        Task<List<Sale>> LoadNewestAsync();
+        Task<List<Sale>> LoadBiggestSaleAsync();
     }
 }

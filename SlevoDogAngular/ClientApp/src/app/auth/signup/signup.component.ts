@@ -14,11 +14,10 @@ export class SignupComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSignup(form: NgForm) {
+  async onSignup(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    console.log('Email: ' + email + ' Password: ' + password);
-    this.authService.signupUser(email, password);
+    await this.authService.signupUser(email, password);
   }
 
 }

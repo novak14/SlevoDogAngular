@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Admin.Dal.Repository.Abstraction
 {
     public interface IInsertAdminRepository
     {
-        void Insert(SaleAdmin saleAdmin);
+        Task InsertAsync(SaleAdmin saleAdmin);
     }
 }

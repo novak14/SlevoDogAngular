@@ -21,7 +21,7 @@ export class CommentsComponent implements OnInit {
   constructor( private cookieService: CookieService,
                private catalogService: CatalogService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     const IsCookieExist = this.cookieService.get('UserComment');
     if (IsCookieExist) {
       this.commentForm.form.patchValue({
@@ -30,7 +30,7 @@ export class CommentsComponent implements OnInit {
         }
       });
       console.log('Exist: ' + IsCookieExist);
-      this.catalogService.getUserForComment(IsCookieExist).subscribe((res) => {
+      await this.catalogService.getUserForComment(IsCookieExist).then((res) => {
         this.cookieValue = res.toString();
       });
     }

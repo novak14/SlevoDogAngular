@@ -39,9 +39,4 @@ export class CatalogComponent implements OnInit {
     // this.sortServer(this.sortOrder);
     this.browse = await this.catalogService.getItems(this.sortOrder);
   }
-
-  checkCookie() {
-    const test = this.cookieService.get('Id');
-    console.log('TestCookie: ' + test);
-  }
 }

@@ -20,14 +20,13 @@ namespace SlevoDogAngular.Controllers
         }
 
         [HttpGet("[action]")]
-        public SaleViewModel Index(string sortOrder)
+        public async Task<SaleViewModel> AllItemsAsync(string sortOrder)
         {
             SaleViewModel sale = new SaleViewModel();
 
             try
             {
-                var test = _catalogService.LoadSorting(sortOrder);
-
+                var test = await _catalogService.LoadSortingAsync(sortOrder);
 
                 foreach (var item in test)
                 {
@@ -48,41 +47,7 @@ namespace SlevoDogAngular.Controllers
             {
                 throw new Exception(e.Message);
             }
-            
             return sale;
-        }
-
-        public IActionResult Filter(string sortOrder)
-        {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-
-            return View("Index");
-        }
-
-        [HttpPost("[action]")]
-        public void Register(string email)
-        {
-            //if (ModelState.IsValid)
-            //{
-            //    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            //    var result = await _userManager.CreateAsync(user, model.Password);
-            //    if (result.Succeeded)
-            //    {
-            //        _logger.LogInformation("User created a new account with password.");
-
-            //        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            //       // var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-            //       // await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-            //        await _signInManager.SignInAsync(user, isPersistent: false);
-            //        _logger.LogInformation("User created a new account with password.");
-            //        return RedirectToLocal(returnUrl);
-            //    }
-            //    AddErrors(result);
-            //}
-
-            // If we got this far, something failed, redisplay form
-            var test = email;
         }
     }
 }

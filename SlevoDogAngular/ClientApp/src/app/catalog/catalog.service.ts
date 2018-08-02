@@ -20,19 +20,9 @@ export class CatalogService {
   }
 
    async getItems(sortValue: string) {
-     return await this.http.get<Sale>(this.baseUrl + 'api/Catalog/Index', {
+     return await this.http.get<Sale>(this.baseUrl + 'api/Catalog/AllItemsAsync', {
       params: new HttpParams().set('sortOrder', sortValue)
     }).toPromise();
-  }
-
-  getItemsSync(sortValue: string) {
-    this.http.get<Sale>(this.baseUrl + 'api/Catalog/Index', {
-      params: new HttpParams().set('sortOrder', sortValue)
-    })
-    .subscribe((result: Sale) => {
-      this.test = result;
-    }, error => console.error(error));
-   return this.test;
   }
 
   async getSale(id: number) {
@@ -42,17 +32,17 @@ export class CatalogService {
   }
 
   async insertComment(comment: CommentsModel) {
-    return await this.http.post(this.baseUrl + 'api/Item/AddComments', comment).toPromise();
+    return await this.http.post(this.baseUrl + 'api/Item/AddCommentsAsync', comment).toPromise();
   }
 
-  getUserForComment(cookie: string) {
-    return this.http.get(this.baseUrl + 'api/Item/GetUserNameComment', {
+  async getUserForComment(cookie: string) {
+    return await this.http.get(this.baseUrl + 'api/Item/GetUserNameCommentAsync', {
       params: new HttpParams().set('cookie', cookie)
     });
   }
 
   async getComments(saleId: number) {
-    return await this.http.get<CommentsModel[]>(this.baseUrl + 'api/Item/GetComments', {
+    return await this.http.get<CommentsModel[]>(this.baseUrl + 'api/Item/GetCommentsAsync', {
       params: new HttpParams().set('saleId', String(saleId))
     }).toPromise();
   }
