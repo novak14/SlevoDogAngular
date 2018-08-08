@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Catalog.Dal.Entities;
+using Microsoft.AspNetCore.Authentication;
 
 namespace SlevoDogAngular.Controllers
 {

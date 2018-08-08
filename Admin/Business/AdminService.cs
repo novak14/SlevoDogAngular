@@ -21,5 +21,11 @@ namespace Admin.Business
             saleAdmin.DateInsert = DateTime.Now;
             await _insertAdminRepository.InsertAsync(saleAdmin);
         }
+
+        public async Task<List<Category>> GetCategories()
+        {
+            var categories = await _insertAdminRepository.GetCategories();
+            return categories;
+        }
     }
 }

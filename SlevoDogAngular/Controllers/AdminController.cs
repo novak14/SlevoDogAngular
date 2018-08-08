@@ -32,5 +32,12 @@ namespace SlevoDogAngular.Controllers
                 await _adminService.InsertSaleAsync(saleAdmin);
             }
         }
+        
+        [HttpGet("[action]")]
+        public async Task<List<Category>> GetCategories()
+        {
+            var categories = await _adminService.GetCategories();
+            return categories;
+        }
     }
 }

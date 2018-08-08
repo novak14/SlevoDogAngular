@@ -19,7 +19,8 @@ export class AdminModel {
               ValidTo: string,
               LinkFirm: string,
               Description: string,
-              Disabled: boolean) {
+              Disabled: boolean,
+              ) {
     this.Name = Name;
     this.PriceAfterSale = PriceAfterSale;
     this.AveragePrice = AveragePrice;

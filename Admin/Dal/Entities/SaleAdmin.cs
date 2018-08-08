@@ -44,5 +44,8 @@ namespace Admin.Dal.Entities
 
         public decimal PercentSale => Math.Round(100 - (PriceAfterSale * 100 / OriginPrice));
 
+        public int[] CheckedCategories { get; set; }
+
+
     }
 }

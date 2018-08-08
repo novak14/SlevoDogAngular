@@ -14,6 +14,11 @@ export class AdminService {
   }
 
   sendAdminForm(adminFormModel: AdminModel) {
+    console.log('adminForm: ' + JSON.stringify(adminFormModel));
     return this.http.post(this.baseUrl + 'api/Admin/InsertItemAsync', adminFormModel).toPromise();
+  }
+
+  async GetCategories() {
+    return await this.http.get(this.baseUrl + 'api/Admin/GetCategories').toPromise();
   }
 }

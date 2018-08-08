@@ -9,5 +9,6 @@ namespace Admin.Dal.Repository.Abstraction
     public interface IInsertAdminRepository
     {
         Task InsertAsync(SaleAdmin saleAdmin);
+        Task<List<Category>> GetCategories();
     }
 }

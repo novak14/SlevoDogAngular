@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,15 @@ namespace Admin.Dal.Repository.Implementation
                     bDisabled = saleAdmin.Disabled,
                     PercentSale = saleAdmin.PercentSale
                 });
+            }
+        }
+
+        public async Task<List<Category>> GetCategories()
+        {
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var categories = (await connection.QueryAsync<Category>("SELECT * FROM Category")).ToList();
+                return categories;
             }
         }
     }
