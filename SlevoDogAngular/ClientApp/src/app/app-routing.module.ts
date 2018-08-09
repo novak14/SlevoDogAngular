@@ -14,11 +14,11 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'fetch-data', component: FetchDataComponent },
-  { path: 'catalog', component: CatalogComponent, canActivate: [AuthGuard]},
-  { path: 'item/:id', component: ItemComponent, canActivate: [AuthGuard]},
+  { path: 'catalog', component: CatalogComponent},
+  { path: 'item/:id', component: ItemComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'signin', component: SigninComponent},
-  { path: 'admin', component: AdminComponent},
+  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
 ];
 
 @NgModule({

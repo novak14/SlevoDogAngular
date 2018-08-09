@@ -14,14 +14,16 @@ export class CommentsComponent implements OnInit {
   @ViewChild('f') commentForm: NgForm;
   commentModel: CommentsModel;
   @Input() saleId: number;
-  @Input() comments: CommentsModel[];
+  comments: CommentsModel[];
   gest: CommentsModel[];
   username: string;
+  showFormAnswer = false;
 
   constructor( private cookieService: CookieService,
                private catalogService: CatalogService) { }
 
   async ngOnInit() {
+    await this.refreshComments();
     const IsCookieExist = this.cookieService.get('UserComment');
     if (IsCookieExist) {
       this.commentForm.form.patchValue({
@@ -38,6 +40,16 @@ export class CommentsComponent implements OnInit {
 
   async onSubmit() {
     this.commentModel = new CommentsModel(this.saleId, this.commentForm.value.username, this.commentForm.value.commentText);
+    await this.catalogService.insertComment(this.commentModel).then(res => {
+      this.cookieService.set('UserComment', res.toString());
+    });
+    this.commentForm.reset();
+    await this.refreshComments();
+  }
+
+  async onSubmitAnswer(parentCommentId: number) {
+    this.commentModel = new CommentsModel(this.saleId, this.commentForm.value.username, this.commentForm.value.commentText);
+    this.commentModel.fkParrentComment = parentCommentId;
     await this.catalogService.insertComment(this.commentModel).then(res => {
       this.cookieService.set('UserComment', res.toString());
     });

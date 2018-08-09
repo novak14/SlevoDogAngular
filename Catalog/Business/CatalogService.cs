@@ -44,7 +44,7 @@ namespace Catalog.Business
             return test;
         }
 
-        public async Task<string> InsertCommentAsync(string AuthorName, string Text, int Id, string IdUser = null)
+        public async Task<string> InsertCommentAsync(string AuthorName, string Text, int Id, int? ParentCommentId, string IdUser = null)
         {
             Comments comments = new Comments
             {
@@ -54,7 +54,8 @@ namespace Catalog.Business
                 Name = AuthorName,
                 Text = Text,
                 Rank = 0,
-                FkUser = IdUser
+                FkUser = IdUser,
+                FkParrentComment = ParentCommentId
             };
             await _commentRepository.InsertCommentAsync(comments);
 

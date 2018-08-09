@@ -40,10 +40,9 @@ namespace Catalog.Dal.Repository.Implementation
 
             try
             {
-                var outParam = new DynamicParameters();
                 using (var connection = new SqlConnection(_options.connectionString))
                 {
-                    var affRows = await connection.QuerySingleOrDefaultAsync<int>(sql, new
+                    var affRows = await connection.ExecuteAsync(sql, new
                     {
                         FkSale = comments.FkSale,
                         DateInsert = comments.DateInsert,

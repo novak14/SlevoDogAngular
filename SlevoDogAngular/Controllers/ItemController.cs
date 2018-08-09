@@ -71,7 +71,7 @@ namespace SlevoDogAngular.Controllers
         [HttpPost("[action]")]
         public async Task<JsonResult> AddCommentsAsync([FromBody]CommentsViewModel model)
         {
-            string cookie = await _catalogService.InsertCommentAsync(model.Name, model.Text, model.Id);
+            string cookie = await _catalogService.InsertCommentAsync(model.Name, model.Text, model.Id, model.FkParrentComment);
             return Json(cookie);
         }
 

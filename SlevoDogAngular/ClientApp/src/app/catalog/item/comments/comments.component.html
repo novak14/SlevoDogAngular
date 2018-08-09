@@ -1,19 +1,67 @@
+<h2>Komentáře</h2>
 <div class="row" *ngFor="let comm of comments">
-  <div class="col-xs-12">
+  <ng-template [ngIf]="comm.fkParrentComment === null">
+  <div class="col-xs-12 comment">
 
-    <div>
-      <img src="../../../../assets/images/dog(1).svg" alt="user profile" style="height: 50px;" />
-      </div>
-    <h4>{{ comm.name }}</h4>
-      <div>
+    <div class="imageWithName">
+        <img class="adjustImage" src="../../../../assets/images/dog(1).svg" alt="user profile"/>
+        <span class="adjustName">{{ comm.name }}</span>
+    </div>
+
+      <div class="commentText">
         <p>{{ comm.text }}</p>
       </div>
-      <div>
+      <div class="commentDate">
         {{ comm.dateInsert }}
       </div>
-      <a>Odpovědět</a>
+      <a (click)="comm.check = true">Odpovědět</a>
+  </div>
+
+  </ng-template>
+  <div *ngFor="let parrComm of comments">
+    <ng-template [ngIf]="comm.id === parrComm.fkParrentComment">
+      <div class="col-xs-12 answer">
+
+        <div class="imageWithName">
+          <img class="adjustImage" src="../../../../assets/images/dog(3).svg" alt="user profile"/>
+          <span class="adjustName">{{ parrComm.name }}</span>
+        </div>
+
+        <div class="commentText">
+          <p>{{ parrComm.text }}</p>
+        </div>
+        <div class="commentDate">
+          {{ parrComm.dateInsert }}
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+    <div *ngIf="comm.check">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <form (ngSubmit)="onSubmitAnswer(comm.id)" #f="ngForm">
+              <div class="form-group">
+                <label for="username">Název</label>
+                <input class="form-control" type="text" id="responseUsername"
+                       ngModel
+                       name="username"
+                       required />
+              </div>
+              <div class="form-group">
+          <textarea name="commentText"
+                    rows="3"
+                    class="form-control"
+                    ngModel
+                    required></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Odeslat</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <hr>
   </div>
 <div class="container">
   <div class="row">
