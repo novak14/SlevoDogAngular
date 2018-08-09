@@ -9,6 +9,7 @@ export class AdminModel {
   public LinkFirm: string;
   public Description: string;
   public Disabled: boolean;
+  public CheckedCategories: number[];
 
   constructor(Name: string,
               PriceAfterSale: number,
@@ -20,7 +21,7 @@ export class AdminModel {
               LinkFirm: string,
               Description: string,
               Disabled: boolean,
-              ) {
+              CheckedCategories: number[]) {
     this.Name = Name;
     this.PriceAfterSale = PriceAfterSale;
     this.AveragePrice = AveragePrice;
@@ -31,5 +32,6 @@ export class AdminModel {
     this.LinkFirm = LinkFirm;
     this.Description = Description;
     this.Disabled = Disabled;
+    this.CheckedCategories = CheckedCategories;
   }
 }

@@ -28,11 +28,14 @@ namespace Admin.Dal.Repository.Implementation
         public async Task InsertAsync(SaleAdmin saleAdmin)
         {
             string sql = @"INSERT INTO Sale(Name, PriceAfterSale, AveragePrice, OriginPrice, Image, DateInsert, ValidFrom, ValidTo, LinkFirm, Description, bDisabled, PercentSale) 
-                            VALUES(@Name, @PriceAfterSale, @AveragePrice, @OriginPrice, @Image, @DateInsert, @ValidFrom, @ValidTo, @LinkFirm, @Description, @bDisabled, @PercentSale);";
+                            VALUES(@Name, @PriceAfterSale, @AveragePrice, @OriginPrice, @Image, @DateInsert, @ValidFrom, @ValidTo, @LinkFirm, @Description, @bDisabled, @PercentSale);
+                            SELECT CAST(SCOPE_IDENTITY() as int);";
+
+            string sql2 = @"INSERT INTO CategorySale(FkCategoryId,FkSaleId) VALUES (@FkCategoryId, @FkSaleId);";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                var affRows = await connection.ExecuteAsync(sql, new
+                var saleId = await connection.QuerySingleOrDefaultAsync<int>(sql, new
                 {
                     Name = saleAdmin.Name,
                     PriceAfterSale = saleAdmin.PriceAfterSale,
@@ -47,6 +50,18 @@ namespace Admin.Dal.Repository.Implementation
                     bDisabled = saleAdmin.Disabled,
                     PercentSale = saleAdmin.PercentSale
                 });
+
+                try
+                {
+                    foreach (var item in saleAdmin.CheckedCategories)
+                    {
+                        var test = await connection.ExecuteAsync(sql2, new { FkCategoryId = item, FkSaleId = saleId });
+
+                    }
+                } catch( Exception e)
+                {
+                    var test = e;
+                }
             }
         }
 

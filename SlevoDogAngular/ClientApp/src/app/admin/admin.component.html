@@ -61,16 +61,16 @@
                  name="validTo">
         </div>
 
-        <div class="form-group" *ngFor="let option of categoryModel">
-          <label for="option">{{option.name}}
-          <input type="checkbox" id="option" class="form-control checkbox"
+        <div class="form-group form-check" *ngFor="let option of categoryModel">
+          <label for="option" class="form-check-label">{{option.name}}
+          <input type="checkbox" id="option" class="form-control checkbox form-check-input"
                  [(ngModel)]="option.checkCategory"
                  name="test1">
           </label>
         </div>
         <!--<div class="checkbox">-->
         <!--<label for="Disabled">-->
-        <!--<input class="checkbox" type="checkbox" id="Disabled" [ngModel]="false" />-->
+        <!--<input class="caadfsdfasheckbox" type="checkbox" id="Disabled" [ngModel]="false" />-->
         <!--Vypnout-->
         <!--</label>-->
         <!--<br />-->

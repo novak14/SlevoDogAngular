@@ -42,7 +42,7 @@ console.log('Box: ' + this.checkCategoryBox);
       this.adminForm.value.originPrice, this.adminForm.value.image,
       this.adminForm.value.validFrom, this.adminForm.value.validTo,
       this.adminForm.value.linkFirm, this.adminForm.value.description,
-      true);
+      true, this.checkCategoryBox);
     // this.adminForm.value.disabled
     // console.log('Checkbox: ' + this.adminForm.value.option);
 
