@@ -29,6 +29,19 @@
   padding-left: 45px;
 }
 
+#buttonStyleAnswer {
+  background-color: #de7824;
+  color: white;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+}
+
+/*.btn-primary {*/
+  /*background-color: #de7824;*/
+  /*color: white;*/
+/*}*/
+
 .commentText {
   max-width: 900px;
 }

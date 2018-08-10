@@ -41,14 +41,8 @@
     </ng-template>
   </div>
 
-  <!--<div class="row" *ngIf="comm.fkParrentComment === null">-->
-    <!--<div class="col-lg-6 col-lg-offset-1">-->
-      <!--<a class="btn btn-primary" (click)="fillAnswer(comm)">Odpovědět </a>-->
-    <!--</div>-->
-  </div>
-
   <div class="answerButton" *ngIf="comm.fkParrentComment === null">
-    <a class="btn btn-primary" (click)="fillAnswer(comm)">Odpovědět </a>
+    <a class="btn" id="buttonStyleAnswer" (click)="fillAnswer(comm)">Odpovědět </a>
   </div>
 
     <div *ngIf="comm.check && showFormAnswer">
@@ -76,9 +70,10 @@
     </div>
   </div>
 
+<div class="row">
 <div class="container" *ngIf="!showFormAnswer; else addNormalComment">
   <div class="row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 col-lg-12 col-md-12">
       <form (ngSubmit)="onSubmit()" #f="ngForm">
         <div class="form-group">
           <label for="username"></label>
@@ -102,6 +97,7 @@
   </div>
 </div>
 <div>
+</div>
   <ng-template #addNormalComment>
     <a class="btn btn-primary" (click)="showFormAnswer = false">Přidat komentář</a>
   </ng-template>
