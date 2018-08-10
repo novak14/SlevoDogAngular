@@ -11,10 +11,12 @@
       <div class="commentText">
         <p>{{ comm.text }}</p>
       </div>
+
       <div class="commentDate">
         {{ comm.dateInsert }}
       </div>
-      <a (click)="comm.check = true">Odpovědět</a>
+
+      <a (click)="fillAnswer(comm)">Odpovědět</a>
   </div>
 
   </ng-template>
@@ -30,40 +32,40 @@
         <div class="commentText">
           <p>{{ parrComm.text }}</p>
         </div>
+
         <div class="commentDate">
           {{ parrComm.dateInsert }}
         </div>
+
       </div>
     </ng-template>
   </div>
 
-    <div *ngIf="comm.check">
+    <div *ngIf="comm.check && showFormAnswer">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
-            <form (ngSubmit)="onSubmitAnswer(comm.id)" #f="ngForm">
+            <form [formGroup]="answerCommentForm" (ngSubmit)="onSubmitAnswer(comm.id)">
               <div class="form-group">
-                <label for="username">Název</label>
+                <label for="responseUsername">Jméno</label>
                 <input class="form-control" type="text" id="responseUsername"
-                       ngModel
-                       name="username"
-                       required />
+                       formControlName="responseUsername"
+                       />
               </div>
               <div class="form-group">
-          <textarea name="commentText"
+                 <textarea formControlName="commentText"
                     rows="3"
-                    class="form-control"
-                    ngModel
-                    required></textarea>
+                    class="form-control"></textarea>
               </div>
-              <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Odeslat</button>
+              <button *ngIf="answerCommentForm.valid" class="btn btn-primary" type="submit">Odeslat</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-<div class="container">
+
+<div class="container" *ngIf="!showFormAnswer; else addNormalComment">
   <div class="row">
     <div class="col-xs-12">
       <form (ngSubmit)="onSubmit()" #f="ngForm">
@@ -86,7 +88,9 @@
     </div>
   </div>
 </div>
-    <i class="material-icons">
-      comment
-    </i>
+<div>
+  <ng-template #addNormalComment>
+    <a class="btn btn-primary" (click)="showFormAnswer = false">Přidat komentář</a>
+  </ng-template>
+</div>
 
