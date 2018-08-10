@@ -9,7 +9,7 @@ namespace SlevoDogAngular.Models.CatalogViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public DateTime DateInsert { get; set; }
+        public string DateInsert { get; set; }
         public int Rank { get; set; }
         public string Text { get; set; }
         public int? FkParrentComment { get; set; }

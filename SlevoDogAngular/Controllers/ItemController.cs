@@ -59,7 +59,7 @@ namespace SlevoDogAngular.Controllers
                 {
                     Name = item.Name,
                     Text = item.Text,
-                    DateInsert = item.DateInsert,
+                    DateInsert = TimeAgo(item.DateInsert),
                     Rank = item.Rank
                 };
                 saleItem.Comments.Add(commentsViewModel);
@@ -86,9 +86,59 @@ namespace SlevoDogAngular.Controllers
         public async Task<List<CommentsViewModel>> GetCommentsAsync(int saleId)
         {
             var comments = await _catalogService.GetCommentsAsync(saleId);
-            List<CommentsViewModel> commentsMap = Mapper.Map<List<Comments>, List<CommentsViewModel>>(comments);
+            //List<CommentsViewModel> commentsMap = Mapper.Map<List<Comments>, List<CommentsViewModel>>(comments);
+            List<CommentsViewModel> commentsMap = new List<CommentsViewModel>();
+
+            foreach (var item in comments)
+            {
+                CommentsViewModel commentsViewModel = new CommentsViewModel
+                {
+                    Name = item.Name,
+                    Text = item.Text,
+                    DateInsert = TimeAgo(item.DateInsert),
+                    Rank = item.Rank,
+                    FkParrentComment = item.FkParrentComment,
+                    Id = item.Id
+                };
+                commentsMap.Add(commentsViewModel);
+            }
 
             return commentsMap;
+        }
+
+        public string TimeAgo(DateTime dt)
+        {
+            TimeSpan span = DateTime.Now - dt;
+            if (span.Days > 365)
+            {
+                int years = (span.Days / 365);
+                if (span.Days % 365 != 0)
+                    years += 1;
+                return String.Format("před {0} {1}",
+                years, years == 1 ? "rokem" : "roky");
+            }
+            if (span.Days > 30)
+            {
+                int months = (span.Days / 30);
+                if (span.Days - (months * 30) > 15)
+                    months += 1;
+                return String.Format("před {0} {1}",
+                months, months == 1 ? "měsícem" : "měsíci");
+            }
+            if (span.Days > 0)
+                return String.Format("před {0} {1}",
+                span.Days, span.Days == 1 ? "dnem" : "dny");
+            if (span.Hours > 0)
+                return String.Format("před {0} hod",
+                span.Hours);
+            if (span.Minutes > 0)
+                return String.Format("před {0} min",
+                span.Minutes);
+            if (span.Seconds > 5)
+                return String.Format("před {0} sekundami", span.Seconds);
+            if (span.Seconds <= 5)
+                return "just now";
+            return string.Empty;
         }
     }
 }

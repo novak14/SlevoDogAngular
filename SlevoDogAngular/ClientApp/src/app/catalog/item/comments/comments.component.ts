@@ -60,7 +60,8 @@ export class CommentsComponent implements OnInit {
     await this.catalogService.insertComment(this.commentModel).then(res => {
       this.cookieService.set('UserComment', res.toString());
     });
-    this.commentForm.reset();
+    this.showFormAnswer = false;
+    this.answerCommentForm.reset();
     await this.initFormWithCookie();
   }
 
@@ -81,6 +82,7 @@ export class CommentsComponent implements OnInit {
         comment.check = false;
       }
     }
+console.log('asd');
     this.showFormAnswer = true;
     comm.check = true;
 

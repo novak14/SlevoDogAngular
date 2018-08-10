@@ -4,21 +4,28 @@
 }
 
 .adjustImage {
-  height: 40px;
-  width: 40px;
-  margin-right: 0.6rem;
+  height: 35px;
+  width: 35px;
+  margin-right: 0.55rem;
 }
 
 .adjustName {
   font-weight: 800;
+  font-size: 1.4rem;
   color: black;
 }
 
 .comment {
-
+  border-top: 0.8px solid #2023261a;
+  padding-top: 1.7rem;
 }
 
 .answer {
+  padding-left: 45px;
+}
+
+.answerButton {
+  margin-bottom: 0.4rem;
   padding-left: 45px;
 }
 
@@ -26,7 +33,21 @@
   max-width: 900px;
 }
 
+.commentDate {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.9rem;
+  color: gray;
+  margin-bottom: 1rem;
+  /*border-bottom: 1.1px solid #2023261a;*/
+}
+
 p {
-  font-size: 2.1rem;
-  line-height: 1.5rem;
+  font-size: 1.3rem;
+  line-height: 1.4rem;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
 }
