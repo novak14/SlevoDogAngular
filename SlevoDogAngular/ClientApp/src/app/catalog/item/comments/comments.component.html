@@ -62,7 +62,7 @@
                            placeholder="Přidej svůj komentář"
                            class="form-control"></textarea>
               </div>
-              <button *ngIf="answerCommentForm.valid" class="btn btn-primary" type="submit">Odeslat</button>
+              <button *ngIf="answerCommentForm.valid" class="btn sendButton" type="submit">Odeslat</button>
             </form>
           </div>
         </div>
@@ -91,7 +91,7 @@
                     ngModel
                     required></textarea>
         </div>
-        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">Odeslat</button>
+        <button class="btn sendButton" type="submit" [disabled]="!f.valid">Odeslat koment</button>
       </form>
     </div>
   </div>
@@ -99,7 +99,7 @@
 <div>
 </div>
   <ng-template #addNormalComment>
-    <a class="btn btn-primary" (click)="showFormAnswer = false">Přidat komentář</a>
+    <a class="btn sendButton" (click)="showFormAnswer = false">Přidat komentář</a>
   </ng-template>
 </div>
 

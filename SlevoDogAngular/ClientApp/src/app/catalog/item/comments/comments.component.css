@@ -26,7 +26,7 @@
 
 .answerButton {
   margin-bottom: 0.4rem;
-  padding-left: 45px;
+  padding-left: 15px;
 }
 
 #buttonStyleAnswer {
@@ -37,10 +37,14 @@
   border-radius: 25px;
 }
 
-/*.btn-primary {*/
-  /*background-color: #de7824;*/
-  /*color: white;*/
-/*}*/
+.sendButton {
+  margin-bottom: 1rem;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  background-color: #31c51ddb;
+  color: white;
+}
 
 .commentText {
   max-width: 900px;
@@ -56,8 +60,11 @@
 }
 
 p {
-  font-size: 1.3rem;
-  line-height: 1.4rem;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  word-break: break-word;
+  -ms-word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 textarea {
