@@ -112,3 +112,35 @@ a {
 .corner-ribbon.red {
   background: #e43;
 }
+
+.image {
+  height: 350px;
+}
+
+img {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.descriptionImage {
+  margin-top: 1rem;
+}
+
+.adjustImage {
+  height: 65px;
+  width: 50%;
+}
+
+.saleName {
+  margin-bottom: 2.5rem;
+}
+
+.voteIcon {
+  height: 4rem;
+  width: 4rem;
+}
+
+.votes {
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+}

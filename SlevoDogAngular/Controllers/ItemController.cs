@@ -137,7 +137,7 @@ namespace SlevoDogAngular.Controllers
             if (span.Seconds > 5)
                 return String.Format("před {0} sekundami", span.Seconds);
             if (span.Seconds <= 5)
-                return "just now";
+                return "právě teď";
             return string.Empty;
         }
     }

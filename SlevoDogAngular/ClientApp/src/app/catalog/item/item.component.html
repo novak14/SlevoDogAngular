@@ -2,13 +2,22 @@
 
 
 <div class="container" style="background-color: white; border-radius: 10px;" *ngIf="item">
-  <div class="row">
+  <div class="row descriptionImage">
     <div class="col-lg-6 col-md-7 col-xs-12 text-center box left">
-      <img src="{{ item.image }}" alt="" height="auto" width="100%">
-    </div>
-    <div class="col-lg-6 col-md-5 col-xs-6">
-      <div>
+      <div class="saleName">
         <h1>{{  item.name }}</h1>
+      </div>
+    <div  class="image">
+      <img src="{{ item.image }}" alt="">
+    </div>
+    </div>
+
+    <div class="col-lg-6 col-md-5 col-xs-6">
+
+      <div class="votes">
+        <img class="voteIcon" src="../../../assets/images/dog(5).svg" alt="upvote"/>
+        <img class="adjustImage" src="../../../assets/images/dog-bone.png" alt="bone"/>
+        <img class="voteIcon" src="../../../assets/images/dog(6).svg" alt="downvote"/>
       </div>
 
       <div class="text-left">

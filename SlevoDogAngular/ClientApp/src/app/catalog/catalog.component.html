@@ -1,6 +1,8 @@
 <p *ngIf="!browse"><em>Loading...</em></p>
 <!--fragment="price_desc-->
 <div *ngIf="browse">
+  <div class="container" style="width: 70%">
+
   <div>
   <a [routerLink]="['/catalog']"
     [queryParams]="{sort: 'cheapest'}"
@@ -62,4 +64,4 @@
   </div>
 </div>
 </div>
-<a (click)="checkCookie()">Testuj to</a>
+</div>
