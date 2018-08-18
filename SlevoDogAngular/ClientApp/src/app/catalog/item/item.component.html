@@ -2,39 +2,56 @@
 
 
 <div class="container" style="background-color: white; border-radius: 10px;" *ngIf="item">
-  <div class="row descriptionImage">
-    <div class="col-lg-6 col-md-7 col-xs-12 text-center box left">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="descriptionImage">
+        <p><span class='glyphicon glyphicon-home'></span> -> Katkzs</p>
+      </div>
+    </div>
+  </div>
+  <div class="row headerItem">
+    <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6 text-center">
       <div class="saleName">
         <h1>{{  item.name }}</h1>
       </div>
-    <div  class="image">
-      <img src="{{ item.image }}" alt="">
     </div>
-    </div>
-
-    <div class="col-lg-6 col-md-5 col-xs-6">
-
+      <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6 text-center">
       <div class="votes">
         <img class="voteIcon" src="../../../assets/images/dog(5).svg" alt="upvote"/>
         <img class="adjustImage" src="../../../assets/images/dog-bone.png" alt="bone"/>
         <img class="voteIcon" src="../../../assets/images/dog(6).svg" alt="downvote"/>
       </div>
-
+    </div>
+  </div>
+      <div class="row" style="margin-bottom: 1rem;">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+        <div  class="image">
+            <img src="{{ item.image }}" alt="">
+        </div>
+    </div>
+        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
       <div class="text-left">
         <p style="font-size: 1.5rem; font-weight: 300;">{{ item.description }}</p>
       </div>
 
-      <div style="color: lightgray; font-size: 2rem;">
-        <s>{{ item.originPrice}}</s>
+      <div class="blockBuy">
+        <div style="color: lightgray; font-size: 2rem;">
+          <s>{{ item.originPrice}}</s>
+        </div>
+        <div class="priceSaleItem">
+          {{ item.priceAfterSale }} <span style="font-size: 2rem; color: #abb0bfe6;">(-{{ item.percentSale }}%)</span>
+        </div>
       </div>
-      <div class="priceSaleItem">
-        {{ item.priceAfterSale }} <span style="font-size: 2rem; color: #abb0bfe6;">(-{{ item.percentSale }}%)</span>
-      </div>
-      <div>
-        <a href="{{ item.linkFirm }}" target="_blank" class="btn btn-success btn-lg" style="background-color: #0fcc0ae6; font-size: 2rem;">Přejít do obchodu</a>
-      </div>
-      <div>
-        Vloženo: {{ item.dateInsert | date }}
+
+      <div class="btnMS">
+          <a href="{{ item.linkFirm }}" target="_blank" class="btn buttonMoveShop">Přejít do obchodu</a>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="dateInsert">
+        Nalezeno: {{ item.dateInsert | date }}
       </div>
     </div>
   </div>

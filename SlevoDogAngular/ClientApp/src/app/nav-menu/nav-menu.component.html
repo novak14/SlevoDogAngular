@@ -25,7 +25,7 @@
                 <li><a routerLink="/signin">Login</a></li>
               </ng-template>
               <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
-              <li *ngIf="authService.isAuthenticated()" [routerLinkActive]='["link-active"]'>
+              <li>
                 <a [routerLink]='["/catalog"]' (click)='collapse()'>
                   <span class='glyphicon glyphicon-th-list'></span> Catalog
                 </a>

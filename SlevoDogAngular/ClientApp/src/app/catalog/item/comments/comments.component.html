@@ -13,9 +13,10 @@
       </div>
 
       <div class="commentDate">
-        <!--<a class="answerButton" (click)="fillAnswer(comm)">Odpovědět </a>-->
         <div> {{ comm.dateInsert }} </div>
       </div>
+
+    <a class="btn btn-primary" (click)="addRank(comm.id)">Thumbs Up</a>
 
   </div>
 
@@ -36,6 +37,8 @@
         <div class="commentDate">
           {{ parrComm.dateInsert }}
         </div>
+
+        <a class="btn btn-primary" (click)="addRank(parrComm.id)">Thumbs Up</a>
 
       </div>
     </ng-template>

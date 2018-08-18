@@ -46,4 +46,10 @@ export class CatalogService {
       params: new HttpParams().set('saleId', String(saleId))
     }).toPromise();
   }
+
+  async addRankToComment(commId: number, rank: number) {
+    return await this.http.post(this.baseUrl + 'api/Item/GetCommentsAsync', {
+      params: new HttpParams().set('commentId', String(commId))
+    }).toPromise();
+  }
 }

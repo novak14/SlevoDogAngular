@@ -85,6 +85,12 @@ export class CommentsComponent implements OnInit {
 console.log('asd');
     this.showFormAnswer = true;
     comm.check = true;
+  }
 
+  addRank(commId: number) {
+    console.log('Id: ' + commId);
+    const check = this.comments.find( tes => tes.id === commId).rank + 1;
+    console.log('check: ' + JSON.stringify(check));
+    // const test = this.catalogService.addRankToComment(commId, check);
   }
 }

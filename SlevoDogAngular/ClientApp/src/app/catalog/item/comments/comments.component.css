@@ -30,7 +30,8 @@
 }
 
 #buttonStyleAnswer {
-  background-color: #de7824;
+  /*background-color: #de7824;*/
+  background-color: #0b0af1;
   color: white;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;

@@ -53,7 +53,7 @@ namespace SlevoDogAngular.Controllers
                 DateInsert = test1.DateInsert,
             };
 
-            foreach(var item in test1.Comments)
+            foreach (var item in test1.Comments)
             {
                 CommentsViewModel commentsViewModel = new CommentsViewModel
                 {
