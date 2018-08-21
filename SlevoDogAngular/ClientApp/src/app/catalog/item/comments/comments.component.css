@@ -72,3 +72,14 @@ textarea {
   min-height: 90px;
   resize: vertical;
 }
+
+.likeImage {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.buttonLike {
+  margin-right: .55rem;
+  text-decoration: none;
+  cursor: pointer;
+}

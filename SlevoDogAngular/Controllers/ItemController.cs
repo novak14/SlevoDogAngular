@@ -89,6 +89,17 @@ namespace SlevoDogAngular.Controllers
             //List<CommentsViewModel> commentsMap = Mapper.Map<List<Comments>, List<CommentsViewModel>>(comments);
             List<CommentsViewModel> commentsMap = new List<CommentsViewModel>();
 
+            var childs = comments.Where(x => x.Rank > 0 && x.FkParrentComment != null).OrderBy(c => c.Rank).ToList();
+            foreach (var childComment in childs)
+            {
+                var index = comments.FindIndex(a => a.Id == childComment.FkParrentComment);
+                var indexChildren = comments.FindIndex(b => b.Id == childComment.Id);
+                var changeParrentPosition = comments[index];
+                comments.RemoveAt(index);
+                comments.Insert(indexChildren, changeParrentPosition);
+            }
+
+
             foreach (var item in comments)
             {
                 CommentsViewModel commentsViewModel = new CommentsViewModel
@@ -104,6 +115,18 @@ namespace SlevoDogAngular.Controllers
             }
 
             return commentsMap;
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> RankComment([FromBody]CommentsViewModel commentsViewModel)
+        {
+            if (commentsViewModel.Id > 0 && commentsViewModel.Rank > 0)
+            {
+                await _catalogService.AddRankForComment(commentsViewModel.Id, commentsViewModel.Rank);
+                return Ok();
+            }
+
+            return BadRequest();
         }
 
         public string TimeAgo(DateTime dt)

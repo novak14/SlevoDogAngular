@@ -29,7 +29,7 @@ namespace Catalog.Dal.Repository.Implementation
         {
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                return (await connection.QueryAsync<Comments>("SELECT * FROM Comments WHERE FkSale = @Id", new { Id = saleId })).ToList();
+                return (await connection.QueryAsync<Comments>("SELECT * FROM Comments WHERE FkSale = @Id order by Rank desc, DateInsert desc", new { Id = saleId })).ToList();
             }
         }
 
@@ -53,6 +53,23 @@ namespace Catalog.Dal.Repository.Implementation
                         FkParrentComment = comments.FkParrentComment,
                         Disabled = comments.Disabled
                     });
+                }
+            }
+            catch (Exception e)
+            {
+                var ts = e;
+            }
+        }
+
+        public async Task AddRank(int commentId, int rank)
+        {
+            string sql = @"UPDATE Comments SET Rank = @Rank WHERE Id = @Id;";
+
+            try
+            {
+                using (var connection = new SqlConnection(_options.connectionString))
+                {
+                    var affRows = await connection.ExecuteAsync(sql, new { Rank = rank, Id = commentId });
                 }
             }
             catch (Exception e)

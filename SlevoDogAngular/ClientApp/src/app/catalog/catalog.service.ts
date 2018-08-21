@@ -12,8 +12,6 @@ export class CatalogService {
   test: Sale;
   username: string;
   testas: CommentsModel[];
-  // public comment = new CommentsModel(32, 'Maca', 'Super');
-  //
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -47,9 +45,10 @@ export class CatalogService {
     }).toPromise();
   }
 
-  async addRankToComment(commId: number, rank: number) {
-    return await this.http.post(this.baseUrl + 'api/Item/GetCommentsAsync', {
-      params: new HttpParams().set('commentId', String(commId))
+  async addRankToComment(commentId: number, rank: number) {
+    return await this.http.put(this.baseUrl + 'api/Item/RankComment', {
+      id: commentId,
+      rank: rank
     }).toPromise();
   }
 }

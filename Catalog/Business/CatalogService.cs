@@ -62,6 +62,11 @@ namespace Catalog.Business
             return await InsertUserFromCommentsAsync(AuthorName);
         }
 
+        public async Task AddRankForComment(int commentId, int rank)
+        {
+            await _commentRepository.AddRank(commentId, rank);
+        }
+
         public async Task<User> CheckUserCookieAsync(string cookie)
         {
             return await _userRepository.GetUserByCookieAsync(cookie);

@@ -10,5 +10,6 @@ namespace Catalog.Dal.Repository.Abstraction
     {
         Task<List<Comments>> GetCommentsAsync(int saleId);
         Task InsertCommentAsync(Comments comments);
+        Task AddRank(int commentId, int rank);
     }
 }

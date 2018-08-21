@@ -87,10 +87,14 @@ console.log('asd');
     comm.check = true;
   }
 
-  addRank(commId: number) {
-    console.log('Id: ' + commId);
-    const check = this.comments.find( tes => tes.id === commId).rank + 1;
-    console.log('check: ' + JSON.stringify(check));
-    // const test = this.catalogService.addRankToComment(commId, check);
-  }
+  async addRank(commId: number) {
+    const comment = this.comments.find( tes => tes.id === commId);
+    const rank = comment.rank + 1;
+    await this.catalogService.addRankToComment(commId, Number(rank))
+      .then( res => {
+    })
+      .catch(console.log);
+
+    comment.rank += 1;
+    }
 }

@@ -6,17 +6,23 @@
     <div class="imageWithName">
         <img class="adjustImage" src="../../../../assets/images/dog(1).svg" alt="user profile"/>
         <span class="adjustName">{{ comm.name }}</span>
+
+
     </div>
 
       <div class="commentText">
-        <p>{{ comm.text }}</p>
+        <p>
+          <a (click)="addRank(comm.id)" class="buttonLike">
+            <img class="likeImage" src="../../../../assets/images/like.svg" alt="like comment"/>
+          </a>
+        {{ comm.text }}
+        </p>
       </div>
 
       <div class="commentDate">
         <div> {{ comm.dateInsert }} </div>
       </div>
 
-    <a class="btn btn-primary" (click)="addRank(comm.id)">Thumbs Up</a>
 
   </div>
 
@@ -30,15 +36,19 @@
           <span class="adjustName">{{ parrComm.name }}</span>
         </div>
 
+
         <div class="commentText">
-          <p>{{ parrComm.text }}</p>
+          <p>
+            <a (click)="addRank(parrComm.id)" class="buttonLike">
+              <img class="likeImage" src="../../../../assets/images/like.svg" alt="like comment"/>
+            </a>
+            {{ parrComm.text }}
+          </p>
         </div>
 
         <div class="commentDate">
           {{ parrComm.dateInsert }}
         </div>
-
-        <a class="btn btn-primary" (click)="addRank(parrComm.id)">Thumbs Up</a>
 
       </div>
     </ng-template>
