@@ -30,13 +30,7 @@ namespace SlevoDogAngular.Controllers
         [HttpGet("[action]")]
         public async Task<SaleViewModel> ItemAsync(int? id)
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var check = User.Identity.IsAuthenticated;
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             var test1 = id != null ? await _catalogService.LoadByIdAsync(id.Value) : throw new Exception(nameof(id));
-            stopwatch.Stop();
-            var dapper = stopwatch.Elapsed;
 
             SaleViewModel saleItem = new SaleViewModel
             {
@@ -51,21 +45,18 @@ namespace SlevoDogAngular.Controllers
                 Description = test1.Description,
                 PercentSale = (int)test1.PercentSale,
                 DateInsert = test1.DateInsert,
+                RankSale = test1.RankSale,
+                CategoryName = test1.Category?.Name ?? "Ostatní"
             };
 
-            foreach (var item in test1.Comments)
-            {
-                CommentsViewModel commentsViewModel = new CommentsViewModel
-                {
-                    Name = item.Name,
-                    Text = item.Text,
-                    DateInsert = TimeAgo(item.DateInsert),
-                    Rank = item.Rank
-                };
-                saleItem.Comments.Add(commentsViewModel);
-            }
-
             return saleItem;
+        }
+
+        [HttpPut("[action]")]
+        public async Task<IActionResult> RankSale([FromBody]SaleViewModel saleViewModel)
+        {
+            await _catalogService.AddRankForSale(saleViewModel.Id, saleViewModel.RankSale);
+            return Ok();
         }
 
         [HttpPost("[action]")]

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SlevoDogAngular.Models.CatalogViewModels
 {
-    public class SaleViewModel : CommentsViewModel
+    public class SaleViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -26,11 +26,12 @@ namespace SlevoDogAngular.Models.CatalogViewModels
         public string Description { get; set; }
 
         public int PercentSale { get; set; }
+        public int RankSale { get; set; }
+
+        // Category
+        public string CategoryName { get; set; }
 
         public SaleCollection saleCollection { get; } = new SaleCollection();
-
-        // Comments
-        public List<CommentsViewModel> Comments { get; set; } = new List<CommentsViewModel>();
 
         public string IdUser { get; set; }
     }

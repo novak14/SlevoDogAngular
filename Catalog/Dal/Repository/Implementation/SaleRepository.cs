@@ -43,10 +43,12 @@ namespace Catalog.Dal.Repository.Implementation
         {
             Sale sale = new Sale();
 
-            string sql = @"SELECT * FROM Sale
-                        LEFT JOIN Comments 
-                        ON Sale.Id = Comments.FkSale
-                        AND Comments.Disabled = 0
+            string sql = @"SELECT TOP(1) * FROM Sale
+                        LEFT JOIN CategorySale 
+                        ON Sale.Id = CategorySale.FkSaleId
+                        LEFT JOIN Category 
+                        ON Category.Id = CategorySale.FkCategoryId
+                        AND Category.Disabled = 0
                         WHERE Sale.bDisabled = 0 AND Sale.Id = @Id";
 
             using (var connection = new SqlConnection(_options.connectionString))
@@ -54,16 +56,16 @@ namespace Catalog.Dal.Repository.Implementation
                 await connection.OpenAsync();
                 var lookup = new Dictionary<int, Sale>();
 
-                var test = await connection.QueryAsync<Sale, Comments, Sale>(
+                var test = await connection.QueryAsync<Sale, Category, Sale>(
                     sql,
-                    (saleQuery, comments) =>
+                    (saleQuery, category) =>
                     {
                         Sale saleItem;
                         if (!lookup.TryGetValue(saleQuery.Id, out saleItem))
                             lookup.Add(saleQuery.Id, saleItem = saleQuery);
 
-                        if (comments != null)
-                            saleItem.Comments.Add(comments);
+                        if (category != null)
+                            saleQuery.Category = category;
                         return saleQuery;
                     }, new { Id = id });
 
@@ -106,6 +108,20 @@ namespace Catalog.Dal.Repository.Implementation
                 sale = await connection.QueryAsync<Sale>(sql);
             }
             return sale.ToList();
+        }
+
+        public async Task AddRank(int saleId, int rank)
+        {
+            string sql = @"UPDATE Sale SET RankSale = @Rank WHERE Id = @Id;";
+
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var affRows = await connection.ExecuteAsync(sql, new
+                {
+                    Rank = rank,
+                    Id = saleId
+                });
+            }
         }
     }
 }

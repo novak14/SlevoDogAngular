@@ -1,38 +1,49 @@
-<div class='main-nav'>
-    <div class='navbar navbar-light'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]='["/"]'>SlevoDogAngular</a>
-        <!--<div class='clearfix'></div>-->
-        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-            <ul class='nav navbar-nav'>
+<div class="container containerSpecific">
+  <div class='main-nav'>
+      <div class='navbar navbar-light'>
+              <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+                  <span class='sr-only'>Toggle navigation</span>
+                  <span class='icon-bar'></span>
+                  <span class='icon-bar'></span>
+                  <span class='icon-bar'></span>
+              </button>
+              <a class='navbar-brand' [routerLink]='["/"]'>SlevoDog</a>
+          <!--<div class='clearfix'></div>-->
+          <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
+              <ul class='nav navbar-nav'>
+                  <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                      <a [routerLink]='["/"]' (click)='collapse()'>
+                          <span class='glyphicon glyphicon-home'></span> Home
+                      </a>
+                  </li>
                 <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                    <a [routerLink]='["/"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-home'></span> Home
-                    </a>
+                  <a [routerLink]='["/category"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-home'></span> Kategorie
+                  </a>
                 </li>
-                <li [routerLinkActive]='["link-active"]'>
-                    <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-                        <span class='glyphicon glyphicon-th-list'></span> Fetch data
-                    </a>
+                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+                  <a [routerLink]='["/shops"]' (click)='collapse()'>
+                    <span class='glyphicon glyphicon-home'></span> Obchody
+                  </a>
                 </li>
-              <ng-template [ngIf]="!authService.isAuthenticated()">
-              <li><a routerLink="/signup">Register</a></li>
-                <li><a routerLink="/signin">Login</a></li>
-              </ng-template>
-              <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
-              <li>
-                <a [routerLink]='["/catalog"]' (click)='collapse()'>
-                  <span class='glyphicon glyphicon-th-list'></span> Catalog
-                </a>
-              </li>
+                <ng-template [ngIf]="!authService.isAuthenticated()">
+                <li><a routerLink="/signup">Register</a></li>
+                  <li><a routerLink="/signin">Login</a></li>
+                </ng-template>
+                <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
+                <!--<li>-->
+                  <!--<a [routerLink]='["/catalog"]' (click)='collapse()'>-->
+                    <!--<span class='glyphicon glyphicon-th-list'></span> Catalog-->
+                  <!--</a>-->
+                <!--</li>-->
 
 
-            </ul>
-        </div>
-    </div>
+              </ul>
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+          </div>
+      </div>
+  </div>
 </div>

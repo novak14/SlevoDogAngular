@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="descriptionImage">
-        <p><span class='glyphicon glyphicon-home'></span> -> Katkzs</p>
+        <p><span class='glyphicon glyphicon-home'></span> -> {{ item.categoryName}}</p>
       </div>
     </div>
   </div>
@@ -17,9 +17,13 @@
     </div>
       <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6 text-center">
       <div class="votes">
-        <img class="voteIcon" src="../../../assets/images/dog(5).svg" alt="upvote"/>
+        <a (click)="increaseRank()" class="buttonLike">
+          <img class="voteIcon" src="../../../assets/images/dog(5).svg" alt="upvote"/>
+        </a>
         <img class="adjustImage" src="../../../assets/images/dog-bone.png" alt="bone"/>
-        <img class="voteIcon" src="../../../assets/images/dog(6).svg" alt="downvote"/>
+        <a (click)="decreaseRank()" class="buttonLike">
+          <img class="voteIcon" src="../../../assets/images/dog(6).svg" alt="downvote"/>
+        </a>
       </div>
     </div>
   </div>

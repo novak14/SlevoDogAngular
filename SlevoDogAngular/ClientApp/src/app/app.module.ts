@@ -21,6 +21,8 @@ import {CookieService} from 'ngx-cookie-service';
 import { AdminComponent } from './admin/admin.component';
 import {AuthGuard} from './auth/auth-guard.service';
 import {AdminService} from './admin/admin.service';
+import { CategoryComponent } from './catalog/category/category.component';
+import { ShopsComponent } from './catalog/shops/shops.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import {AdminService} from './admin/admin.service';
     SignupComponent,
     SigninComponent,
     CommentsComponent,
-    AdminComponent
+    AdminComponent,
+    CategoryComponent,
+    ShopsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

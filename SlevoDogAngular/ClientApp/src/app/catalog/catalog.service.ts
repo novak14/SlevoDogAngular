@@ -29,6 +29,21 @@ export class CatalogService {
     }).toPromise();
   }
 
+  async addRankToSale(saleId: number, rank: number) {
+    console.log('S: ' + saleId + ' R: ' + rank);
+    return await this.http.put(this.baseUrl + 'api/Item/RankSale', {
+      id: saleId,
+      rankSale: rank
+    }).toPromise();
+  }
+
+  async decreaseRankToSale(saleId: number, rank: number) {
+    return await this.http.put(this.baseUrl + 'api/Item/RankSale', {
+      id: saleId,
+      rankSale: rank
+    }).toPromise();
+  }
+
   async insertComment(comment: CommentsModel) {
     return await this.http.post(this.baseUrl + 'api/Item/AddCommentsAsync', comment).toPromise();
   }

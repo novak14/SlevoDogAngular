@@ -10,5 +10,7 @@ namespace Catalog.Dal.Entities
         public string Name { get; set; }
         public bool Disabled { get; set; }
         public int FkParentCategory { get; set; }
+
+        public Sale Sale { get; set; }
     }
 }

@@ -7,7 +7,7 @@ import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.css']
+  styleUrls: ['./comments.component.css', '../../catalog.component.css']
 })
 export class CommentsComponent implements OnInit {
   cookieValue = '';
@@ -66,6 +66,7 @@ export class CommentsComponent implements OnInit {
   }
 
   async refreshComments() {
+    console.log('SaleId: ' + this.saleId);
     await this.catalogService.getComments(this.saleId).then(res => {
       this.comments = res;
     });

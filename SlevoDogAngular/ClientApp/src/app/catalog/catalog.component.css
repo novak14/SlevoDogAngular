@@ -112,3 +112,9 @@ a {
 .corner-ribbon.red {
   background: #e43;
 }
+
+.buttonLike {
+  margin-right: .55rem;
+  text-decoration: none;
+  cursor: pointer;
+}

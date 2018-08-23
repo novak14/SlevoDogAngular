@@ -3,3 +3,7 @@ body {
   background-color: #c9d2da1a;
   font-family: 'Open Sans', sans-serif;
 }
+
+.containerSpecific {
+  width: 70%;
+}

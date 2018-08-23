@@ -44,6 +44,11 @@ namespace Catalog.Business
             return test;
         }
 
+        public async Task AddRankForSale(int saleId, int rank)
+        {
+            await _saleRepository.AddRank(saleId, rank);
+        }
+
         public async Task<string> InsertCommentAsync(string AuthorName, string Text, int Id, int? ParentCommentId, string IdUser = null)
         {
             Comments comments = new Comments

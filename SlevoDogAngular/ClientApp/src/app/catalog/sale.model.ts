@@ -14,6 +14,8 @@ export class Sale {
   public description: string;
   public percentSale: number;
   public saleCollection: SaleCollection;
+  public rankSale: number;
+  public categoryName: string;
   public comments: CommentsModel[];
 
   constructor(id: number, name: string) {

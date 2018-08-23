@@ -9,15 +9,17 @@ import {SignupComponent} from './auth/signup/signup.component';
 import {SigninComponent} from './auth/signin/signin.component';
 import {AdminComponent} from './admin/admin.component';
 import {AuthGuard} from './auth/auth-guard.service';
+import {CategoryComponent} from './catalog/category/category.component';
+import {ShopsComponent} from './catalog/shops/shops.component';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: 'counter', component: CounterComponent },
-  { path: 'fetch-data', component: FetchDataComponent },
+  { path: '', component: CatalogComponent, pathMatch: 'full' },
   { path: 'catalog', component: CatalogComponent},
   { path: 'item/:id', component: ItemComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'signin', component: SigninComponent},
+  { path: 'category', component: CategoryComponent},
+  { path: 'shops', component: ShopsComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
 ];
 
