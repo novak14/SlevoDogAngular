@@ -16,26 +16,25 @@
                           <span class='glyphicon glyphicon-home'></span> Home
                       </a>
                   </li>
-                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                  <a [routerLink]='["/category"]' (click)='collapse()'>
+                <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }' 
+                (mouseleave)="hideCategories($event)">
+                  <div class="navLink" (mouseover)="showCategories($event)">
                     <span class='glyphicon glyphicon-home'></span> Kategorie
-                  </a>
+                  </div>
+                  <div *ngIf="hoverCategory">
+                    <app-category></app-category>
+                  </div>
                 </li>
                 <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-                  <a [routerLink]='["/shops"]' (click)='collapse()'>
+                  <div class="navLink" (click)='collapse()'>
                     <span class='glyphicon glyphicon-home'></span> Obchody
-                  </a>
+                  </div>
                 </li>
                 <ng-template [ngIf]="!authService.isAuthenticated()">
                 <li><a routerLink="/signup">Register</a></li>
                   <li><a routerLink="/signin">Login</a></li>
                 </ng-template>
                 <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
-                <!--<li>-->
-                  <!--<a [routerLink]='["/catalog"]' (click)='collapse()'>-->
-                    <!--<span class='glyphicon glyphicon-th-list'></span> Catalog-->
-                  <!--</a>-->
-                <!--</li>-->
 
 
               </ul>

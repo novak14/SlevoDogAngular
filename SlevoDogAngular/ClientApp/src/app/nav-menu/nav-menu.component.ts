@@ -8,6 +8,7 @@ import {AuthService} from '../auth/auth.service';
 })
 export class NavMenuComponent {
   isExpanded = false;
+  hoverCategory = false;
 
   constructor(public authService: AuthService) {}
 
@@ -17,5 +18,13 @@ export class NavMenuComponent {
 
   toggle() {
     this.isExpanded = !this.isExpanded;
+  }
+
+  showCategories(e) {
+    this.hoverCategory = true;
+  }
+
+  hideCategories(e) {
+    this.hoverCategory = false;
   }
 }

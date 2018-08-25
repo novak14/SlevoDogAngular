@@ -23,6 +23,8 @@ import {AuthGuard} from './auth/auth-guard.service';
 import {AdminService} from './admin/admin.service';
 import { CategoryComponent } from './catalog/category/category.component';
 import { ShopsComponent } from './catalog/shops/shops.component';
+import { SharedService } from './shared/shared.service';
+import { CategoryCatalogComponent } from './catalog/category/category-catalog/category-catalog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { ShopsComponent } from './catalog/shops/shops.component';
     CommentsComponent,
     AdminComponent,
     CategoryComponent,
-    ShopsComponent
+    ShopsComponent,
+    CategoryCatalogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,7 +50,7 @@ import { ShopsComponent } from './catalog/shops/shops.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [CatalogService, AuthService, CookieService, AdminService, AuthGuard],
+  providers: [CatalogService, AuthService, CookieService, AdminService, SharedService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

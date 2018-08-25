@@ -110,6 +110,30 @@ namespace Catalog.Dal.Repository.Implementation
             return sale.ToList();
         }
 
+        public async Task<List<Sale>> GetCategoryItems(int categoryId)
+        {
+            IEnumerable<Sale> sale = new List<Sale>();
+            string sql = @"SELECT * FROM Sale
+                           LEFT JOIN CategorySale 
+                           ON Sale.Id = CategorySale.FkSaleId
+                           AND Sale.bDisabled = 0
+                           LEFT JOIN Category 
+                           ON Category.Id = CategorySale.FkCategoryId
+                           AND Category.Disabled = 0
+                           WHERE Category.Id = @CategoryId";
+
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                sale = await connection.QueryAsync<Sale, Category, Sale>(
+                    sql, 
+                    (saleItem, category) => {
+                     return saleItem;
+                },
+                new { CategoryId = categoryId });
+            }
+            return sale.ToList();
+        }
+
         public async Task AddRank(int saleId, int rank)
         {
             string sql = @"UPDATE Sale SET RankSale = @Rank WHERE Id = @Id;";

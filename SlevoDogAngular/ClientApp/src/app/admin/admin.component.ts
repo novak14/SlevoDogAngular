@@ -3,7 +3,7 @@ import {FormGroup, NgForm} from '@angular/forms';
 import {AdminModel} from './admin.model';
 import {AdminService} from './admin.service';
 import {CategoryModel} from '../shared/category.model';
-import {forEach} from '@angular/router/src/utils/collection';
+import { SharedService } from '../shared/shared.service';
 
 @Component({
   selector: 'app-admin',
@@ -16,10 +16,11 @@ export class AdminComponent implements OnInit {
   categoryModel: CategoryModel[];
   checkCategoryBox = [];
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService,
+              private sharedService: SharedService) { }
 
   async ngOnInit() {
-    await this.adminService.GetCategories().then((res: CategoryModel[]) => {
+    await this.sharedService.GetCategories().then((res: CategoryModel[]) => {
       this.categoryModel = res;
       }
     );

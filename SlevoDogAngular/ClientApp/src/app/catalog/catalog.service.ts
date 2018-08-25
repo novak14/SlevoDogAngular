@@ -23,6 +23,12 @@ export class CatalogService {
     }).toPromise();
   }
 
+  async getCategoryItems(categoryId: number) {
+    return await this.http.get<Sale>(this.baseUrl + 'api/Catalog/CategoryItemsAsync', {
+      params: new HttpParams().set('categoryId', String(categoryId))
+    }).toPromise();
+  }
+
   async getSale(id: number) {
     return await this.http.get<Sale>(this.baseUrl + 'api/Item/ItemAsync', {
       params: new HttpParams().set('id', String(id))

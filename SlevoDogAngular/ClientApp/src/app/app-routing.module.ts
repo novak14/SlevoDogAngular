@@ -11,6 +11,7 @@ import {AdminComponent} from './admin/admin.component';
 import {AuthGuard} from './auth/auth-guard.service';
 import {CategoryComponent} from './catalog/category/category.component';
 import {ShopsComponent} from './catalog/shops/shops.component';
+import { CategoryCatalogComponent } from './catalog/category/category-catalog/category-catalog.component';
 
 const appRoutes: Routes = [
   { path: '', component: CatalogComponent, pathMatch: 'full' },
@@ -18,7 +19,7 @@ const appRoutes: Routes = [
   { path: 'item/:id', component: ItemComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'signin', component: SigninComponent},
-  { path: 'category', component: CategoryComponent},
+  { path: 'category/:id', component: CategoryCatalogComponent},
   { path: 'shops', component: ShopsComponent},
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
 ];
