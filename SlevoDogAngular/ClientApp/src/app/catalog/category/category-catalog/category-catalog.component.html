@@ -6,20 +6,23 @@
   <div class="container containerSpecific">
 
     <div>
-      <a [routerLink]="['/catalog']" [queryParams]="{sort: 'cheapest'}" routerLinkActive="active" (click)="sortServer('cheapest')"
+      <a [routerLink]="['/category', categoryId]" [queryParams]="{sort: 'cheapest'}" routerLinkActive="active" (click)="sortServer('cheapest')"
         class="btn btn-default">
         Od nejlevnějšího
       </a>
-      <a [routerLink]="['/catalog']" [queryParams]="{sort: 'sale'}" routerLinkActive="active" (click)="sortServer('sale')" class="btn btn-default">
+      <a [routerLink]="['/category', categoryId]" [queryParams]="{sort: 'sale'}" routerLinkActive="active" (click)="sortServer('sale')" class="btn btn-default">
         Od největší slevy
       </a>
-      <a [routerLink]="['/catalog']" [queryParams]="{sort: 'newest'}" routerLinkActive="active" (click)="sortServer('newest')"
+      <a [routerLink]="['/category', categoryId]" [queryParams]="{sort: 'newest'}" routerLinkActive="active" (click)="sortServer('newest')"
         class="btn btn-default">
         Od nejnovějšího
       </a>
 
     </div>
-    <div class="row">
+     <!-- <app-category-catalog [browse]="browse"
+     ></app-category-catalog> -->
+    
+    <!-- <div class="row">
       <div *ngFor="let test of browse.saleCollection.collections">
 
         <div class="col-md-4 col-xs-12 col-sm-6 text-center">
@@ -54,6 +57,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

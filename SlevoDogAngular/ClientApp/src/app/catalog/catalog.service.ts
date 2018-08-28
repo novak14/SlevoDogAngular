@@ -12,6 +12,7 @@ export class CatalogService {
   test: Sale;
   username: string;
   testas: CommentsModel[];
+  browse: Sale;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -23,9 +24,9 @@ export class CatalogService {
     }).toPromise();
   }
 
-  async getCategoryItems(categoryId: number) {
+  async getCategoryItems(categoryId: number, sortValue: string) {
     return await this.http.get<Sale>(this.baseUrl + 'api/Catalog/CategoryItemsAsync', {
-      params: new HttpParams().set('categoryId', String(categoryId))
+      params: new HttpParams().set('categoryId', String(categoryId)).set('sortOrder', sortValue)
     }).toPromise();
   }
 

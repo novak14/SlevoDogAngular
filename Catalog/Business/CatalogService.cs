@@ -38,9 +38,20 @@ namespace Catalog.Business
             }
         }
 
-        public async Task<List<Sale>> GetCategoryItems(int categoryId)
+        public async Task<List<Sale>> GetCategoryItems(int categoryId, string sortOrder)
         {
-            return await _saleRepository.GetCategoryItems(categoryId);
+            var sorting = await _saleRepository.GetCategoryItems(categoryId);;
+            switch (sortOrder)
+            {
+                case "cheapest":
+                    return sorting.OrderBy(a => a.PriceAfterSale).ToList();
+                case "newest":
+                    return sorting.OrderBy(a => a.DateInsert).ToList();
+                case "sale":
+                    return sorting.OrderBy(a => a.PercentSale).ToList();
+                default:
+                   return sorting;
+            }
         }
 
         public async Task<Sale> LoadByIdAsync(int id)

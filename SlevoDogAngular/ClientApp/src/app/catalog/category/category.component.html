@@ -1,3 +1,5 @@
 <div class="form-group form-check" *ngFor="let option of categoryModel">
-  <a routerLink="/category/{{ option.id }}">{{ option.name }}</a>
+  <div (click)="categoryItems(option.id)">
+    <a>{{ option.name }} {{ option.id }} </a>
+  </div>
 </div>

@@ -111,12 +111,12 @@ namespace SlevoDogAngular
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
-            //services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
 
             //var test = Configuration.GetConnectionString("SlevoDogLocal");
-            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
-            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
+            // services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
+            // services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
 
 
         }

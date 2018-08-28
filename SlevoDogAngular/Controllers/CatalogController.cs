@@ -51,11 +51,11 @@ namespace SlevoDogAngular.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<SaleViewModel> CategoryItemsAsync(int categoryId)
+        public async Task<SaleViewModel> CategoryItemsAsync(int categoryId, string sortOrder)
         {
             SaleViewModel sale = new SaleViewModel();
 
-            var test = await _catalogService.GetCategoryItems(categoryId);
+            var test = await _catalogService.GetCategoryItems(categoryId, sortOrder);
 
             foreach (var item in test)
             {

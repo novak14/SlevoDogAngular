@@ -19,7 +19,7 @@
       </a>
 
     </div>
-    <div class="row">
+    <!-- <div class="row">
       <div *ngFor="let test of browse.saleCollection.collections">
 
         <div class="col-md-4 col-xs-12 col-sm-6 text-center">
@@ -54,6 +54,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
+    <app-catalog-list
+  [browse]="browse"></app-catalog-list>
   </div>
 </div>
+

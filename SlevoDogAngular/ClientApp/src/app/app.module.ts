@@ -25,6 +25,7 @@ import { CategoryComponent } from './catalog/category/category.component';
 import { ShopsComponent } from './catalog/shops/shops.component';
 import { SharedService } from './shared/shared.service';
 import { CategoryCatalogComponent } from './catalog/category/category-catalog/category-catalog.component';
+import { CatalogListComponent } from './catalog/catalog-list/catalog-list.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CategoryCatalogComponent } from './catalog/category/category-catalog/ca
     AdminComponent,
     CategoryComponent,
     ShopsComponent,
-    CategoryCatalogComponent
+    CategoryCatalogComponent,
+    CatalogListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

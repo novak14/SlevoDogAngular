@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryModel } from '../../shared/category.model';
 import { SharedService } from '../../shared/shared.service';
 import { CatalogService } from '../catalog.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category',
@@ -12,7 +13,8 @@ export class CategoryComponent implements OnInit {
   categoryModel: CategoryModel[];
 
   constructor(private sharedService: SharedService,
-              private catalogService: CatalogService) { }
+              private catalogService: CatalogService,
+              private router: Router) { }
 
   async ngOnInit() {
     await this.sharedService.GetCategories().then( (res: CategoryModel[]) => {
@@ -21,7 +23,7 @@ export class CategoryComponent implements OnInit {
   }
 
   async categoryItems(categoryId: number) {
-    await this.catalogService.getCategoryItems(categoryId).then();
+    this.router.navigate(['/category', categoryId]);
   }
 
 }
