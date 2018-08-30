@@ -3,7 +3,6 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {forEach} from '@angular/router/src/utils/collection';
 import index from '@angular/cli/lib/cli';
 import {ActivatedRoute, ParamMap, Params} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
 import {Sale} from './sale.model';
 import {CatalogService} from './catalog.service';
 import {CookieService} from 'ngx-cookie-service';

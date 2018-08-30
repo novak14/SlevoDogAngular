@@ -1,8 +1,7 @@
 ///<reference path="../../../node_modules/oidc-client/index.d.ts"/>
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import { UserManager, UserManagerSettings, User } from 'oidc-client';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {CookieService} from 'ngx-cookie-service';
 
 @Injectable()

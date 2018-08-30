@@ -3,31 +3,33 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {Sale} from './sale.model';
 import {CommentsModel} from './comments.model';
-import {CookieService} from 'ngx-cookie-service';
-import {Observable} from 'rxjs/Observable';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class CatalogService {
   baseUrl: string;
-  test: Sale;
-  username: string;
   testas: CommentsModel[];
   browse: Sale;
+  browseChanged = new Subject<Sale>();
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 
    async getItems(sortValue: string) {
-     return await this.http.get<Sale>(this.baseUrl + 'api/Catalog/AllItemsAsync', {
+    this.browse = await this.http.get<Sale>(this.baseUrl + 'api/Catalog/AllItemsAsync', {
       params: new HttpParams().set('sortOrder', sortValue)
     }).toPromise();
+    this.browseChanged.next(this.browse);
+    return this.browse;
   }
 
   async getCategoryItems(categoryId: number, sortValue: string) {
-    return await this.http.get<Sale>(this.baseUrl + 'api/Catalog/CategoryItemsAsync', {
+    this.browse = await this.http.get<Sale>(this.baseUrl + 'api/Catalog/CategoryItemsAsync', {
       params: new HttpParams().set('categoryId', String(categoryId)).set('sortOrder', sortValue)
     }).toPromise();
+    this.browseChanged.next(this.browse);
+    return this.browse;
   }
 
   async getSale(id: number) {

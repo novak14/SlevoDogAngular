@@ -11,15 +11,24 @@ import { Router } from '@angular/router';
 })
 export class CategoryComponent implements OnInit {
   categoryModel: CategoryModel[];
+  test = true;
 
   constructor(private sharedService: SharedService,
               private catalogService: CatalogService,
               private router: Router) { }
 
   async ngOnInit() {
-    await this.sharedService.GetCategories().then( (res: CategoryModel[]) => {
-      this.categoryModel = res;
-    });
+    if (!this.sharedService.categories) {
+      console.log('Uvnist');
+      await this.sharedService.GetCategories().then( (res: CategoryModel[]) => {
+        this.categoryModel = res;
+        this.test = false;
+      });
+    } else {
+      console.log('Jinde');
+
+      this.categoryModel = this.sharedService.categories;
+    }
   }
 
   async categoryItems(categoryId: number) {
