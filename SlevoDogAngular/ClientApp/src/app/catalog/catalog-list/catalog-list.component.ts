@@ -14,13 +14,11 @@ export class CatalogListComponent implements OnInit, OnDestroy {
 
 
   constructor(private catalogService: CatalogService) {
-    // console.log('Browse: ' + JSON.stringify(catalogService.browse));
     this.browse = catalogService.browse;
    }
 
   ngOnInit() {
     this.browse = this.catalogService.browse;
-    // console.log('test: ' + JSON.stringify(this.browse));
 
     this.browseSubscription = this.catalogService.browseChanged.subscribe(
       (items: Sale) => {

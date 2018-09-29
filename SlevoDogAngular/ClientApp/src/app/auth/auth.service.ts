@@ -14,6 +14,7 @@ export class AuthService {
   }
 
   async signupUser(email: string, password: string) {
+    console.log('jasem tu');
     return await this.http.post(this.baseUrl + 'api/User/RegisterTest', {
       Email: email,
       Password: password,
