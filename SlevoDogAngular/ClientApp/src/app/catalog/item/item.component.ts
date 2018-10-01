@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {CatalogService} from '../catalog.service';
 import {Sale} from '../sale.model';
 
@@ -15,7 +15,8 @@ export class ItemComponent implements OnInit {
   id: number;
 
   constructor(private catalogService: CatalogService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   async ngOnInit() {
@@ -49,5 +50,13 @@ export class ItemComponent implements OnInit {
       .catch(console.log);
 
     this.item.rankSale = rank;
+  }
+
+  goToCategory(categoryId: number) {
+    this.router.navigate(['/category', categoryId]);
+  }
+
+  goHome() {
+    this.router.navigate(['']);
   }
 }

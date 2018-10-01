@@ -5,7 +5,7 @@
 <div *ngIf="browse">
   <div class="container containerSpecific">
 
-    <div>
+    <div class="filters">
       <a [routerLink]="['/catalog']" [queryParams]="{sort: 'cheapest'}" routerLinkActive="active" (click)="sortServer('cheapest')"
         class="btn btn-default">
         Od nejlevnějšího

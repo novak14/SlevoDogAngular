@@ -16,6 +16,7 @@ export class Sale {
   public saleCollection: SaleCollection;
   public rankSale: number;
   public categoryName: string;
+  public categoryId: number;
   public comments: CommentsModel[];
 
   constructor(id: number, name: string) {

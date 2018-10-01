@@ -81,6 +81,11 @@ a {
   position: relative;
 }
 
+.goCategory:hover {
+  cursor: pointer;
+  color: rgba(4, 4, 247, 0.856);
+}
+
 .corner-ribbon.top-left {
   top: 8px;
   left: 16px;
@@ -168,9 +173,10 @@ img {
 }
 
 .dateInsert {
-  border: 0.2rem solid #00000054;
+  border: 0.1rem solid #00000054;
   padding: 1rem;
   border-radius: 16px;
   color: #8c7777;
+  font-size: 1.1rem;
 }
 

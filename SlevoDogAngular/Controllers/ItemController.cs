@@ -44,9 +44,10 @@ namespace SlevoDogAngular.Controllers
                 LinkFirm = test1.LinkFirm,
                 Description = test1.Description,
                 PercentSale = (int)test1.PercentSale,
-                DateInsert = test1.DateInsert,
+                DateInsert = TimeAgo(test1.DateInsert),
                 RankSale = test1.RankSale,
-                CategoryName = test1.Category?.Name ?? "Ostatní"
+                CategoryName = test1.Category?.Name ?? "Ostatní",
+                CategoryId = test1.Category?.Id ?? 5
             };
 
             return saleItem;

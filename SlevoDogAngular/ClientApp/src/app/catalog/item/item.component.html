@@ -5,9 +5,12 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="descriptionImage">
-        <p><span class='glyphicon glyphicon-home'></span> -> <a>
-            {{ item.categoryName}} {{ item.id }}
-        </a> </p>
+        <p>
+          <a class="goCategory" (click)="goHome()">
+              <span class='glyphicon glyphicon-home'></span>
+          </a> -> 
+            <a class="goCategory" (click)="goToCategory(item.categoryId)">{{ item.categoryName}}</a>
+        </p>
       </div>
     </div>
   </div>
@@ -57,7 +60,7 @@
   <div class="row">
     <div class="col-xs-12">
       <div class="dateInsert">
-        Nalezeno: {{ item.dateInsert | date }}
+        Nalezeno {{ item.dateInsert }}
       </div>
     </div>
   </div>

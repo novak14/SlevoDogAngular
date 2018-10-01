@@ -19,7 +19,7 @@ namespace SlevoDogAngular.Models.CatalogViewModels
         [DataType(DataType.Currency)]
         public string OriginPrice { get; set; }
         public string Image { get; set; }
-        public DateTime DateInsert { get; set; }
+        public string DateInsert { get; set; }
         public DateTime ValidFrom { get; set; }
         public DateTime ValidTo { get; set; }
         public string LinkFirm { get; set; }
@@ -30,6 +30,7 @@ namespace SlevoDogAngular.Models.CatalogViewModels
 
         // Category
         public string CategoryName { get; set; }
+        public int CategoryId { get; set;}
 
         public SaleCollection saleCollection { get; } = new SaleCollection();
 
