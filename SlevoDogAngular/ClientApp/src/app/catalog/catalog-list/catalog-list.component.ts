@@ -31,4 +31,22 @@ export class CatalogListComponent implements OnInit, OnDestroy {
     this.browseSubscription.unsubscribe();
   }
 
+  sendEvent = () => {
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Catalog',
+      eventLabel: 'Item',
+      eventAction: 'To Shop',
+      eventValue: 10
+    });
+  }
+
+  sendEventTo = () => {
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Catalog',
+      eventLabel: 'Item',
+      eventAction: 'To Detail',
+      eventValue: 10
+    });
+  }
+
 }

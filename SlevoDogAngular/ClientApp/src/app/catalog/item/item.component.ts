@@ -59,4 +59,13 @@ export class ItemComponent implements OnInit {
   goHome() {
     this.router.navigate(['']);
   }
+
+  sendEvent = () => {
+    (<any>window).ga('send', 'event', {
+      eventCategory: 'Catalog',
+      eventLabel: 'Item',
+      eventAction: 'To Shop',
+      eventValue: 10
+    });
+  }
 }
