@@ -18,6 +18,10 @@
   margin-bottom: 1rem;
 }
 
+.filters>a {
+  margin: .4rem;
+}
+
 .moreDetails {
   background-color: #0fcc0ae6;
   font-size: 1.6rem;
