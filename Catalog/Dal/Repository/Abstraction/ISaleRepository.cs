@@ -15,5 +15,6 @@ namespace Catalog.Dal.Repository.Abstraction
         Task<List<Sale>> LoadBiggestSaleAsync();
         Task<List<Sale>> GetCategoryItems(int categoryId);
         Task AddRank(int saleId, int rank);
+        Task<List<Category>> GetCategories();
     }
 }

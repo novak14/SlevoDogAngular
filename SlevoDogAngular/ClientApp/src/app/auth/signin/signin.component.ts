@@ -8,6 +8,7 @@ import {NgForm} from '@angular/forms';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
+  invalidLogin: boolean;
 
   constructor(private authService: AuthService) { }
 
@@ -15,9 +16,14 @@ export class SigninComponent implements OnInit {
   }
 
   async onSignin(form: NgForm) {
-    const email = form.value.email;
-    const password = form.value.password;
-    await this.authService.signIn(email, password);
+    const credentials = JSON.stringify(form.value);
+    await this.authService.signIn(credentials).then((response) => {
+      const token = (<any>response).token;
+      localStorage.setItem('jwt', token);
+      this.invalidLogin = false;
+    }, err => {
+      this.invalidLogin = true;
+    });
   }
 
 }

@@ -22,6 +22,9 @@ using SlevoDogAngular.Models.AdminViewModels;
 using Admin.Dal.Entities;
 using SlevoDogAngular.Models.CatalogViewModels;
 using Catalog.Dal.Entities;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using SlevoDogAngular.Services;
 
 namespace SlevoDogAngular
 {
@@ -40,32 +43,33 @@ namespace SlevoDogAngular
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddInMemoryPersistedGrants()
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients());
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                           {
+                               options.TokenValidationParameters = new TokenValidationParameters
+                               {
+                                   ValidateIssuer = true,
+                                   ValidateAudience = true,
+                                   ValidateLifetime = true,
+                                   ValidateIssuerSigningKey = true,
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
-            {
-                // base-address of your identityserver
-                options.Authority = "http://localhost:44339/";
-
-                // name of the API resource
-                options.Audience = "api1";
-
-                options.RequireHttpsMetadata = false;
-            });
+                                   ValidIssuer = "https://localhost:5001",
+                                   ValidAudience = "https://localhost:5001",
+                                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
+                               };
+                           });
 
             Mapper.Initialize(cfg =>
             {
@@ -73,35 +77,7 @@ namespace SlevoDogAngular
                 cfg.CreateMap<Comments, CommentsViewModel>();
             });
 
-            //services
-            //    .AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
-            //    .AddIdentityServerAuthentication(authenticationOptions =>
-            //    {
-            //        authenticationOptions.Authority = "https://localhost:44339/";
-            //        authenticationOptions.RequireHttpsMetadata = false;
-            //        authenticationOptions.ApiName = "api1";
-            //        authenticationOptions.ApiSecret = "secret";
-            //        authenticationOptions.RequireHttpsMetadata = false;
-            //    });
-
-            //        services.AddAuthentication("Bearer")
-            //.AddIdentityServerAuthentication(options =>
-            //{
-            //    options.Authority = "https://localhost:44339/";
-            //    options.RequireHttpsMetadata = false;
-
-            //    options.ApiName = "api1";
-            //});
-
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //        .AddJwtBearer(options =>
-            //    {
-            //    // base-address of your identityserver
-            //    options.Authority = "https://localhost:44339";
-
-            //    // name of the API resource
-            //    options.Audience = "api1";
-            //     });
+            services.AddScoped<AccountService, AccountService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -116,8 +92,6 @@ namespace SlevoDogAngular
 
             // services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
             // services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,11 +107,11 @@ namespace SlevoDogAngular
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseIdentityServer();
-            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

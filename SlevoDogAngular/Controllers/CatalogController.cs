@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using Catalog.Dal.Entities;
 
 namespace SlevoDogAngular.Controllers
 {
@@ -73,6 +74,13 @@ namespace SlevoDogAngular.Controllers
                 sale.saleCollection.collections.Add(saleItem);
             }
             return sale;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<List<Category>> GetCategories()
+        {
+            var categories = await _catalogService.GetCategories();
+            return categories;
         }
     }
 }

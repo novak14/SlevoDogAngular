@@ -12,7 +12,7 @@ export class SharedService {
       }
 
       async GetCategories() {
-        this.categories = await this.http.get<CategoryModel[]>(this.baseUrl + 'api/Admin/GetCategories').toPromise();
+        this.categories = await this.http.get<CategoryModel[]>(this.baseUrl + 'api/Catalog/GetCategories').toPromise();
         return this.categories;
       }
 }

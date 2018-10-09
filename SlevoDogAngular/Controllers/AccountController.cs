@@ -13,11 +13,12 @@ using SlevoDogAngular.Models.AccountViewModels;
 using IdentityServer4.AccessTokenValidation;
 using System.Collections.Generic;
 using MlkPwgen;
+using System.Text;
+using SlevoDogAngular.Services;
 
 namespace SlevoDogAngular.Controllers
 {
-    //[Authorize]
-    //[Authorize(AuthenticationSchemes = IdentityServerAuthenticationDefaults.AuthenticationScheme)]
+    [Authorize]
     [Route("api/User")]
     public class AccountController : Controller
     {
@@ -25,27 +26,29 @@ namespace SlevoDogAngular.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger _logger;
+        private readonly AccountService accountService;
         //private IConfigurationRoot _configurationRoot;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            AccountService accountService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
+            this.accountService = accountService;
         }
 
         [TempData]
         public string ErrorMessage { get; set; }
 
         [HttpPost("[action]")]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public async Task<JsonResult> Login([FromBody]LoginViewModel model)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -54,29 +57,88 @@ namespace SlevoDogAngular.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                    var check = User.Identity.IsAuthenticated;
-                    string cookie = PasswordGenerator.Generate(length: 20, allowed: Sets.Alphanumerics);
-                    return Json(cookie);
+                    string token = accountService.CreateToken(model.Email);
+                    return Ok(new { Token = token });
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    return Json("chyba");
+                    return BadRequest();
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Json("chyba");
+                    return BadRequest();
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return Json("chyba");
+            return BadRequest();
         }
 
         [HttpPost("[action]")]
+        [AllowAnonymous]
         public async Task<IActionResult> RegisterTest([FromBody]RegisterViewModel model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                    //Kontrola jestli uzivatel uz neexistuje
+                    if (String.IsNullOrEmpty(user.NormalizedEmail))
+                        user.NormalizedEmail = user.Email;
+
+                    var exist = await _userManager.GetUserIdAsync(user);
+
+                    if (String.IsNullOrEmpty(exist))
+                    {
+                        return BadRequest();
+                    }
+
+                    //osetreni username
+                    // string usernameTemp = model.Email.Split('@')[0];
+
+                    // user.UserName = usernameTemp;
+
+                    //Create AspNet Identity User
+                    IdentityResult res = await _userManager.CreateAsync(user, model.Password);
+                    IdentityResult res2 = null;
+                    if (res.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: true);
+
+                        //prirazeni uzivatele do Role
+                        string role = "User";
+                        res2 = await _userManager.AddToRoleAsync(user, role);
+
+                        if (res2.Succeeded)
+                        {
+                            string token = accountService.CreateToken(model.Email, role);
+                            return Ok(new { Token = token });
+                        }
+                    }
+                    else
+                    {
+                        return BadRequest();
+                    }
+                    return BadRequest();
+                }
+
+                // If we got this far, something failed, redisplay form
+                return BadRequest();
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(nameof(e));
+            }
+            
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
             if (!ModelState.IsValid)
             {

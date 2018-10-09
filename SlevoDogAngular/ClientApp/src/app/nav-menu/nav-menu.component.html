@@ -34,7 +34,7 @@
                 <li><a routerLink="/signup">Register</a></li>
                   <li><a routerLink="/signin">Login</a></li>
                 </ng-template>
-                <li *ngIf="authService.isAuthenticated()"><a routerLink="/admin">Admin</a></li>
+                <li *ngIf="authService.isAuthenticatedAdmin()"><a routerLink="/admin">Admin</a></li>
 
 
               </ul>

@@ -8,6 +8,7 @@ import {AuthService} from '../auth.service';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  invalidLogin: boolean;
 
   constructor(private authService: AuthService) { }
 
@@ -15,9 +16,9 @@ export class SignupComponent implements OnInit {
   }
 
   async onSignup(form: NgForm) {
-    const email = form.value.email;
-    const password = form.value.password;
-    await this.authService.signupUser(email, password);
+    const credentials = JSON.stringify(form.value);
+
+    await this.authService.signupUser(credentials);
   }
 
 }

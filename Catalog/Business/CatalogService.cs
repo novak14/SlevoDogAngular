@@ -54,6 +54,12 @@ namespace Catalog.Business
             }
         }
 
+        public async Task<List<Category>> GetCategories()
+        {
+            var categories = await _saleRepository.GetCategories();
+            return categories;
+        }
+
         public async Task<Sale> LoadByIdAsync(int id)
         {
             var test = await _saleRepository.LoadByIdAsync(id);

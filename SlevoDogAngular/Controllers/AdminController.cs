@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SlevoDogAngular.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     public class AdminController : Controller
     {

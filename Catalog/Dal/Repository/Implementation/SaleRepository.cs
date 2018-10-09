@@ -147,5 +147,14 @@ namespace Catalog.Dal.Repository.Implementation
                 });
             }
         }
+
+        public async Task<List<Category>> GetCategories()
+        {
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var categories = (await connection.QueryAsync<Category>("SELECT * FROM Category")).ToList();
+                return categories;
+            }
+        }
     }
 }

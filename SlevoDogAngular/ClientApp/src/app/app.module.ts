@@ -4,6 +4,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
+import { JwtModule } from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
+
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
@@ -49,8 +53,16 @@ import { CatalogListComponent } from './catalog/catalog-list/catalog-list.compon
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+        whitelistedDomains: ['https://localhost:5001'],
+      }
+    })
   ],
   providers: [CatalogService, AuthService, CookieService, AdminService, SharedService, AuthGuard],
   bootstrap: [AppComponent]
