@@ -1,4 +1,8 @@
-<div class="container">
+<p *ngIf="!categoryModel">
+  <em>Loading...</em>
+</p>
+
+<div *ngIf="categoryModel" class="container">
   <div class="row">
     <div class="col-xs-12">
       <form (ngSubmit)="onSubmit()" #f="ngForm">

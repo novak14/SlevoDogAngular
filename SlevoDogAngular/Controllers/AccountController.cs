@@ -57,7 +57,7 @@ namespace SlevoDogAngular.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    var role = User.Claims.Where(a => a.Value.Equals("Admin")).FirstOrDefault().Value;
+                    var role = User?.Claims?.Where(a => a.Value.Equals("Admin")).FirstOrDefault()?.Value ?? null;
                     string token = accountService.CreateToken(model.Email, role);
                     return Ok(new { Token = token });
                 }
