@@ -20,7 +20,7 @@ export class AdminComponent implements OnInit {
               private sharedService: SharedService) { }
 
   async ngOnInit() {
-    await this.sharedService.GetCategories().then((res: CategoryModel[]) => {
+    await this.adminService.GetCategories().then((res: CategoryModel[]) => {
       this.categoryModel = res;
       }
     );

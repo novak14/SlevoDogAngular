@@ -57,7 +57,8 @@ namespace SlevoDogAngular.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                    string token = accountService.CreateToken(model.Email);
+                    var role = User.Claims.Where(a => a.Value.Equals("Admin")).FirstOrDefault().Value;
+                    string token = accountService.CreateToken(model.Email, role);
                     return Ok(new { Token = token });
                 }
                 if (result.IsLockedOut)
@@ -110,7 +111,7 @@ namespace SlevoDogAngular.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: true);
 
                         //prirazeni uzivatele do Role
-                        string role = "User";
+                        string role = "Basic User";
                         res2 = await _userManager.AddToRoleAsync(user, role);
 
                         if (res2.Succeeded)

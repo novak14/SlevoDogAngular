@@ -10,6 +10,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
   baseUrl: string;
   invalidLogin: boolean;
+  isAdmin = false;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string,
   private jwtHelper: JwtHelperService,
@@ -45,9 +46,6 @@ export class AuthService {
     const token = localStorage.getItem('jwt');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      const test = this.jwtHelper.decodeToken(token);
-      console.log('test: ' + test.Role);
-      console.log(this.jwtHelper.decodeToken(token));
       return true;
     }
     return false;
@@ -55,13 +53,21 @@ export class AuthService {
 
   isAuthenticatedAdmin() {
     const token = localStorage.getItem('jwt');
-
     if (token && !this.jwtHelper.isTokenExpired(token) && this.jwtHelper.decodeToken(token).Role === 'Admin') {
-      const test = this.jwtHelper.decodeToken(token);
-      console.log('test: ' + test.Role);
-      console.log(this.jwtHelper.decodeToken(token));
+      console.log('predAdmin: ' + this.isAdmin);
       return true;
     }
     return false;
+  }
+
+  checkUser() {
+    this.http.get(this.baseUrl + 'api/Admin/CheckUser')
+        .subscribe((response) => {
+          console.log('Response: ' + response);
+          this.isAdmin = true;
+        }, err => {
+          this.isAdmin = false;
+          console.log('Faaaaaaaaaaaaaaaaalse: ' + this.isAdmin);
+        });
   }
 }

@@ -24,6 +24,7 @@ namespace SlevoDogAngular.Controllers
         public async Task<SaleViewModel> AllItemsAsync(string sortOrder)
         {
             SaleViewModel sale = new SaleViewModel();
+            var currentUser = HttpContext.User;
 
             try
             {

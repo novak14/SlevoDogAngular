@@ -25,7 +25,9 @@ namespace SlevoDogAngular.Controllers
         [HttpPost("[action]")]
         public async Task InsertItemAsync([FromBody]SaleAdminViewModel saleAdminViewModel)
         {
-            if (ModelState.IsValid)
+            var role = User.Claims.Where(a => a.Value.Equals("Admin")).FirstOrDefault().Value;
+
+            if (ModelState.IsValid && role.Equals("Admin"))
             {
                 SaleAdmin saleAdmin = Mapper.Map<SaleAdmin>(saleAdminViewModel);
 
@@ -36,8 +38,20 @@ namespace SlevoDogAngular.Controllers
         [HttpGet("[action]")]
         public async Task<List<Category>> GetCategories()
         {
+            var currentUser = HttpContext.User;
+
             var categories = await _adminService.GetCategories();
             return categories;
+        }
+
+        [HttpGet("[action]")]
+        public IActionResult CheckUser()
+        {
+            var currentUser = HttpContext.User;
+            var role = User.Claims.Where(a => a.Value.Equals("Admin")).FirstOrDefault().Value;
+
+
+            return BadRequest();
         }
     }
 }
