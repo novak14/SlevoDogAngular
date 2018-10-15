@@ -21,7 +21,6 @@ export class AdminService {
   }
 
   async GetCategories() {
-    this.categories = await this.http.get<CategoryModel[]>(this.baseUrl + 'api/Admin/GetCategories').toPromise();
-    return this.categories;
+    return await this.http.get<CategoryModel[]>(this.baseUrl + 'api/Admin/GetCategories').toPromise();
   }
 }

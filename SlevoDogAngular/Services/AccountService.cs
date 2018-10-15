@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using SlevoDogAngular.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,6 +13,13 @@ namespace SlevoDogAngular.Services
 {
     public class AccountService
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public AccountService(UserManager<ApplicationUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
         public string CreateToken(string email, string role = null)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
@@ -20,8 +29,8 @@ namespace SlevoDogAngular.Services
             var check = ClaimTypes.Name;
             var claims = new List<Claim>
                 {
-                    new Claim("Name", email),
-                    new Claim("Role", role ?? "User")
+                    new Claim(ClaimTypes.Name, email),
+                    new Claim(ClaimTypes.Role, role ?? "Basic User")
                 };
 
             var tokeOptions = new JwtSecurityToken(

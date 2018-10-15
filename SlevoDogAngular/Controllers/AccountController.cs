@@ -111,7 +111,7 @@ namespace SlevoDogAngular.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: true);
 
                         //prirazeni uzivatele do Role
-                        string role = "Basic User";
+                        string role = "Admin";
                         res2 = await _userManager.AddToRoleAsync(user, role);
 
                         if (res2.Succeeded)

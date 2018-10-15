@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Catalog.Dal.Entities;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SlevoDogAngular.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class ItemController : Controller
     {
@@ -27,9 +29,14 @@ namespace SlevoDogAngular.Controllers
             _userManager = userManager;
         }
 
+        [AllowAnonymous]
         [HttpGet("[action]")]
         public async Task<SaleViewModel> ItemAsync(int? id)
         {
+            var user = HttpContext.User;
+            var test = _userManager.GetUserAsync(User);
+            var testId = _userManager.GetUserId(User);
+            
             var test1 = id != null ? await _catalogService.LoadByIdAsync(id.Value) : throw new Exception(nameof(id));
 
             SaleViewModel saleItem = new SaleViewModel
@@ -56,20 +63,31 @@ namespace SlevoDogAngular.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> RankSale([FromBody]SaleViewModel saleViewModel)
         {
+            if (!ExistUser())
+                return BadRequest();
+
             await _catalogService.AddRankForSale(saleViewModel.Id, saleViewModel.RankSale);
             return Ok();
         }
 
         [HttpPost("[action]")]
-        public async Task<JsonResult> AddCommentsAsync([FromBody]CommentsViewModel model)
+        public async Task<IActionResult> AddCommentsAsync([FromBody]CommentsViewModel model)
         {
+            if (!ExistUser())
+                return BadRequest();
+
             string cookie = await _catalogService.InsertCommentAsync(model.Name, model.Text, model.Id, model.FkParrentComment);
             return Json(cookie);
         }
 
         [HttpGet("[action]")]
-        public async Task<JsonResult> GetUserNameCommentAsync(string cookie)
+        public async Task<IActionResult> GetUserNameCommentAsync(string cookie)
         {
+            if (!ExistUser())
+                return BadRequest();
+
+            var user = _userManager.GetUserAsync(User);
+            
             var checkUser = await _catalogService.CheckUserCookieAsync(cookie);
             return Json(checkUser.UserName);
         }
@@ -112,6 +130,9 @@ namespace SlevoDogAngular.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> RankComment([FromBody]CommentsViewModel commentsViewModel)
         {
+            if (!ExistUser())
+                return BadRequest();
+
             if (commentsViewModel.Id > 0 && commentsViewModel.Rank > 0)
             {
                 await _catalogService.AddRankForComment(commentsViewModel.Id, commentsViewModel.Rank);
@@ -119,6 +140,15 @@ namespace SlevoDogAngular.Controllers
             }
 
             return BadRequest();
+        }
+
+        public bool ExistUser()
+        {
+            var checkUser = _userManager.GetUserAsync(User);
+
+            if (checkUser == null)
+                return false;
+            return true;
         }
 
         public string TimeAgo(DateTime dt)

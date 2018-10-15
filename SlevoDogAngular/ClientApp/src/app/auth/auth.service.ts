@@ -53,7 +53,7 @@ export class AuthService {
 
   isAuthenticatedAdmin() {
     const token = localStorage.getItem('jwt');
-    if (token && !this.jwtHelper.isTokenExpired(token) && this.jwtHelper.decodeToken(token).Role === 'Admin') {
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
       console.log('predAdmin: ' + this.isAdmin);
       return true;
     }
