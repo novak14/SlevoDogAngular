@@ -33,6 +33,8 @@ export class ItemComponent implements OnInit {
     const rank = this.item.rankSale + 1;
     await this.catalogService.addRankToSale(this.item.id, Number(rank))
       .then( res => {
+      }, err => {
+        console.log('Error');
       })
       .catch(console.log);
 

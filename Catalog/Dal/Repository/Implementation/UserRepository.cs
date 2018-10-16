@@ -25,28 +25,26 @@ namespace Catalog.Dal.Repository.Implementation
             _options = options.Value;
         }
 
-        public async Task<User> GetUserByCookieAsync(string cookie)
+        public async Task<User> GetUserByUniqueString(string idString)
         {
             User user = new User();
-            string sql = @"SELECT * FROM UserProfile WHERE UniqueString = @Cookie;";
+            string sql = @"SELECT * FROM UserProfile WHERE UniqueString = @IdString;";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                user = await connection.QueryFirstOrDefaultAsync<User>(sql, new { Cookie = cookie });
+                user = await connection.QueryFirstOrDefaultAsync<User>(sql, new { IdString = idString });
             }
             return user;
         }
 
-        public async Task<string> InsertUserAsync(string username, string uniqueString)
+        public async Task InsertUserAsync(string username, string email, string uniqueString)
         {
-            string sql = @"INSERT INTO UserProfile(Username, UniqueString) VALUES(@Username, @UniqueString);
+            string sql = @"INSERT INTO UserProfile(Username, Email, UniqueString) VALUES(@Username, @Email, @UniqueString);
                             SELECT CAST(SCOPE_IDENTITY() as int);";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                var idUser = await connection.QuerySingleOrDefaultAsync<int>(sql, new { Username = username, UniqueString = uniqueString });
-                string userCookie = await connection.QueryFirstOrDefaultAsync<string>("SELECT UniqueString FROM UserProfile WHERE Id = @id", new { id = idUser });
-                return userCookie;
+                var idUser = await connection.QuerySingleOrDefaultAsync<int>(sql, new { Username = username, Email = email, UniqueString = uniqueString });
             }
             throw new NotImplementedException();
         }

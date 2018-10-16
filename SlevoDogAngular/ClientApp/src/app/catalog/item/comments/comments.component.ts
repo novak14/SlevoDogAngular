@@ -3,6 +3,8 @@ import {CookieService} from 'ngx-cookie-service';
 import {CommentsModel} from '../../comments.model';
 import {CatalogService} from '../../catalog.service';
 import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-comments',
@@ -10,7 +12,7 @@ import {FormControl, FormGroup, NgForm, Validators} from '@angular/forms';
   styleUrls: ['./comments.component.css', '../../catalog.component.css']
 })
 export class CommentsComponent implements OnInit {
-  cookieValue = '';
+  userName = '';
   @ViewChild('f') commentForm: NgForm;
   @ViewChild('c') commentAnswerForm: NgForm;
   commentModel: CommentsModel;
@@ -20,49 +22,56 @@ export class CommentsComponent implements OnInit {
   gest: CommentsModel[];
   username: string;
   showFormAnswer = false;
+  existUser = false;
 
   constructor( private cookieService: CookieService,
-               private catalogService: CatalogService) { }
+               private catalogService: CatalogService,
+               private jwtHelper: JwtHelperService,
+              private authService: AuthService) { }
 
   async ngOnInit() {
-    await this.initFormWithCookie();
+    await this.initForm();
   }
 
-  async initFormWithCookie() {
+  async initForm() {
     await this.refreshComments();
-    const IsCookieExist = this.cookieService.get('UserComment');
 
-    if (IsCookieExist) {
-      await this.catalogService.getUserForComment(IsCookieExist).then(res => {
-        this.cookieValue = res.toString();
+    if (this.authService.isAuthenticated()) {
+      this.existUser = true;
+      await this.catalogService.getUserForComment().then(res => {
+        this.userName = res.toString();
       });
       this.commentForm.form.patchValue({
-        username: this.cookieValue
+        username: this.userName
       });
     }
   }
 
   async onSubmit() {
-    this.commentModel = new CommentsModel(this.saleId, this.commentForm.value.username, this.commentForm.value.commentText);
-    await this.catalogService.insertComment(this.commentModel).then(res => {
-      this.cookieService.set('UserComment', res.toString());
-    });
-    this.commentForm.reset();
-    await this.initFormWithCookie();
+    if (this.authService.isAuthenticated()) {
+      this.commentModel = new CommentsModel(this.saleId, this.commentForm.value.username, this.commentForm.value.commentText);
+      await this.catalogService.insertComment(this.commentModel).then(res => {
+        console.log('V poradku');
+      });
+      this.commentForm.reset();
+      await this.initForm();
+    }
   }
 
   async onSubmitAnswer(parentCommentId: number) {
-    this.commentModel = new CommentsModel(this.saleId,
-      this.answerCommentForm.value.responseUsername,
-      this.answerCommentForm.value.commentText);
+    if (this.authService.isAuthenticated()) {
+      this.commentModel = new CommentsModel(this.saleId,
+        this.answerCommentForm.value.responseUsername,
+        this.answerCommentForm.value.commentText);
 
-    this.commentModel.fkParrentComment = parentCommentId;
-    await this.catalogService.insertComment(this.commentModel).then(res => {
-      this.cookieService.set('UserComment', res.toString());
-    });
-    this.showFormAnswer = false;
-    this.answerCommentForm.reset();
-    await this.initFormWithCookie();
+      this.commentModel.fkParrentComment = parentCommentId;
+      await this.catalogService.insertComment(this.commentModel).then(res => {
+        console.log('V poradku');
+      });
+      this.showFormAnswer = false;
+      this.answerCommentForm.reset();
+      await this.initForm();
+    }
   }
 
   async refreshComments() {
@@ -73,29 +82,32 @@ export class CommentsComponent implements OnInit {
   }
 
   fillAnswer(comm: CommentsModel) {
-    this.answerCommentForm = new FormGroup({
-      'responseUsername': new FormControl(this.cookieValue, Validators.required),
-      'commentText': new FormControl(null, Validators.required)
-    });
+    if (this.authService.isAuthenticated()) {
+      this.answerCommentForm = new FormGroup({
+        'responseUsername': new FormControl(this.userName, Validators.required),
+        'commentText': new FormControl(null, Validators.required)
+      });
 
-    for (const comment of this.comments) {
-      if (comment.check) {
-        comment.check = false;
+      for (const comment of this.comments) {
+        if (comment.check) {
+          comment.check = false;
+        }
       }
+      this.showFormAnswer = true;
+      comm.check = true;
     }
-console.log('asd');
-    this.showFormAnswer = true;
-    comm.check = true;
   }
 
   async addRank(commId: number) {
-    const comment = this.comments.find( tes => tes.id === commId);
-    const rank = comment.rank + 1;
-    await this.catalogService.addRankToComment(commId, Number(rank))
-      .then( res => {
-    })
-      .catch(console.log);
+    if (this.authService.isAuthenticated()) {
+      const comment = this.comments.find( tes => tes.id === commId);
+      const rank = comment.rank + 1;
+      await this.catalogService.addRankToComment(commId, Number(rank))
+        .then( res => {
+      })
+        .catch(console.log);
 
-    comment.rank += 1;
+      comment.rank += 1;
+      }
     }
 }

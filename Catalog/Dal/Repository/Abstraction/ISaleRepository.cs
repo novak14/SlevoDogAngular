@@ -16,5 +16,7 @@ namespace Catalog.Dal.Repository.Abstraction
         Task<List<Sale>> GetCategoryItems(int categoryId);
         Task AddRank(int saleId, int rank);
         Task<List<Category>> GetCategories();
+        Task<int> CheckRankUser(int saleId, int userId);
+        Task ConnectUserRank(int saleId, int userId);
     }
 }

@@ -8,7 +8,7 @@ namespace Catalog.Dal.Repository.Abstraction
 {
     public interface IUserRepository
     {
-        Task<User> GetUserByCookieAsync(string cookie);
-        Task<string> InsertUserAsync(string username, string uniqueString);
+        Task<User> GetUserByUniqueString(string idString);
+        Task InsertUserAsync(string username, string email, string uniqueString);
     }
 }

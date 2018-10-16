@@ -66,12 +66,18 @@ namespace Catalog.Business
             return test;
         }
 
-        public async Task AddRankForSale(int saleId, int rank)
+        public async Task AddRankForSale(int saleId, int rank, int userId)
         {
             await _saleRepository.AddRank(saleId, rank);
+            await _saleRepository.ConnectUserRank(saleId, userId);
         }
 
-        public async Task<string> InsertCommentAsync(string AuthorName, string Text, int Id, int? ParentCommentId, string IdUser = null)
+        public async Task<int> CheckRankSaleUser(int saleId, int userId)
+        {
+            return await _saleRepository.CheckRankUser(saleId, userId);
+        }
+
+        public async Task InsertCommentAsync(string AuthorName, string Text, int Id, int? ParentCommentId, int IdUser)
         {
             Comments comments = new Comments
             {
@@ -85,68 +91,33 @@ namespace Catalog.Business
                 FkParrentComment = ParentCommentId
             };
             await _commentRepository.InsertCommentAsync(comments);
-
-            return await InsertUserFromCommentsAsync(AuthorName);
         }
 
-        public async Task AddRankForComment(int commentId, int rank)
+        public async Task AddRankForComment(int commentId, int rank, int userId)
         {
             await _commentRepository.AddRank(commentId, rank);
+            await _commentRepository.ConnectUserRank(commentId, userId);
         }
 
-        public async Task<User> CheckUserCookieAsync(string cookie)
+        public async Task<int> CheckRankUser(int commentId, int userId)
         {
-            return await _userRepository.GetUserByCookieAsync(cookie);
+            return await _commentRepository.CheckRankUser(commentId, userId);
         }
 
-        public async Task<string> InsertUserFromCommentsAsync(string username)
+        public async Task<User> GetUserByOriginalId(string uniqueString)
         {
-            string cookie = PasswordGenerator.Generate(length: 15, allowed: Sets.Alphanumerics);
-            return await _userRepository.InsertUserAsync(username, cookie);
+            return await _userRepository.GetUserByUniqueString(uniqueString);
+        }
+
+        public async Task InsertUser(string username, string email, string id)
+        {
+            await _userRepository.InsertUserAsync(username, email, id);
         }
 
         public async Task<List<Comments>> GetCommentsAsync(int saleId)
         {
             var comments = await _commentRepository.GetCommentsAsync(saleId);
-
-            
-
             return comments;
-        }
-
-        public string TimeAgo(DateTime dt)
-        {
-            TimeSpan span = DateTime.Now - dt;
-            if (span.Days > 365)
-            {
-                int years = (span.Days / 365);
-                if (span.Days % 365 != 0)
-                    years += 1;
-                return String.Format("about {0} {1} ago",
-                years, years == 1 ? "year" : "years");
-            }
-            if (span.Days > 30)
-            {
-                int months = (span.Days / 30);
-                if (span.Days % 31 != 0)
-                    months += 1;
-                return String.Format("about {0} {1} ago",
-                months, months == 1 ? "month" : "months");
-            }
-            if (span.Days > 0)
-                return String.Format("about {0} {1} ago",
-                span.Days, span.Days == 1 ? "day" : "days");
-            if (span.Hours > 0)
-                return String.Format("about {0} {1} ago",
-                span.Hours, span.Hours == 1 ? "hour" : "hours");
-            if (span.Minutes > 0)
-                return String.Format("about {0} {1} ago",
-                span.Minutes, span.Minutes == 1 ? "minute" : "minutes");
-            if (span.Seconds > 5)
-                return String.Format("about {0} seconds ago", span.Seconds);
-            if (span.Seconds <= 5)
-                return "just now";
-            return string.Empty;
         }
     }
 }

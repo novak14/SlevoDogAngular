@@ -6,8 +6,6 @@
     <div class="imageWithName">
         <img class="adjustImage" src="../../../../assets/images/dog(1).svg" alt="user profile"/>
         <span class="adjustName">{{ comm.name }}</span>
-
-
     </div>
 
       <div class="commentText">
@@ -22,21 +20,16 @@
       <div class="commentDate">
         <div> {{ comm.dateInsert }} </div>
       </div>
-
-
   </div>
 
   </ng-template>
   <div *ngFor="let parrComm of comments">
     <ng-template [ngIf]="comm.id === parrComm.fkParrentComment">
       <div class="col-xs-12 answer">
-
         <div class="imageWithName">
           <img class="adjustImage" src="../../../../assets/images/dog(4).svg" alt="user profile"/>
           <span class="adjustName">{{ parrComm.name }}</span>
         </div>
-
-
         <div class="commentText">
           <p>
             <a (click)="addRank(parrComm.id)" class="buttonLike">

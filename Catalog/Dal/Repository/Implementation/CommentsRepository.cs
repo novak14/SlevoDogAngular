@@ -77,5 +77,35 @@ namespace Catalog.Dal.Repository.Implementation
                 var ts = e;
             }
         }
+
+        public async Task<int> CheckRankUser(int commentId, int userId)
+        {
+            string sql = @"SELECT COUNT(*) AS Amount FROM RankCommentsUser WHERE FkComment = @CommentId AND FkUser = @UserId";
+            int check;
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                await connection.OpenAsync();
+                var rows = await connection.QueryFirstOrDefaultAsync(sql, new { CommentId = commentId, UserId = userId });
+                check = (int)rows.Amount;
+            }
+            return check;
+        }
+
+        public async Task ConnectUserRank(int commentId, int userId)
+        {
+            string sql = @"INSERT INTO RankCommentsUser(FkComment, FkUser) VALUES (@FkComment, @FkUser);";
+
+            try
+            {
+                using (var connection = new SqlConnection(_options.connectionString))
+                {
+                    var affRows = await connection.ExecuteAsync(sql, new { FkComment = commentId, FkUser = userId });
+                }
+            }
+            catch (Exception e)
+            {
+                var ts = e;
+            }
+        }
     }
 }

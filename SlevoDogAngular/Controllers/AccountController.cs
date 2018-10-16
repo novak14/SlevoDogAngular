@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using MlkPwgen;
 using System.Text;
 using SlevoDogAngular.Services;
+using Catalog.Business;
 
 namespace SlevoDogAngular.Controllers
 {
@@ -27,6 +28,8 @@ namespace SlevoDogAngular.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger _logger;
         private readonly AccountService accountService;
+        private readonly CatalogService _catalogService;
+
         //private IConfigurationRoot _configurationRoot;
 
         public AccountController(
@@ -34,13 +37,15 @@ namespace SlevoDogAngular.Controllers
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<AccountController> logger,
-            AccountService accountService)
+            AccountService accountService,
+            CatalogService catalogService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
             this.accountService = accountService;
+            _catalogService = catalogService;
         }
 
         [TempData]
@@ -109,6 +114,7 @@ namespace SlevoDogAngular.Controllers
                     if (res.Succeeded)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: true);
+                        var resId = await _userManager.GetUserIdAsync(user);
 
                         //prirazeni uzivatele do Role
                         string role = "Admin";
@@ -116,6 +122,7 @@ namespace SlevoDogAngular.Controllers
 
                         if (res2.Succeeded)
                         {
+                            await _catalogService.InsertUser(model.Email.Split('@')[0], model.Email, resId);
                             string token = accountService.CreateToken(model.Email, role);
                             return Ok(new { Token = token });
                         }

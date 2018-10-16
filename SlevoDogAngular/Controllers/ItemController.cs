@@ -63,33 +63,45 @@ namespace SlevoDogAngular.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> RankSale([FromBody]SaleViewModel saleViewModel)
         {
-            if (!ExistUser())
+            var originalUser = await ExistUser();
+            if (originalUser == null)
                 return BadRequest();
 
-            await _catalogService.AddRankForSale(saleViewModel.Id, saleViewModel.RankSale);
-            return Ok();
+            if (saleViewModel.Id > 0 && saleViewModel.RankSale > 0)
+            {
+                var user = _catalogService.GetUserByOriginalId(originalUser.Id);
+
+                var amountRanks = await _catalogService.CheckRankSaleUser(saleViewModel.Id, user.Id);
+                if (amountRanks > 0 ) 
+                    return BadRequest();
+                    
+                await _catalogService.AddRankForSale(saleViewModel.Id, saleViewModel.RankSale, user.Id);
+                return Ok();
+            }
+            return BadRequest();
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> AddCommentsAsync([FromBody]CommentsViewModel model)
         {
-            if (!ExistUser())
+            var originalUser = await ExistUser();
+            if (originalUser == null)
                 return BadRequest();
 
-            string cookie = await _catalogService.InsertCommentAsync(model.Name, model.Text, model.Id, model.FkParrentComment);
-            return Json(cookie);
+            var user = await _catalogService.GetUserByOriginalId(originalUser.Id);
+            await _catalogService.InsertCommentAsync(model.Name, model.Text, model.Id, model.FkParrentComment, user.Id);
+            return Ok();
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> GetUserNameCommentAsync(string cookie)
+        public async Task<IActionResult> GetUserNameCommentAsync()
         {
-            if (!ExistUser())
+            var originalUser = await ExistUser();
+            if (originalUser == null)
                 return BadRequest();
 
-            var user = _userManager.GetUserAsync(User);
-            
-            var checkUser = await _catalogService.CheckUserCookieAsync(cookie);
-            return Json(checkUser.UserName);
+            var userName = originalUser.Email.Split('@')[0];
+            return Json(userName);
         }
 
         [HttpGet("[action]")]
@@ -130,25 +142,32 @@ namespace SlevoDogAngular.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> RankComment([FromBody]CommentsViewModel commentsViewModel)
         {
-            if (!ExistUser())
+            var originalUser = await ExistUser();
+            if (originalUser == null)
                 return BadRequest();
 
             if (commentsViewModel.Id > 0 && commentsViewModel.Rank > 0)
             {
-                await _catalogService.AddRankForComment(commentsViewModel.Id, commentsViewModel.Rank);
+                var user = await _catalogService.GetUserByOriginalId(originalUser.Id);
+                
+                var amountRanks = await _catalogService.CheckRankUser(commentsViewModel.Id, user.Id);
+                if (amountRanks > 0 ) 
+                    return BadRequest();
+                    
+                await _catalogService.AddRankForComment(commentsViewModel.Id, commentsViewModel.Rank, user.Id);
                 return Ok();
             }
 
             return BadRequest();
         }
 
-        public bool ExistUser()
+        public async Task<ApplicationUser> ExistUser()
         {
-            var checkUser = _userManager.GetUserAsync(User);
+            var checkUser = await _userManager.GetUserAsync(User);
 
             if (checkUser == null)
-                return false;
-            return true;
+                return null;
+            return checkUser;
         }
 
         public string TimeAgo(DateTime dt)

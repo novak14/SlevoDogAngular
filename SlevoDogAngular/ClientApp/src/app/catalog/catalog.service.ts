@@ -57,10 +57,8 @@ export class CatalogService {
     return await this.http.post(this.baseUrl + 'api/Item/AddCommentsAsync', comment).toPromise();
   }
 
-  async getUserForComment(cookie: string) {
-    return await this.http.get(this.baseUrl + 'api/Item/GetUserNameCommentAsync', {
-      params: new HttpParams().set('cookie', cookie)
-    }).toPromise();
+  async getUserForComment() {
+    return await this.http.get(this.baseUrl + 'api/Item/GetUserNameCommentAsync').toPromise();
   }
 
   async getComments(saleId: number) {
