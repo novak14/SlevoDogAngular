@@ -27,6 +27,7 @@ namespace SlevoDogAngular.Models.CatalogViewModels
 
         public int PercentSale { get; set; }
         public int RankSale { get; set; }
+        public int FkShop { get; set; }
 
         // Category
         public string CategoryName { get; set; }

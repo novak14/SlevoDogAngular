@@ -8,8 +8,10 @@ export class AdminModel {
   public ValidTo: string;
   public LinkFirm: string;
   public Description: string;
+  public NameShop: string;
   public Disabled: boolean;
   public CheckedCategories: number[];
+  public FkShop: number;
 
   constructor(Name: string,
               PriceAfterSale: number,
@@ -20,6 +22,7 @@ export class AdminModel {
               ValidTo: string,
               LinkFirm: string,
               Description: string,
+              NameShop: string,
               Disabled: boolean,
               CheckedCategories: number[]) {
     this.Name = Name;
@@ -31,6 +34,7 @@ export class AdminModel {
     this.ValidTo = ValidTo;
     this.LinkFirm = LinkFirm;
     this.Description = Description;
+    this.NameShop = NameShop;
     this.Disabled = Disabled;
     this.CheckedCategories = CheckedCategories;
   }

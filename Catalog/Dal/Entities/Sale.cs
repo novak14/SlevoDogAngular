@@ -22,6 +22,7 @@ namespace Catalog.Dal.Entities
         public bool bDisabled { get; set; }
         public decimal PercentSale { get; set; }
         public int RankSale { get; set; }
+        public int FkShop { get; set; }
 
         public List<Comments> Comments { get; set; } = new List<Comments>();
         public Category Category { get; set; }

@@ -7,6 +7,7 @@ using SlevoDogAngular.Models.AdminViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SlevoDogAngular.Controllers
@@ -28,6 +29,9 @@ namespace SlevoDogAngular.Controllers
             if (ModelState.IsValid)
             {
                 SaleAdmin saleAdmin = Mapper.Map<SaleAdmin>(saleAdminViewModel);
+                var searchShopName = Regex.Replace(saleAdmin.NameShop, @"\s+", "").ToLower();
+
+                saleAdmin.FkShop = (await _adminService.GetShopByName(searchShopName))?.Id ?? (await _adminService.InsertShop(saleAdmin.NameShop, searchShopName));
 
                 await _adminService.InsertSaleAsync(saleAdmin);
             }
@@ -38,6 +42,13 @@ namespace SlevoDogAngular.Controllers
         {
             var categories = await _adminService.GetCategories();
             return categories;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<List<Shops>> GetShops()
+        {
+            var shops = await _adminService.GetShops();
+            return shops;
         }
 
         [HttpGet("[action]")]

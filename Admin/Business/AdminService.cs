@@ -27,5 +27,23 @@ namespace Admin.Business
             var categories = await _insertAdminRepository.GetCategories();
             return categories;
         }
+
+        public async Task<List<Shops>> GetShops()
+        {
+            var shops = await _insertAdminRepository.GetShops();
+            return shops;
+        }
+
+        public async Task<Shops> GetShopByName(string name)
+        {
+            var shop = await _insertAdminRepository.GetShopByName(name);
+            return shop;
+        }
+
+        public async Task<int> InsertShop(string name, string searchName)
+        {
+            var shopId = await _insertAdminRepository.InsertShop(name, searchName);
+            return shopId;
+        }
     }
 }

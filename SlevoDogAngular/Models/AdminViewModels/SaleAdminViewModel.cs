@@ -33,6 +33,8 @@ namespace SlevoDogAngular.Models.AdminViewModels
         public string Description { get; set; }
         public bool Disabled { get; set; }
 
+        public string NameShop { get; set; }
+
         public int[] CheckedCategories { get; set; }
     }
 }

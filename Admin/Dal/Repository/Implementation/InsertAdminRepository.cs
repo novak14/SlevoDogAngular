@@ -27,8 +27,8 @@ namespace Admin.Dal.Repository.Implementation
 
         public async Task InsertAsync(SaleAdmin saleAdmin)
         {
-            string sql = @"INSERT INTO Sale(Name, PriceAfterSale, AveragePrice, OriginPrice, Image, DateInsert, ValidFrom, ValidTo, LinkFirm, Description, bDisabled, PercentSale) 
-                            VALUES(@Name, @PriceAfterSale, @AveragePrice, @OriginPrice, @Image, @DateInsert, @ValidFrom, @ValidTo, @LinkFirm, @Description, @bDisabled, @PercentSale);
+            string sql = @"INSERT INTO Sale(Name, PriceAfterSale, AveragePrice, OriginPrice, Image, DateInsert, ValidFrom, ValidTo, LinkFirm, Description, bDisabled, PercentSale, FkShop) 
+                            VALUES(@Name, @PriceAfterSale, @AveragePrice, @OriginPrice, @Image, @DateInsert, @ValidFrom, @ValidTo, @LinkFirm, @Description, @bDisabled, @PercentSale, @FkShop);
                             SELECT CAST(SCOPE_IDENTITY() as int);";
 
             string sql2 = @"INSERT INTO CategorySale(FkCategoryId,FkSaleId) VALUES (@FkCategoryId, @FkSaleId);";
@@ -48,7 +48,8 @@ namespace Admin.Dal.Repository.Implementation
                     LinkFirm = saleAdmin.LinkFirm,
                     Description = saleAdmin.Description,
                     bDisabled = saleAdmin.Disabled,
-                    PercentSale = saleAdmin.PercentSale
+                    PercentSale = saleAdmin.PercentSale,
+                    FkShop = saleAdmin.FkShop
                 });
 
                 try
@@ -72,6 +73,36 @@ namespace Admin.Dal.Repository.Implementation
                 var categories = (await connection.QueryAsync<Category>("SELECT * FROM Category")).ToList();
                 return categories;
             }
+        }
+
+        public async Task<List<Shops>> GetShops()
+        {
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var shops = (await connection.QueryAsync<Shops>("SELECT * FROM Shops")).ToList();
+                return shops;
+            }
+        }
+
+        public async Task<Shops> GetShopByName(string name)
+        {
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var shop = await connection.QueryFirstOrDefaultAsync<Shops>("SELECT * FROM Shops WHERE SearchString = @Name", new { Name = name });
+                return shop;
+            }
+        }
+
+        public async Task<int> InsertShop(string name, string searchName)
+        {
+            string sql = @"INSERT INTO Shops(Name, SearchString) VALUES(@Name, @SearchString);
+                            SELECT CAST(SCOPE_IDENTITY() as int);";
+            int shopId;
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                shopId = await connection.ExecuteAsync(sql, new { Name = name, SearchString = searchName });
+            }
+            return shopId;
         }
     }
 }

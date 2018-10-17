@@ -41,6 +41,8 @@ namespace Admin.Dal.Entities
         public string LinkFirm { get; set; }
         public string Description { get; set; }
         public bool Disabled { get; set; }
+        public int FkShop { get; set; }
+        public string NameShop { get; set; }
 
         public decimal PercentSale => Math.Round(100 - (PriceAfterSale * 100 / OriginPrice));
 

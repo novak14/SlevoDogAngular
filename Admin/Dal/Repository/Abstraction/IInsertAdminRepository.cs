@@ -10,5 +10,8 @@ namespace Admin.Dal.Repository.Abstraction
     {
         Task InsertAsync(SaleAdmin saleAdmin);
         Task<List<Category>> GetCategories();
+        Task<List<Shops>> GetShops();
+        Task<Shops> GetShopByName(string name);
+        Task<int> InsertShop(string name, string searchName);
     }
 }

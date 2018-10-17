@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Inject, Injectable} from '@angular/core';
 import {AdminModel} from './admin.model';
 import { CategoryModel } from '../shared/category.model';
+import { ShopModel } from '../shared/shops.model';
 
 @Injectable()
 export class AdminService {
@@ -22,5 +23,9 @@ export class AdminService {
 
   async GetCategories() {
     return await this.http.get<CategoryModel[]>(this.baseUrl + 'api/Admin/GetCategories').toPromise();
+  }
+
+  async GetShops() {
+    return await this.http.get<ShopModel[]>(this.baseUrl + 'api/Admin/GetShops').toPromise();
   }
 }
