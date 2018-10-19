@@ -45,5 +45,24 @@ namespace Admin.Business
             var shopId = await _insertAdminRepository.InsertShop(name, searchName);
             return shopId;
         }
+
+        public async Task<bool> InsertKeyword(string keyword, int saleId)
+        {
+            var keyWordsCheck = await _insertAdminRepository.IsKeywordExist(keyword, saleId);
+
+            if (keyWordsCheck.keyword && keyWordsCheck.keywordSale)
+            {
+                return false;
+            }
+            else if (keyWordsCheck.keyword && !keyWordsCheck.keywordSale)
+            {
+                await _insertAdminRepository.InsertOnlyKeywordSale(keyWordsCheck.keyWordId, saleId);
+            }
+            else
+            {
+                await _insertAdminRepository.InsertWholeKeyword(keyword, saleId);
+            }
+            return true;
+        }
     }
 }

@@ -104,5 +104,46 @@ namespace Admin.Dal.Repository.Implementation
             }
             return shopId;
         }
+
+        public async Task InsertWholeKeyword(string keywords, int saleId)
+        {
+            string sql = @"INSERT INTO KeyWords(Keyword) VALUES(@Keyword);
+                            SELECT CAST(SCOPE_IDENTITY() as int);";
+
+            string sql2 = @"INSERT INTO KeywordSale(FkKeyWords, FkSaleId) VALUES(@FkKeyWords, @FkSaleId);";
+
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var keyWordId = await connection.ExecuteAsync(sql, new { Keyword = keywords });
+                var affRows = await connection.ExecuteAsync(sql2, new { FkKeyWords = keyWordId, FkSaleId = saleId });
+            }
+        }
+
+        public async Task<(bool keyword, bool keywordSale, int keyWordId)> IsKeywordExist(string keyword, int saleId)
+        {
+            string sql = @"SELECT COUNT(*) AS Amount FROM KeywordSale WHERE FkKeyWords = @FkKeyWords AND FkSaleId = @FkSaleId";
+            int? keywordSales = null;
+            KeyWords keyWordId;
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                keyWordId = await connection.QueryFirstOrDefaultAsync<KeyWords>("SELECT KeyWords.Id FROM KeyWords WHERE Keyword = @Keyword", new { Keyword = keyword });
+                if (keyWordId != null)
+                {
+                    keywordSales = await connection.QueryFirstOrDefaultAsync<int>(sql, new { FkKeyWords = keyWordId, FkSaleId = saleId });
+                }
+            }
+            return (keyWordId != null ? true : false, keywordSales != null ? true : false, keyWordId.Id);
+
+        }
+
+        public async Task InsertOnlyKeywordSale(int keywordId, int saleId)
+        {
+            string sql = @"INSERT INTO KeywordSale(FkKeyWords, FkSaleId) VALUES(@FkKeyWords, @FkSaleId);";
+
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                var affRows = await connection.ExecuteAsync(sql, new { FkKeyWords = keywordId, FkSaleId = saleId });
+            }
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Admin.Dal.Entities
         public int FkShop { get; set; }
         public string NameShop { get; set; }
 
+
         public decimal PercentSale => Math.Round(100 - (PriceAfterSale * 100 / OriginPrice));
 
         public int[] CheckedCategories { get; set; }
