@@ -3,6 +3,7 @@ using Admin.Dal.Repository.Abstraction;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Admin.Business
@@ -19,7 +20,9 @@ namespace Admin.Business
         public async Task InsertSaleAsync(SaleAdmin saleAdmin)
         {
             saleAdmin.DateInsert = DateTime.Now;
-            await _insertAdminRepository.InsertAsync(saleAdmin);
+            var saleId = await _insertAdminRepository.InsertAsync(saleAdmin);
+
+            await InsertKeyword(saleAdmin.Keywords, saleId);
         }
 
         public async Task<List<Category>> GetCategories()
@@ -46,22 +49,30 @@ namespace Admin.Business
             return shopId;
         }
 
-        public async Task<bool> InsertKeyword(string keyword, int saleId)
+        public async Task<bool> InsertKeyword(string[] keywords, int saleId)
         {
-            var keyWordsCheck = await _insertAdminRepository.IsKeywordExist(keyword, saleId);
+            List<string> Keywords = new List<string>();
+            foreach (var item in keywords)
+            {
+                var editKeyword = Regex.Replace(item, @"\s+", "").ToLower();
 
-            if (keyWordsCheck.keyword && keyWordsCheck.keywordSale)
-            {
-                return false;
+                var keyWordsCheck = await _insertAdminRepository.IsKeywordExist(editKeyword, saleId);
+
+                if (keyWordsCheck.keyword && keyWordsCheck.keywordSale)
+                {
+                    return false;
+                }
+                else if (keyWordsCheck.keyword && !keyWordsCheck.keywordSale)
+                {
+                    await _insertAdminRepository.InsertOnlyKeywordSale(keyWordsCheck.keyWordId.Value, saleId);
+                }
+                else
+                {
+                    await _insertAdminRepository.InsertWholeKeyword(editKeyword, saleId);
+                }
             }
-            else if (keyWordsCheck.keyword && !keyWordsCheck.keywordSale)
-            {
-                await _insertAdminRepository.InsertOnlyKeywordSale(keyWordsCheck.keyWordId, saleId);
-            }
-            else
-            {
-                await _insertAdminRepository.InsertWholeKeyword(keyword, saleId);
-            }
+
+            
             return true;
         }
     }

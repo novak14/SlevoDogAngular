@@ -43,6 +43,7 @@ namespace Admin.Dal.Entities
         public bool Disabled { get; set; }
         public int FkShop { get; set; }
         public string NameShop { get; set; }
+        public string[] Keywords { get; set; }
 
 
         public decimal PercentSale => Math.Round(100 - (PriceAfterSale * 100 / OriginPrice));

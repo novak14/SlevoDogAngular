@@ -25,17 +25,18 @@ namespace Admin.Dal.Repository.Implementation
             _options = options.Value;
         }
 
-        public async Task InsertAsync(SaleAdmin saleAdmin)
+        public async Task<int> InsertAsync(SaleAdmin saleAdmin)
         {
             string sql = @"INSERT INTO Sale(Name, PriceAfterSale, AveragePrice, OriginPrice, Image, DateInsert, ValidFrom, ValidTo, LinkFirm, Description, bDisabled, PercentSale, FkShop) 
                             VALUES(@Name, @PriceAfterSale, @AveragePrice, @OriginPrice, @Image, @DateInsert, @ValidFrom, @ValidTo, @LinkFirm, @Description, @bDisabled, @PercentSale, @FkShop);
                             SELECT CAST(SCOPE_IDENTITY() as int);";
 
             string sql2 = @"INSERT INTO CategorySale(FkCategoryId,FkSaleId) VALUES (@FkCategoryId, @FkSaleId);";
-
+            int saleId;
+            
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                var saleId = await connection.QuerySingleOrDefaultAsync<int>(sql, new
+                saleId = await connection.QuerySingleOrDefaultAsync<int>(sql, new
                 {
                     Name = saleAdmin.Name,
                     PriceAfterSale = saleAdmin.PriceAfterSale,
@@ -64,6 +65,7 @@ namespace Admin.Dal.Repository.Implementation
                     var test = e;
                 }
             }
+            return saleId;
         }
 
         public async Task<List<Category>> GetCategories()
@@ -119,20 +121,29 @@ namespace Admin.Dal.Repository.Implementation
             }
         }
 
-        public async Task<(bool keyword, bool keywordSale, int keyWordId)> IsKeywordExist(string keyword, int saleId)
+        public async Task<(bool keyword, bool keywordSale, int? keyWordId)> IsKeywordExist(string keyword, int saleId)
         {
             string sql = @"SELECT COUNT(*) AS Amount FROM KeywordSale WHERE FkKeyWords = @FkKeyWords AND FkSaleId = @FkSaleId";
-            int? keywordSales = null;
-            KeyWords keyWordId;
+            int keywordSales = 0;
+            KeyWords keyWordId = null;
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                keyWordId = await connection.QueryFirstOrDefaultAsync<KeyWords>("SELECT KeyWords.Id FROM KeyWords WHERE Keyword = @Keyword", new { Keyword = keyword });
-                if (keyWordId != null)
+                try
                 {
-                    keywordSales = await connection.QueryFirstOrDefaultAsync<int>(sql, new { FkKeyWords = keyWordId, FkSaleId = saleId });
+                    keyWordId = await connection.QueryFirstOrDefaultAsync<KeyWords>("SELECT KeyWords.Id FROM KeyWords WHERE Keyword = @Keyword", new { Keyword = keyword });
+                    if (keyWordId != null)
+                    {
+                        var keySales = await connection.QueryFirstOrDefaultAsync(sql, new { FkKeyWords = keyWordId.Id, FkSaleId = saleId });
+                        keywordSales = (int)keySales.Amount;
+                    }
                 }
+                catch(Exception e)
+                {
+                    var t = e;
+                }
+                
             }
-            return (keyWordId != null ? true : false, keywordSales != null ? true : false, keyWordId.Id);
+            return (keyWordId != null ? true : false, keywordSales > 0 ? true : false, keyWordId?.Id);
 
         }
 

@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit {
   adminFormModel: AdminModel;
   categoryModel: CategoryModel[];
   checkCategoryBox = [];
+  keywords = [];
 
   constructor(private adminService: AdminService,
               private sharedService: SharedService) { }
@@ -37,13 +38,13 @@ export class AdminComponent implements OnInit {
       }
     }
 console.log('Box: ' + this.checkCategoryBox);
-
+this.keywords.push(this.adminForm.value.keyword);
     this.adminFormModel = new AdminModel(this.adminForm.value.name,
       this.adminForm.value.priceAfterSale, this.adminForm.value.averagePrice,
       this.adminForm.value.originPrice, this.adminForm.value.image,
       this.adminForm.value.validFrom, this.adminForm.value.validTo,
       this.adminForm.value.linkFirm, this.adminForm.value.description,
-      this.adminForm.value.nameShop, true, this.checkCategoryBox);
+      this.adminForm.value.nameShop, this.keywords, true, this.checkCategoryBox);
     // this.adminForm.value.disabled
     // console.log('Checkbox: ' + this.adminForm.value.option);
 
