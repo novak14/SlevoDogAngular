@@ -31,13 +31,6 @@ namespace SlevoDogAngular.Controllers
                 SaleAdmin saleAdmin = Mapper.Map<SaleAdmin>(saleAdminViewModel);
                 var searchShopName = Regex.Replace(saleAdmin.NameShop, @"\s+", "").ToLower();
 
-                //List<string> Keywords = new List<string>();
-                //foreach (var item in saleAdminViewModel.Keywords)
-                //{
-                //    var editKeyword = Regex.Replace(item, @"\s+", "").ToLower();
-                //    await _adminService.InsertKeyword(editKeyword, saleAdmin.Id);
-                //}
-
                 saleAdmin.FkShop = (await _adminService.GetShopByName(searchShopName))?.Id ?? (await _adminService.InsertShop(saleAdmin.NameShop, searchShopName));
 
                 await _adminService.InsertSaleAsync(saleAdmin);
@@ -52,9 +45,9 @@ namespace SlevoDogAngular.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<List<Shops>> GetShops()
+        public async Task<List<Shops>> GetShops(string shopName)
         {
-            var shops = await _adminService.GetShops();
+            var shops = await _adminService.GetShops(shopName);
             return shops;
         }
 
@@ -66,6 +59,12 @@ namespace SlevoDogAngular.Controllers
 
 
             return BadRequest();
+        }
+
+        [HttpGet("[action]")]
+        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword)
+        {
+            return await _adminService.GetKeyWordsSuggest(keyword);
         }
     }
 }

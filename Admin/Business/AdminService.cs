@@ -31,9 +31,9 @@ namespace Admin.Business
             return categories;
         }
 
-        public async Task<List<Shops>> GetShops()
+        public async Task<List<Shops>> GetShops(string shopName)
         {
-            var shops = await _insertAdminRepository.GetShops();
+            var shops = await _insertAdminRepository.GetShops(shopName);
             return shops;
         }
 
@@ -71,9 +71,12 @@ namespace Admin.Business
                     await _insertAdminRepository.InsertWholeKeyword(editKeyword, saleId);
                 }
             }
-
-            
             return true;
+        }
+
+        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword)
+        {
+            return await _insertAdminRepository.GetKeyWordsSuggest(keyword);
         }
     }
 }

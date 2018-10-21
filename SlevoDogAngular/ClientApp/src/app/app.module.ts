@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 import { AppComponent } from './app.component';
@@ -53,6 +54,7 @@ import { CatalogListComponent } from './catalog/catalog-list/catalog-list.compon
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ReactiveFormsModule,
     AppRoutingModule,
     JwtModule.forRoot({

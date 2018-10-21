@@ -1,0 +1,19 @@
+.keywords {
+    border-color: transparent;
+    background-color: white;
+    border: 1px solid grey;
+    cursor: text;
+}
+
+.selectKeyword {
+    display: inline-block;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    background-color: yellow;
+}
+
+.inputKeyword {
+    display: inline-block;
+    border: 1px solid transparent;
+    width: 160px;
+}

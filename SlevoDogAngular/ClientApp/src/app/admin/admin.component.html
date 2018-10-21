@@ -34,15 +34,29 @@
         </div>
         <div class="form-group">
           <label for="NameShop">Název firmy</label>
-          <input id="NameShop" class="form-control"
+          <input #box id="NameShop" class="form-control"
                  ngModel
-                 name="nameShop" />
+                 name="nameShop"
+                 (keyup)="GetShops(box.value)" />
+            <div *ngFor="let item of shopModel">
+              <a class="btn btn-success" (click)="addShop(item)">{{item.name}}</a>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="KeyWord">Klíčové slova</label>
-          <input id="KeyWord" class="form-control"
-                 ngModel
-                 name="keyword" />
+
+
+        <div class="form-group" style="position: relative;">
+          <label for="KeyWord">Klíčová slova</label>
+          <div class="keywords">
+            <div class="selectKeyword" *ngIf="keywordsModel != null">
+              <div *ngFor="let item of keywordsModel">
+                <span>{{item.keyword}}</span>
+              </div>
+            </div>
+            <input #keyw id="KeyWord" class="form-control inputKeyword" ngModel name="keyword" (keyup)="GetKeywords(keyw.value)" />
+          </div>
+          <div *ngFor="let item of keywordModel">
+            <a class="btn btn-success" (click)="addKeyword(item)">{{item.keyword}}</a>
+          </div>
         </div>
         <div class="form-group">
           <label for="OriginPrice">Původní cena</label>

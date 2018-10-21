@@ -7,6 +7,6 @@ namespace Admin.Dal.Entities
     public class KeyWords
     {
         public int Id { get; set; }
-        public int Keyword { get; set; }
+        public string Keyword { get; set; }
     }
 }

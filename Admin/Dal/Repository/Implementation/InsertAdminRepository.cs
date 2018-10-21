@@ -77,13 +77,40 @@ namespace Admin.Dal.Repository.Implementation
             }
         }
 
-        public async Task<List<Shops>> GetShops()
+        public async Task<List<Shops>> GetShops(string shopName)
         {
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                var shops = (await connection.QueryAsync<Shops>("SELECT * FROM Shops")).ToList();
+                try {
+                    shopName = shopName + "%";
+                    var shops = (await connection.QueryAsync<Shops>("SELECT * FROM Shops WHERE SearchString LIKE @shopName", new { shopName = shopName})).ToList();
                 return shops;
+
+                }
+                catch(Exception e) {
+                    var tmp = e;
+                }
             }
+            return new List<Shops>();
+        }
+
+        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword)
+        {
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                try
+                {
+                    keyword = keyword + "%";
+                    var keywords = (await connection.QueryAsync<KeyWords>("SELECT * FROM KeyWords WHERE Keyword LIKE @Keyword", new { Keyword = keyword })).ToList();
+                    return keywords;
+
+                }
+                catch (Exception e)
+                {
+                    var tmp = e;
+                }
+            }
+            return new List<KeyWords>();
         }
 
         public async Task<Shops> GetShopByName(string name)
