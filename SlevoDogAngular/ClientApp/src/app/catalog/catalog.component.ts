@@ -1,11 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
-import {forEach} from '@angular/router/src/utils/collection';
-import index from '@angular/cli/lib/cli';
-import {ActivatedRoute, ParamMap, Params, RouterLinkActive, Router} from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Sale} from './sale.model';
 import {CatalogService} from './catalog.service';
-import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-catalog',
@@ -22,7 +18,6 @@ export class CatalogComponent implements OnInit {
 
   constructor(private catalogService: CatalogService,
               private route: ActivatedRoute,
-              private cookieService: CookieService,
               private router: Router) {
   }
 
