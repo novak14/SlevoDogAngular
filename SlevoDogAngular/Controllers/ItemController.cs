@@ -12,6 +12,8 @@ using AutoMapper;
 using Catalog.Dal.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using SlevoDogAngular.Utils;
+using SlevoDogAngular.Services;
 
 namespace SlevoDogAngular.Controllers
 {
@@ -20,13 +22,16 @@ namespace SlevoDogAngular.Controllers
     public class ItemController : Controller
     {
         private readonly CatalogService _catalogService;
+        private readonly HelpService _helpService;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ItemController(CatalogService catalogService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            HelpService helpService)
         {
             _catalogService = catalogService;
             _userManager = userManager;
+            _helpService = helpService;
         }
 
         [AllowAnonymous]
@@ -51,7 +56,7 @@ namespace SlevoDogAngular.Controllers
                 LinkFirm = test1.LinkFirm,
                 Description = test1.Description,
                 PercentSale = (int)test1.PercentSale,
-                DateInsert = TimeAgo(test1.DateInsert),
+                DateInsert = _helpService.TimeAgo(test1.DateInsert),
                 RankSale = test1.RankSale,
                 CategoryName = test1.Category?.Name ?? "Ostatní",
                 CategoryId = test1.Category?.Id ?? 5
@@ -63,7 +68,7 @@ namespace SlevoDogAngular.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> RankSale([FromBody]SaleViewModel saleViewModel)
         {
-            var originalUser = await ExistUser();
+            var originalUser = await _helpService.ExistUser(User);
             if (originalUser == null)
                 return BadRequest();
 
@@ -84,7 +89,7 @@ namespace SlevoDogAngular.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> AddCommentsAsync([FromBody]CommentsViewModel model)
         {
-            var originalUser = await ExistUser();
+            var originalUser = await _helpService.ExistUser(User);
             if (originalUser == null)
                 return BadRequest();
 
@@ -96,7 +101,7 @@ namespace SlevoDogAngular.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> GetUserNameCommentAsync()
         {
-            var originalUser = await ExistUser();
+            var originalUser = await _helpService.ExistUser(User);
             if (originalUser == null)
                 return BadRequest();
 
@@ -108,7 +113,6 @@ namespace SlevoDogAngular.Controllers
         public async Task<List<CommentsViewModel>> GetCommentsAsync(int saleId)
         {
             var comments = await _catalogService.GetCommentsAsync(saleId);
-            //List<CommentsViewModel> commentsMap = Mapper.Map<List<Comments>, List<CommentsViewModel>>(comments);
             List<CommentsViewModel> commentsMap = new List<CommentsViewModel>();
 
             var childs = comments.Where(x => x.Rank > 0 && x.FkParrentComment != null).OrderBy(c => c.Rank).ToList();
@@ -128,7 +132,7 @@ namespace SlevoDogAngular.Controllers
                 {
                     Name = item.Name,
                     Text = item.Text,
-                    DateInsert = TimeAgo(item.DateInsert),
+                    DateInsert = _helpService.TimeAgo(item.DateInsert),
                     Rank = item.Rank,
                     FkParrentComment = item.FkParrentComment,
                     Id = item.Id
@@ -142,7 +146,7 @@ namespace SlevoDogAngular.Controllers
         [HttpPut("[action]")]
         public async Task<IActionResult> RankComment([FromBody]CommentsViewModel commentsViewModel)
         {
-            var originalUser = await ExistUser();
+            var originalUser = await _helpService.ExistUser(User);
             if (originalUser == null)
                 return BadRequest();
 
@@ -159,50 +163,6 @@ namespace SlevoDogAngular.Controllers
             }
 
             return BadRequest();
-        }
-
-        public async Task<ApplicationUser> ExistUser()
-        {
-            var checkUser = await _userManager.GetUserAsync(User);
-
-            if (checkUser == null)
-                return null;
-            return checkUser;
-        }
-
-        public string TimeAgo(DateTime dt)
-        {
-            TimeSpan span = DateTime.Now - dt;
-            if (span.Days > 365)
-            {
-                int years = (span.Days / 365);
-                if (span.Days % 365 != 0)
-                    years += 1;
-                return String.Format("před {0} {1}",
-                years, years == 1 ? "rokem" : "roky");
-            }
-            if (span.Days > 30)
-            {
-                int months = (span.Days / 30);
-                if (span.Days - (months * 30) > 15)
-                    months += 1;
-                return String.Format("před {0} {1}",
-                months, months == 1 ? "měsícem" : "měsíci");
-            }
-            if (span.Days > 0)
-                return String.Format("před {0} {1}",
-                span.Days, span.Days == 1 ? "dnem" : "dny");
-            if (span.Hours > 0)
-                return String.Format("před {0} hod",
-                span.Hours);
-            if (span.Minutes > 0)
-                return String.Format("před {0} min",
-                span.Minutes);
-            if (span.Seconds > 5)
-                return String.Format("před {0} sekundami", span.Seconds);
-            if (span.Seconds <= 5)
-                return "právě teď";
-            return string.Empty;
         }
     }
 }

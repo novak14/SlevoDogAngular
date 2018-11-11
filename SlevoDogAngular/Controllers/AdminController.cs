@@ -57,7 +57,6 @@ namespace SlevoDogAngular.Controllers
             var currentUser = HttpContext.User;
             var role = User.Claims.Where(a => a.Value.Equals("Admin")).FirstOrDefault().Value;
 
-
             return BadRequest();
         }
 

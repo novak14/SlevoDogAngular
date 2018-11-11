@@ -166,9 +166,8 @@ namespace Admin.Dal.Repository.Implementation
                 }
                 catch(Exception e)
                 {
-                    var t = e;
+                    throw new Exception(nameof(e));
                 }
-                
             }
             return (keyWordId != null ? true : false, keywordSales > 0 ? true : false, keyWordId?.Id);
 
