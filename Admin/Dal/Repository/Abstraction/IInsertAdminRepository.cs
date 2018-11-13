@@ -13,9 +13,9 @@ namespace Admin.Dal.Repository.Abstraction
         Task<List<Shops>> GetShops(string shopName);
         Task<Shops> GetShopByName(string name);
         Task<int> InsertShop(string name, string searchName);
-        Task InsertWholeKeyword(string keywords, int saleId);
+        Task InsertWholeKeyword(string fullKeyword, string keyword, int saleId);
         Task InsertOnlyKeywordSale(int keywordId, int saleId);
         Task<(bool keyword, bool keywordSale, int? keyWordId)> IsKeywordExist(string keyword, int saleId);
-        Task<List<KeyWords>> GetKeyWordsSuggest(string keyword);
+        Task<List<KeyWords>> GetKeyWordsSuggest(string keyword, int[] keywordIds);
     }
 }

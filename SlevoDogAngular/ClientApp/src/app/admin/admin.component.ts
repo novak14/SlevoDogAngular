@@ -19,10 +19,11 @@ export class AdminComponent implements OnInit {
   shopModel: ShopModel[];
   keywordModel: KeywordModel[];
   checkCategoryBox = [];
-  keywords = [];
+  keywords = new Array<string>();
   shopId: number;
   keywordId: number;
-  keywordsModel = [];
+  keywordsModel: KeywordModel[] = [];
+  idList = new Array<number>();
   dropdownList = [];
   selectedItems = [];
   dropdownSettings = {};
@@ -35,30 +36,6 @@ export class AdminComponent implements OnInit {
       this.categoryModel = res;
       }
     );
-    console.log('Res: ' + JSON.stringify(this.categoryModel));
-    this.dropdownList = [
-      { id: 1, keyword: 'Mumbai' }
-    ];
-    this.selectedItems = [
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' }
-    ];
-    this.dropdownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'keyword',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
-  }
-
-  onItemSelect (item:any) {
-    console.log(item);
-  }
-  onSelectAll (items: any) {
-    console.log(items);
   }
 
   async addShop(shop: ShopModel) {
@@ -70,19 +47,19 @@ export class AdminComponent implements OnInit {
   }
 
   async addKeyword(keyword: KeywordModel) {
-    this.adminForm.form.patchValue({
-      keyword: keyword.keyword
-    });
     this.keywordId = keyword.id;
     const index = this.keywordModel.indexOf(keyword);
     this.keywordsModel.push(keyword);
-    console.log('KeywordsModel: ' + this.keywordsModel);
+    this.keywordModel.splice(index, 1);
+    this.idList.push(keyword.id);
+    this.keywords.push(keyword.fullKeyword);
+    console.log('KeywordModel: ' + JSON.stringify(this.keywordModel) + ' Index: ' + index);
+    console.log('KeywordsModel: ' + JSON.stringify(this.keywordsModel) + ' Index: ' + index);
 }
 
   async GetShops(shopName: string) {
     if (shopName.length > 2) {
       await this.adminService.GetShops(shopName).then((res: ShopModel[]) => {
-        console.log('ShopMOdel: ' + JSON.stringify(res));
         this.shopModel = res;
       });
       console.log('Event: ' + shopName);
@@ -92,12 +69,16 @@ export class AdminComponent implements OnInit {
 
   async GetKeywords(keyword: string) {
     if (keyword.length > 2) {
-      await this.adminService.GetKeyWordsSuggest(keyword).then((res: KeywordModel[]) => {
-        console.log('ShopMOdel: ' + JSON.stringify(res));
+      await this.adminService.GetKeyWordsSuggest(keyword, this.idList).then((res: KeywordModel[]) => {
         this.keywordModel = res;
       });
-      console.log('Event: ' + keyword);
     }
+  }
+
+  async onEnter(value: string) {
+    console.log('Value: ' + value);
+    this.keywords.push(value);
+    this.keywordsModel.push(new KeywordModel(null, null, value));
   }
 
   onSubmit() {
@@ -109,7 +90,6 @@ export class AdminComponent implements OnInit {
       }
     }
 console.log('Box: ' + this.checkCategoryBox);
-this.keywords.push(this.adminForm.value.keyword);
     this.adminFormModel = new AdminModel(this.adminForm.value.name,
       this.adminForm.value.priceAfterSale, this.adminForm.value.averagePrice,
       this.adminForm.value.originPrice, this.adminForm.value.image,

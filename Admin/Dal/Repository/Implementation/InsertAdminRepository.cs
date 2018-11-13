@@ -94,20 +94,23 @@ namespace Admin.Dal.Repository.Implementation
             return new List<Shops>();
         }
 
-        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword)
+        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword, int[] keywordIds)
         {
+            //List<int> lst = keywordIds.OfType<int>().ToList();
             using (var connection = new SqlConnection(_options.connectionString))
             {
                 try
                 {
                     keyword = keyword + "%";
-                    var keywords = (await connection.QueryAsync<KeyWords>("SELECT * FROM KeyWords WHERE Keyword LIKE @Keyword", new { Keyword = keyword })).ToList();
+                    var keywords = (await connection.QueryAsync<KeyWords>("SELECT * FROM KeyWords WHERE Keyword LIKE @Keyword AND Id NOT IN @Ids", 
+                        new { Keyword = keyword, Ids = keywordIds })
+                        ).ToList();
                     return keywords;
 
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    var tmp = e;
+                    throw new Exception(nameof(ex));
                 }
             }
             return new List<KeyWords>();
@@ -134,16 +137,16 @@ namespace Admin.Dal.Repository.Implementation
             return shopId;
         }
 
-        public async Task InsertWholeKeyword(string keywords, int saleId)
+        public async Task InsertWholeKeyword(string fullKeyword, string keywords, int saleId)
         {
-            string sql = @"INSERT INTO KeyWords(Keyword) VALUES(@Keyword);
+            string sql = @"INSERT INTO KeyWords(Keyword, FullKeyword) VALUES(@Keyword, @FullKeyword);
                             SELECT CAST(SCOPE_IDENTITY() as int);";
 
             string sql2 = @"INSERT INTO KeywordSale(FkKeyWords, FkSaleId) VALUES(@FkKeyWords, @FkSaleId);";
 
             using (var connection = new SqlConnection(_options.connectionString))
             {
-                var keyWordId = await connection.ExecuteAsync(sql, new { Keyword = keywords });
+                var keyWordId = await connection.ExecuteAsync(sql, new { Keyword = keywords, FullKeyword = fullKeyword });
                 var affRows = await connection.ExecuteAsync(sql2, new { FkKeyWords = keyWordId, FkSaleId = saleId });
             }
         }

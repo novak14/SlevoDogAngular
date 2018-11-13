@@ -61,9 +61,9 @@ namespace SlevoDogAngular.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword)
+        public async Task<List<KeyWords>> GetKeyWordsSuggest([FromQuery] int[] keywordIds, string keyword)
         {
-            return await _adminService.GetKeyWordsSuggest(keyword);
+            return await _adminService.GetKeyWordsSuggest(keyword, keywordIds);
         }
     }
 }

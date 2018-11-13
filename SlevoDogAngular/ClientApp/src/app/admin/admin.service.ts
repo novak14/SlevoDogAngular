@@ -5,6 +5,7 @@ import {AdminModel} from './admin.model';
 import { CategoryModel } from '../shared/category.model';
 import { ShopModel } from '../shared/shops.model';
 import { KeywordModel } from '../shared/keyword.model';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
 
 @Injectable()
 export class AdminService {
@@ -32,9 +33,12 @@ export class AdminService {
     }).toPromise();
   }
 
-  async GetKeyWordsSuggest(keyword: string) {
-    return await this.http.get<KeywordModel[]>(this.baseUrl + 'api/Admin/GetKeyWordsSuggest', {
-      params: new HttpParams().set('keyword', keyword)
-    }).toPromise();
+  async GetKeyWordsSuggest(keyword: string, keywordIds: Array<number>) {
+    let params = new HttpParams();
+    keywordIds.forEach(id => {
+      params = params.append('keywordIds', id.toString());
+    });
+    params = params.append('keyword', keyword);
+    return await this.http.get<KeywordModel[]>(this.baseUrl + 'api/Admin/GetKeyWordsSuggest', {params}).toPromise();
   }
 }

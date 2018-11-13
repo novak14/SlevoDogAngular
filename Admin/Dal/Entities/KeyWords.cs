@@ -8,5 +8,6 @@ namespace Admin.Dal.Entities
     {
         public int Id { get; set; }
         public string Keyword { get; set; }
+        public string FullKeyword { get; set; }
     }
 }

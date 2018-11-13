@@ -99,12 +99,12 @@ namespace SlevoDogAngular
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
-            //services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
 
 
-            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
-            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
+            // services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
+            // services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

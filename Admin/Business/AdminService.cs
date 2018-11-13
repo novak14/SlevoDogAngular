@@ -68,15 +68,15 @@ namespace Admin.Business
                 }
                 else
                 {
-                    await _insertAdminRepository.InsertWholeKeyword(editKeyword, saleId);
+                    await _insertAdminRepository.InsertWholeKeyword(item, editKeyword, saleId);
                 }
             }
             return true;
         }
 
-        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword)
+        public async Task<List<KeyWords>> GetKeyWordsSuggest(string keyword, int[] keywordIds)
         {
-            return await _insertAdminRepository.GetKeyWordsSuggest(keyword);
+            return await _insertAdminRepository.GetKeyWordsSuggest(keyword, keywordIds);
         }
     }
 }
