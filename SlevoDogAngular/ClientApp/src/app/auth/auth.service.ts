@@ -54,7 +54,6 @@ export class AuthService {
   isAuthenticatedAdmin() {
     const token = localStorage.getItem('jwt');
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      console.log('predAdmin: ' + this.isAdmin);
       return true;
     }
     return false;

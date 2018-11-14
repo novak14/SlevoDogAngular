@@ -37,6 +37,8 @@ namespace SlevoDogAngular.Models.AdminViewModels
 
         public string[] Keywords { get; set; }
 
+        public int[] KeywordIds { get; set; }
+
         public int[] CheckedCategories { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Admin.Business
             saleAdmin.DateInsert = DateTime.Now;
             var saleId = await _insertAdminRepository.InsertAsync(saleAdmin);
 
-            await InsertKeyword(saleAdmin.Keywords, saleId);
+            await InsertKeyword(saleAdmin.Keywords, saleAdmin.KeywordIds, saleId);
         }
 
         public async Task<List<Category>> GetCategories()
@@ -49,9 +49,13 @@ namespace Admin.Business
             return shopId;
         }
 
-        public async Task<bool> InsertKeyword(string[] keywords, int saleId)
+        public async Task<bool> InsertKeyword(string[] keywords, int[] keywordsIds, int saleId)
         {
-            List<string> Keywords = new List<string>();
+            foreach (var id in keywordsIds)
+            {
+                await _insertAdminRepository.InsertOnlyKeywordSale(id, saleId);
+            }
+
             foreach (var item in keywords)
             {
                 var editKeyword = Regex.Replace(item, @"\s+", "").ToLower();

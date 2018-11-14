@@ -47,15 +47,17 @@ export class AdminComponent implements OnInit {
   }
 
   async addKeyword(keyword: KeywordModel) {
-    this.keywordId = keyword.id;
-    const index = this.keywordModel.indexOf(keyword);
-    this.keywordsModel.push(keyword);
-    this.keywordModel.splice(index, 1);
-    this.idList.push(keyword.id);
-    this.keywords.push(keyword.fullKeyword);
-    console.log('KeywordModel: ' + JSON.stringify(this.keywordModel) + ' Index: ' + index);
-    console.log('KeywordsModel: ' + JSON.stringify(this.keywordsModel) + ' Index: ' + index);
+    if (keyword.id !== undefined) {
+      this.idList.push(keyword.id);
+    }
 }
+
+  async removeKeyword(keyword: KeywordModel) {
+    if (keyword.id !== undefined) {
+      const index = this.idList.indexOf(keyword.id);
+      this.idList.splice(index, 1);
+    }
+  }
 
   async GetShops(shopName: string) {
     if (shopName.length > 2) {
@@ -64,7 +66,6 @@ export class AdminComponent implements OnInit {
       });
       console.log('Event: ' + shopName);
     }
-    // await this.adminService.GetShops()
   }
 
   async GetKeywords(keyword: string) {
@@ -73,12 +74,6 @@ export class AdminComponent implements OnInit {
         this.keywordModel = res;
       });
     }
-  }
-
-  async onEnter(value: string) {
-    console.log('Value: ' + value);
-    this.keywords.push(value);
-    this.keywordsModel.push(new KeywordModel(null, null, value));
   }
 
   onSubmit() {
@@ -90,18 +85,23 @@ export class AdminComponent implements OnInit {
       }
     }
 console.log('Box: ' + this.checkCategoryBox);
+this.keywordsModel.forEach(keyword => {
+  if (keyword.id === null || keyword.id === undefined) {
+    this.keywords.push(keyword.fullKeyword);
+  }
+});
     this.adminFormModel = new AdminModel(this.adminForm.value.name,
       this.adminForm.value.priceAfterSale, this.adminForm.value.averagePrice,
       this.adminForm.value.originPrice, this.adminForm.value.image,
       this.adminForm.value.validFrom, this.adminForm.value.validTo,
       this.adminForm.value.linkFirm, this.adminForm.value.description,
-      this.adminForm.value.nameShop, this.keywords, true, this.checkCategoryBox);
+      this.adminForm.value.nameShop, this.keywords, this.idList, true, this.checkCategoryBox);
     // this.adminForm.value.disabled
     // console.log('Checkbox: ' + this.adminForm.value.option);
 
     const test = JSON.stringify(this.adminFormModel);
     this.adminService.sendAdminForm(this.adminFormModel);
-    // this.adminForm.reset();
+    this.adminForm.reset();
   }
 
 }

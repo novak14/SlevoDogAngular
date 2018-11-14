@@ -35,9 +35,12 @@ export class AdminService {
 
   async GetKeyWordsSuggest(keyword: string, keywordIds: Array<number>) {
     let params = new HttpParams();
-    keywordIds.forEach(id => {
-      params = params.append('keywordIds', id.toString());
-    });
+
+    if (keywordIds && keywordIds.length > 0) {
+      keywordIds.forEach(id => {
+        params = params.append('keywordIds', id.toString());
+      });
+    }
     params = params.append('keyword', keyword);
     return await this.http.get<KeywordModel[]>(this.baseUrl + 'api/Admin/GetKeyWordsSuggest', {params}).toPromise();
   }

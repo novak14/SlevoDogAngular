@@ -11,6 +11,7 @@ export class AdminModel {
   public NameShop: string;
   public Disabled: boolean;
   public Keywords: string[];
+  public KeywordIds: number[];
   public CheckedCategories: number[];
   public FkShop: number;
 
@@ -25,6 +26,7 @@ export class AdminModel {
               Description: string,
               NameShop: string,
               Keywords: string[],
+              KeywordIds: number[],
               Disabled: boolean,
               CheckedCategories: number[]) {
     this.Name = Name;
@@ -38,6 +40,7 @@ export class AdminModel {
     this.Description = Description;
     this.NameShop = NameShop;
     this.Keywords = Keywords;
+    this.KeywordIds = KeywordIds;
     this.Disabled = Disabled;
     this.CheckedCategories = CheckedCategories;
   }
