@@ -20,6 +20,12 @@ namespace SlevoDogAngular.Services
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// It will create token for JWT
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="role">Role of user</param>
+        /// <returns></returns>
         public string CreateToken(string email, string role = null)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));

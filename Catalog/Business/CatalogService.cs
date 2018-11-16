@@ -66,12 +66,21 @@ namespace Catalog.Business
             }
         }
 
+        /// <summary>
+        /// Get collection of all categories
+        /// </summary>
+        /// <returns>Collection of categories</returns>
         public async Task<List<Category>> GetCategories()
         {
             var categories = await _saleRepository.GetCategories();
             return categories;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<Sale> LoadByIdAsync(int id)
         {
             var sale = await _saleRepository.LoadByIdAsync(id);
@@ -102,6 +111,15 @@ namespace Catalog.Business
             return await _saleRepository.CheckRankUser(saleId, userId);
         }
 
+        /// <summary>
+        /// Insert comment
+        /// </summary>
+        /// <param name="AuthorName">Name of comment author</param>
+        /// <param name="Text">Text of comment</param>
+        /// <param name="Id">Foreign key for sale</param>
+        /// <param name="ParentCommentId">Foreign key for parrent comment if exist</param>
+        /// <param name="IdUser">Unique identification of user</param>
+        /// <returns></returns>
         public async Task InsertCommentAsync(string AuthorName, string Text, int Id, int? ParentCommentId, int IdUser)
         {
             Comments comments = new Comments
@@ -152,11 +170,23 @@ namespace Catalog.Business
             return await _userRepository.GetUserByUniqueString(uniqueString);
         }
 
+        /// <summary>
+        /// Insert user
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="email"></param>
+        /// <param name="id">Unique string which is Id of AspNetUser</param>
+        /// <returns></returns>
         public async Task InsertUser(string username, string email, string id)
         {
             await _userRepository.InsertUserAsync(username, email, id);
         }
 
+        /// <summary>
+        /// Get collection of comments by id of sale
+        /// </summary>
+        /// <param name="saleId">Unique identification of sale</param>
+        /// <returns></returns>
         public async Task<List<Comments>> GetCommentsAsync(int saleId)
         {
             var comments = await _commentRepository.GetCommentsAsync(saleId);

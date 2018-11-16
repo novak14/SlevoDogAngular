@@ -17,6 +17,11 @@ namespace SlevoDogAngular.Services
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Check if current user exist
+        /// </summary>
+        /// <param name="user">User from controller type of ClaimsPrincipal</param>
+        /// <returns>User, if doesn't exist null</returns>
         public async Task<ApplicationUser> ExistUser(object user)
         {
             var checkUser = await _userManager.GetUserAsync((ClaimsPrincipal)user);
@@ -26,6 +31,11 @@ namespace SlevoDogAngular.Services
             return checkUser;
         }
 
+        /// <summary>
+        /// For nice print of date of added comment
+        /// </summary>
+        /// <param name="dt">some datetime</param>
+        /// <returns></returns>
         public string TimeAgo(DateTime dt)
         {
             TimeSpan span = DateTime.Now - dt;
