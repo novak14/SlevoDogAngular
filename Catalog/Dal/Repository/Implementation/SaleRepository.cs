@@ -186,5 +186,29 @@ namespace Catalog.Dal.Repository.Implementation
                 var ts = e;
             }
         }
+
+        public async Task<List<Sale>> GetSalesSuggest(string keyword)
+        {
+            string sql = @"SELECT SALE.* FROM Keywords
+                          INNER JOIN KeywordSale ON KeywordSale.FkKeyWords = Keywords.Id
+                          INNER JOIN Sale ON Sale.Id = KeywordSale.FkSaleId
+                          WHERE Keywords.Keyword LIKE @Keyword";
+
+            using (var connection = new SqlConnection(_options.connectionString))
+            {
+                try
+                {
+                    keyword = keyword + "%";
+                    var suggestSales = (await connection.QueryAsync<Sale>(sql,
+                        new { Keyword = keyword, })
+                        ).ToList();
+                    return suggestSales;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(nameof(ex));
+                }
+            }
+        }
     }
 }

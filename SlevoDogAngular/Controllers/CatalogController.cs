@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Catalog.Dal.Entities;
+using Shared.Dal.Entities;
 
 namespace SlevoDogAngular.Controllers
 {
@@ -82,6 +83,29 @@ namespace SlevoDogAngular.Controllers
         {
             var categories = await _catalogService.GetCategories();
             return categories;
+        }
+
+        [HttpGet("[action]")]
+        public async Task<SaleViewModel> GetSaleByKeyWord(string keyword)
+        {
+            SaleViewModel saleCollection = new SaleViewModel();
+
+            var suggestSaleCollection = await _catalogService.GetSalesSuggest(keyword);
+
+            foreach (var item in suggestSaleCollection)
+            {
+                SaleViewModel saleItem = new SaleViewModel
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    PriceAfterSale = item.PriceAfterSale.ToString("C0"),
+                    Image = item.Image,
+                    LinkFirm = item.LinkFirm,
+                };
+
+                saleCollection.saleCollection.collections.Add(saleItem);
+            }
+            return saleCollection;
         }
     }
 }

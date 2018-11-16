@@ -9,8 +9,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlevoDogAngular", "SlevoDog
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog", "Catalog\Catalog.csproj", "{C9747EAF-9CC1-41A4-B866-356B8B27A9C2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A64515BD-5494-4F73-9B7E-B4E4A499928D} = {A64515BD-5494-4F73-9B7E-B4E4A499928D}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Admin", "Admin\Admin.csproj", "{E7241F2F-67BA-4DF6-8FEF-5941C9C9A3A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin", "Admin\Admin.csproj", "{E7241F2F-67BA-4DF6-8FEF-5941C9C9A3A3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A64515BD-5494-4F73-9B7E-B4E4A499928D} = {A64515BD-5494-4F73-9B7E-B4E4A499928D}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{A64515BD-5494-4F73-9B7E-B4E4A499928D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +38,10 @@ Global
 		{E7241F2F-67BA-4DF6-8FEF-5941C9C9A3A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7241F2F-67BA-4DF6-8FEF-5941C9C9A3A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7241F2F-67BA-4DF6-8FEF-5941C9C9A3A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

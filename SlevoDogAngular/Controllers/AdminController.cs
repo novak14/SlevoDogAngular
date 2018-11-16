@@ -3,6 +3,7 @@ using Admin.Dal.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Dal.Entities;
 using SlevoDogAngular.Models.AdminViewModels;
 using System;
 using System.Collections.Generic;

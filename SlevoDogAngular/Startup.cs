@@ -42,17 +42,17 @@ namespace SlevoDogAngular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("SlevoDogLocal")));
 
-            services.ConfigureSwaggerGen(options =>
-            {
-                options.CustomSchemaIds(x => x.FullName);
-            });
+            // services.ConfigureSwaggerGen(options =>
+            // {
+            //     options.CustomSchemaIds(x => x.FullName);
+            // });
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-            });
+            // services.AddSwaggerGen(c =>
+            // {
+            //     c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            // });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -99,12 +99,12 @@ namespace SlevoDogAngular
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
-            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            // services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
+            // services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("DefaultConnection"));
 
 
-            // services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
-            // services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
+            services.AddModuleCatalog(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
+            services.AddModuleAdmin(o => o.connectionString = Configuration.GetConnectionString("SlevoDogLocal"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -126,11 +126,11 @@ namespace SlevoDogAngular
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-            });
+            // app.UseSwagger();
+            // app.UseSwaggerUI(c =>
+            // {
+            //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            // });
 
             app.UseMvc(routes =>
             {

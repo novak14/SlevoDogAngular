@@ -1,5 +1,6 @@
 ﻿using Admin.Dal.Entities;
 using Admin.Dal.Repository.Abstraction;
+using Shared.Dal.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
