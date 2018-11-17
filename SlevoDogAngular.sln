@@ -18,7 +18,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin", "Admin\Admin.csproj
 		{A64515BD-5494-4F73-9B7E-B4E4A499928D} = {A64515BD-5494-4F73-9B7E-B4E4A499928D}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{A64515BD-5494-4F73-9B7E-B4E4A499928D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{A64515BD-5494-4F73-9B7E-B4E4A499928D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlevoDog.Tests", "SlevoDog.Tests\SlevoDog.Tests.csproj", "{FB0548A1-E1A1-4371-B0A8-DE3F9E9F7456}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D7DC1458-FC84-412E-A6F3-4658A2C4D0EB} = {D7DC1458-FC84-412E-A6F3-4658A2C4D0EB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +47,10 @@ Global
 		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A64515BD-5494-4F73-9B7E-B4E4A499928D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0548A1-E1A1-4371-B0A8-DE3F9E9F7456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0548A1-E1A1-4371-B0A8-DE3F9E9F7456}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0548A1-E1A1-4371-B0A8-DE3F9E9F7456}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0548A1-E1A1-4371-B0A8-DE3F9E9F7456}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
