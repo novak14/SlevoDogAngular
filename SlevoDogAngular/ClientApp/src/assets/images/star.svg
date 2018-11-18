@@ -1,41 +1,92 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 47.94 47.94" style="enable-background:new 0 0 47.94 47.94;" xml:space="preserve">
-<path style="fill:#ED8A19;" d="M26.285,2.486l5.407,10.956c0.376,0.762,1.103,1.29,1.944,1.412l12.091,1.757
-	c2.118,0.308,2.963,2.91,1.431,4.403l-8.749,8.528c-0.608,0.593-0.886,1.448-0.742,2.285l2.065,12.042
-	c0.362,2.109-1.852,3.717-3.746,2.722l-10.814-5.685c-0.752-0.395-1.651-0.395-2.403,0l-10.814,5.685
-	c-1.894,0.996-4.108-0.613-3.746-2.722l2.065-12.042c0.144-0.837-0.134-1.692-0.742-2.285l-8.749-8.528
-	c-1.532-1.494-0.687-4.096,1.431-4.403l12.091-1.757c0.841-0.122,1.568-0.65,1.944-1.412l5.407-10.956
-	C22.602,0.567,25.338,0.567,26.285,2.486z"/>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
-<g>
-</g>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="star.svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient3558"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1;"
+         offset="0"
+         id="stop3556" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient3454"
+       osb:paint="solid">
+      <stop
+         style="stop-color:#ecef13;stop-opacity:1;"
+         offset="0"
+         id="stop3452" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="400"
+     inkscape:cy="560"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       id="path1107"
+       sodipodi:sides="5"
+       sodipodi:cx="94.494041"
+       sodipodi:cy="129.17856"
+       sodipodi:r1="44.635468"
+       sodipodi:r2="20.091108"
+       sodipodi:arg1="0.90989733"
+       sodipodi:arg2="1.3698664"
+       inkscape:flatsided="false"
+       inkscape:rounded="0.17667024"
+       inkscape:randomized="0"
+       d="m 121.89249,164.41561 c -3.35121,3.65935 -18.42928,-15.71162 -23.388652,-15.55015 -5.96745,0.19429 -23.621894,19.7338 -29.055642,17.25942 -4.515829,-2.05639 9.247679,-22.38244 7.561583,-27.04919 -2.028825,-5.61534 -26.067529,-16.36768 -25.393368,-22.30011 0.560275,-4.93026 24.144658,1.87852 28.061966,-1.16716 4.713567,-3.66477 7.511275,-29.849585 13.361677,-31.041641 4.862098,-0.990683 5.67454,23.543421 9.781666,26.327841 4.94197,3.35039 30.70975,-2.08038 33.65134,3.11532 2.44466,4.31799 -20.6376,12.67212 -22.01657,17.43866 -1.65926,5.73542 11.4684,28.56384 7.436,32.96701 z"
+       inkscape:transform-center-x="-0.0042698113"
+       inkscape:transform-center-y="-0.036949446"
+       style="stroke-width:0.26458332;fill:#ffff00;fill-opacity:1;stroke:none;stroke-opacity:1;"
+       transform="matrix(1.6408657,0,0,1.4403557,-40.721714,-48.736055)" />
+  </g>
 </svg>
