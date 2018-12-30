@@ -23,6 +23,7 @@ export class CategoryComponent implements OnInit {
       await this.sharedService.GetCategories().then( (res: CategoryModel[]) => {
         this.categoryModel = res;
         this.test = false;
+        this.categoryModel.push(new CategoryModel(2, 'Drogerie'));
       });
     } else {
       console.log('Jinde');

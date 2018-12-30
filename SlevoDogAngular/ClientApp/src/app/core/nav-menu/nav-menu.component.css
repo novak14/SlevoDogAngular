@@ -14,16 +14,15 @@ li.link-active a:focus, .div:focus {
     padding-top: 15px;
     padding-bottom: 15px;
     line-height: 20px;
-    position: relative;
     display: block;
     cursor: pointer;
 }
 
-.nav>li>div {
+/* .nav>li>div {
     padding: 10px 15px;
     display: block;
     position: relative;
-}
+} */
 
 .navbar-nav>li>div:hover {
     background-color: pink;
@@ -38,3 +37,17 @@ li.link-active a:focus, .div:focus {
     z-index: 1;
 }
 
+.testik {
+    background-color: #ffffff;
+    border-bottom: 4px solid #d91f29;
+    cursor: default;
+    display: none;
+    padding: 22px 10px 0 35px;
+    text-align: left;
+    width: 100%;
+    word-wrap: normal;
+    z-index: 50;
+    left: 0;
+    position: absolute;
+    top: 100%;
+}
